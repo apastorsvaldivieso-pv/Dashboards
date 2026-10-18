@@ -1,0 +1,291 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>AI in Asset Management No. 5</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,800;1,6..72,400;1,6..72,600&family=Archivo+Narrow:wght@500;700&display=swap">
+<style>
+/* Layout: a broadsheet front page. Nameplate, folio line, lead story across the top, then sections set in newspaper columns; explainer and diary as boxed sidebars. */
+:root {
+  --paper: #EEEAE0;
+  --paper-2: #E4DFD2;
+  --ink: #1C1B18;
+  --ink-soft: #4A4740;
+  --rule: #2A2823;
+  --hair: #B9B2A2;
+  --accent: #081264;
+  --font-nameplate: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-head: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-label: "Archivo Narrow", "Arial Narrow", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #171612; --paper-2: #211F1A; --ink: #ECE6D8; --ink-soft: #B5AE9E;
+    --rule: #D9D2C2; --hair: #4A463D; --accent: #9EADF5; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #171612; --paper-2: #211F1A; --ink: #ECE6D8; --ink-soft: #B5AE9E;
+  --rule: #D9D2C2; --hair: #4A463D; --accent: #9EADF5; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 48px;
+}
+.sheet { max-width: 1120px; margin: 0 auto; }
+a { color: inherit; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.ears { display: flex; justify-content: space-between; gap: 16px; font-family: var(--font-label); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.ear { border: 1px solid var(--hair); padding: 6px 10px; max-width: 260px; line-height: 1.3; }
+.nameplate { text-align: center; padding-block: 8px 6px; }
+.nameplate h1 { font-family: var(--font-nameplate); font-weight: 800; font-size: clamp(34px, 7.2vw, 80px); line-height: 1.02; margin: 0; letter-spacing: -.015em; text-wrap: balance; }
+.motto { font-family: var(--font-head); font-style: italic; color: var(--ink-soft); font-size: 15px; margin-top: 6px; }
+.folio { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; border-top: 3px double var(--rule); border-bottom: 1px solid var(--rule); padding-block: 6px; margin-top: 10px; font-family: var(--font-label); font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+
+.standfirst { font-family: var(--font-head); font-style: italic; font-size: 18px; color: var(--ink-soft); text-align: center; max-width: 62ch; margin: 18px auto 6px; text-wrap: balance; }
+.note { max-width: 70ch; margin: 14px auto 0; padding: 12px 16px; border: 1px solid var(--hair); background: var(--paper-2); font-style: italic; font-size: 16px; color: var(--ink-soft); text-align: center; }
+
+.section-head { display: flex; align-items: center; gap: 12px; margin-block: 34px 16px; }
+.section-head h2 { font-family: var(--font-label); font-weight: 700; font-size: 14px; letter-spacing: .18em; text-transform: uppercase; margin: 0; white-space: nowrap; }
+.section-head::before, .section-head::after { content: ""; flex: 1; border-top: 1px solid var(--rule); }
+
+.lead { display: grid; grid-template-columns: 1fr; gap: 16px; border-bottom: 1px solid var(--rule); padding-bottom: 22px; }
+.lead h3 { font-family: var(--font-head); font-weight: 800; font-size: clamp(30px, 4.6vw, 52px); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.lead .body { column-count: 2; column-gap: 32px; column-rule: 1px solid var(--hair); }
+.lead .body p:first-child::first-letter { font-family: var(--font-head); font-weight: 800; float: left; font-size: 3.4em; line-height: .85; padding: 4px 8px 0 0; color: var(--accent); }
+
+.columns { column-count: 3; column-gap: 32px; column-rule: 1px solid var(--hair); }
+.story { break-inside: avoid; margin: 0 0 22px; padding-bottom: 18px; border-bottom: 1px solid var(--hair); }
+.story h3 { font-family: var(--font-head); font-weight: 800; font-size: 23px; line-height: 1.15; margin: 0 0 8px; text-wrap: balance; }
+.kicker { font-family: var(--font-label); font-weight: 700; font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 6px; }
+.story p, .lead p { margin: 0 0 10px; hyphens: auto; }
+.story ul { margin: 0 0 10px; padding-left: 18px; }
+.story li { margin-bottom: 8px; hyphens: auto; }
+.why { font-size: 15.5px; font-style: italic; border-left: 2px solid var(--accent); padding-left: 10px; margin-top: 10px !important; color: var(--ink-soft); }
+.why b { font-family: var(--font-label); font-style: normal; font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); display: block; margin-bottom: 2px; }
+.dateline { font-family: var(--font-label); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+
+.back { display: grid; grid-template-columns: 1.35fr 1fr; gap: 28px; margin-top: 30px; }
+.back > * { min-width: 0; }
+.explainer { border: 2px solid var(--rule); background: var(--paper-2); padding: 18px 20px; }
+.explainer .label, .box .label { font-family: var(--font-label); font-weight: 700; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+.explainer h3 { font-family: var(--font-head); font-weight: 800; font-size: 34px; line-height: 1.05; margin: 4px 0 10px; }
+.explainer p { margin: 0 0 10px; }
+.box { border-top: 3px double var(--rule); border-bottom: 1px solid var(--rule); padding-block: 12px; }
+.box + .box { margin-top: 24px; }
+.box h3 { font-family: var(--font-head); font-weight: 800; font-size: 21px; line-height: 1.2; margin: 6px 0 6px; }
+.box p { margin: 0 0 8px; }
+.diary { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 12px; }
+.diary li { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: baseline; border-bottom: 1px dotted var(--hair); padding-bottom: 10px; }
+.diary li:last-child { border-bottom: 0; }
+.diary .when { font-family: var(--font-label); font-weight: 700; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.diary .what b { font-family: var(--font-head); }
+.diary .what { font-size: 15.5px; min-width: 0; }
+
+footer { margin-top: 36px; border-top: 3px double var(--rule); padding-top: 10px; font-family: var(--font-label); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+
+@media (max-width: 920px) {
+  .columns { column-count: 2; }
+  .back { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  body { font-size: 16.5px; }
+  .columns, .lead .body { column-count: 1; }
+  .ear { display: none; }
+  .folio { justify-content: center; text-align: center; }
+  .diary li { grid-template-columns: 56px 1fr; }
+}
+</style>
+
+<div class="sheet">
+  <div class="ears">
+    <div class="ear">For Moody's asset management colleagues</div>
+    <div class="ear">Price: free, but it could land your next six-figure MCP deal $$$</div>
+  </div>
+
+  <header class="nameplate">
+    <h1>AI in Asset Management</h1>
+    <div class="motto">What happened in AI that touches our clients, what competitors did, what asset managers are doing about it</div>
+  </header>
+
+  <div class="folio">
+    <span>No. 5</span>
+    <span>Week ending Sunday 18 October 2026</span>
+    <span>Monday 19 October</span>
+  </div>
+
+  <p class="standfirst">Hi everyone. This is this week's edition of the AI in Asset Management newsletter.</p>
+
+  <aside class="note">A busy week in the segment.</aside>
+
+  <div class="section-head"><h2>Key stories</h2></div>
+
+  <article class="lead">
+    <span class="kicker">Moody's research</span>
+    <h3>Moody's: AI issuance pushes the US investment grade maturity wall to a record</h3>
+    <div class="body">
+      <p>Moody's Ratings <a href="https://www.moodys.com/research/doc--PBC_1496169" target="_blank" rel="noopener">published research</a> showing a record $1.56trn of US investment grade bonds coming due in 2027 to 2031, up 8% on last year's study. Heavy issuance by technology and services companies to fund AI infrastructure played a significant role.</p>
+      <p class="why"><b>Why it matters</b>The AI build-out is now part of the refinancing calendar our clients' investment grade portfolios have to watch.</p>
+    </div>
+  </article>
+
+  <div class="columns" style="margin-top:22px">
+    <article class="story">
+      <span class="kicker">Moody's research</span>
+      <h3>Moody's on a GPU financing vehicle rated Baa2</h3>
+      <p>Moody's <a href="https://www.moodys.com/research/doc--PBC_1493770" target="_blank" rel="noopener">published a credit update</a> on Lambda Compute II, which it rated Baa2 in August, a vehicle that finances and operates 10,368 Nvidia GPUs in a data centre in Québec. Lambda is a GPU cloud provider, and the vehicle's cash flows rest on a four-year take-or-pay contract with Nvidia itself.</p>
+      <p class="why"><b>Why it matters</b>GPU-backed debt is becoming a rated asset class, and these are the deals our clients are lending into (see the lending item below).</p>
+    </article>
+
+    <article class="story">
+      <span class="kicker">IMF</span>
+      <h3>IMF: an AI-driven market correction is one of the three big risks</h3>
+      <p>The IMF's Global Financial Stability Report <a href="https://www.imf.org/-/media/files/publications/gfsr/2026/october/english/ch1.pdf" target="_blank" rel="noopener">names</a> an AI-driven market correction as one of three salient near-term risks. Hyperscalers' share of global investment grade bond issuance has risen to 10%, from less than 1%. It also flags circular deals, where one company invests in another that buys its products and services: 14 since 2023, with about $300bn of equity and $650bn of debt in exchange for $1.4trn of future revenue commitments.</p>
+      <p class="why"><b>Why it matters</b>The regulator and our own research above point at the same exposure, AI debt sitting in our clients' bond and loan books.</p>
+    </article>
+
+    <article class="story">
+      <span class="kicker">Markets · <span class="dateline">14–18 Oct</span></span>
+      <h3>AI debt jitters spread from CoreWeave to Oracle, Blue Owl and Nscale</h3>
+      <p>CoreWeave, an AI cloud provider that has funded its growth mostly with debt, saw its bond yields briefly touch 15% on 14 Oct. Its shares fell more than 15% that day, with Oracle down 8.8% and Dell 11.3%, <a href="https://siliconangle.com/2026/10/14/shares-of-oracle-neoclouds-drop-on-coreweave-debt-concerns/" target="_blank" rel="noopener">SiliconANGLE reported</a>. Its five-year credit default swaps (the cost of insuring its debt against default) then reached a record high of about 1,195 basis points, <a href="https://www.fool.com/investing/2026/10/16/why-is-coreweave-stock-falling-today/" target="_blank" rel="noopener">The Motley Fool reported</a>.</p>
+      <p>The NYT <a href="https://www.nytimes.com/2026/10/17/business/ai-debt-coreweave-oracle-softbank.html" target="_blank" rel="noopener">reported</a> that some debt on Oracle's data centres has traded around 90 cents on the dollar, and some on Blue Owl's New Mexico project at about 80 cents. And Microsoft pulled out of anchoring Nscale's first UK data centre, in Essex, weeks before the AI cloud company's planned IPO, <a href="https://thenextweb.com/news/microsoft-pulls-out-nscale-loughton-data-centre-ipo" target="_blank" rel="noopener">TNW reported</a>.</p>
+      <p class="why"><b>Why it matters</b>The IMF's warning is already showing up in prices, and now in Europe too. Moody's MCP shows this risk from several angles in one place: ratings, default probabilities, research and who owns whom.</p>
+    </article>
+
+    <article class="story">
+      <span class="kicker">OpenAI</span>
+      <h3>OpenAI: many MCP connectors weren't good enough, so it licensed the data</h3>
+      <p>At AI Engineer NYC, a conference for engineers building AI, OpenAI <a href="https://ai.engineer/nyc/2026/talks/openai" target="_blank" rel="noopener">said</a> it looked at existing MCP connectors for financial data and found many had problems with speed, errors or search quality. So it licensed a lot of the data directly and built its own search.</p>
+      <p class="why"><b>Why it matters</b>OpenAI goes around MCP connectors that fail on speed and answer quality. That is where we stand out: TDR Capital, which is testing our MCP, compared it with nine others on quality and accuracy, and ours came out on top.</p>
+    </article>
+
+    <article class="story">
+      <span class="kicker">Anthropic</span>
+      <h3>Anthropic: five layers for building finance agents at scale</h3>
+      <p>At the same conference, Anthropic <a href="https://ai.engineer/nyc/2026/talks/anthropic" target="_blank" rel="noopener">set out</a> one reusable foundation instead of hand-building each agent: MCP connectors, skills, agent identity and permissions, approval steps and evaluations. MCP gives agents access to tools and data. Skills tell them how the business does the work: procedures written by the firm's experts and kept up to date, like a playbook the agent follows.</p>
+      <p class="why"><b>Why it matters</b>Anthropic puts MCP at the base of every finance agent, as the layer that connects it to data and tools. That is exactly where our MCP sits, ready to plug Moody's content into the agents our clients build.</p>
+    </article>
+  </div>
+
+  <div class="section-head"><h2>Competition</h2></div>
+  <div class="columns">
+    <article class="story">
+      <span class="kicker">LSEG</span>
+      <h3>LSEG in talks to buy Octus, as Octus goes live in Hebbia</h3>
+      <p>LSEG <a href="https://www.lseg.com/en/media-centre/press-releases/2026/lseg-response-to-press-speculation-octus-acquisition" target="_blank" rel="noopener">confirmed</a> it is in talks with Permira to buy Octus, a credit intelligence and data provider, for about $3.5bn. No final agreement has been reached. The same day, Hebbia (an AI platform for investment research) <a href="https://www.hebbia.com/blog/announcing-hebbias-partnership-with-octus/" target="_blank" rel="noopener">added Octus</a> through Octus's MCP connector.</p>
+      <p class="why"><b>Why it matters</b>Competition on our home ground getting closer. LSEG would get private credit data that is already wired into the AI tools our clients use.</p>
+    </article>
+
+    <article class="story">
+      <span class="kicker">Bloomberg</span>
+      <h3>Bloomberg opens ASKB to every Terminal user</h3>
+      <p>Bloomberg <a href="https://www.prnewswire.co.uk/news-releases/the-next-evolution-of-askb-your-insights-bloombergs-intelligence-one-conversation-302909392.html" target="_blank" rel="noopener">made ASKB generally available</a>, its AI assistant on the Terminal. Once switched on, it can also answer from the client's own chats, watchlists and uploaded files, citing the source. Shawn Edwards, Bloomberg's CTO: "This isn't Bloomberg building on AI. It's AI built on Bloomberg."</p>
+      <p class="why"><b>Why it matters</b>Most of our clients already have Terminals, so ASKB will be on many desks. But clients have told us Bloomberg has been slow to react, and what they keep asking for is an MCP connection into their own AI tools, not AI inside the Terminal.</p>
+    </article>
+
+    <article class="story">
+      <span class="kicker">S&amp;P Global</span>
+      <h3>S&amp;P puts Visible Alpha estimates into its AI Data Portal</h3>
+      <p>S&amp;P Global <a href="https://press.spglobal.com/2026-10-15-S-P-Global-brings-Visible-Alpha-data-to-the-S-P-Global-AI-Data-Portal" target="_blank" rel="noopener">added Visible Alpha's consensus estimates</a>, from more than 250 brokers, to its AI Data Portal through MCP. Queries across several datasets come later this year.</p>
+      <p class="why"><b>Why it matters</b>S&amp;P keeps adding data to its AI portal, so clients will compare what each vendor's MCP covers.</p>
+    </article>
+  </div>
+
+  <div class="section-head"><h2>What asset managers are doing</h2></div>
+  <div class="columns">
+    <article class="story">
+      <span class="kicker">Apollo · Blackstone</span>
+      <h3>Apollo and Blackstone step into the AI labs' financing</h3>
+      <p>Semafor <a href="https://www.semafor.com/article/10/13/2026/voltas-5-billion-debt-deal-is-a-pulse-check-on-the-ai-financing-boom" target="_blank" rel="noopener">reported</a> that Apollo is anchoring Volta's $5bn debt deal for a data centre in Norway with a $1.5bn order. Semafor put the pricing at 11% or more, and the rate falls if Anthropic, which is to buy much of the capacity, gets an investment grade rating. The FT then <a href="https://aiweekly.co/alerts/anthropic-offers-blackstone-10-yield-in-9b-chip-debt-deal" target="_blank" rel="noopener">reported</a> that Anthropic offered Blackstone a coupon above 10% to anchor $9bn of the junior tranche in a $60bn package that funds its lease of Google's TPU chips. It is an offer, not a closed deal.</p>
+      <p class="why"><b>Why it matters</b>Private credit is being asked to take on AI lab risk, and the coupon can depend on one lab's credit rating. That is exposure clients will want to map (the Lambda, IMF and AI debt items above).</p>
+    </article>
+
+    <article class="story">
+      <span class="kicker">Blackstone</span>
+      <h3>Blackstone bets big on AI, outside and inside</h3>
+      <p>Bloomberg <a href="https://www.advisorperspectives.com/articles/2026/10/15/jon-gray-plots-bet-ai-boom" target="_blank" rel="noopener">reported</a> that Jon Gray, Blackstone's president, calls its AI investments "the single most important thing" underway at the firm. Including debt and projects under construction, its data centre investments reached $200bn as of July, up from $55bn in June 2024. Inside the firm, nearly every deal at the investment committee now comes with two memos, one from the deal team and one from an AI model trained on more than 14 years of internal deal memos and debates. The model has no vote.</p>
+      <p class="why"><b>Why it matters</b>The biggest alternative manager is betting on AI both as an investor in the build-out and as a user inside its investment committee, with people still making the call (see the concept below).</p>
+    </article>
+
+    <article class="story">
+      <span class="kicker">AI Engineer NYC</span>
+      <h3>At AI Engineer NYC, the buy side showed how it builds agents</h3>
+      <ul>
+        <li><b>Apollo:</b> Jack McDonald, an Apollo principal and COO of Redding Ridge, a CLO manager, <a href="https://ai.engineer/nyc/2026/talks/apollo-rowspace" target="_blank" rel="noopener">said</a> agents built with Rowspace now prepare a draft CLO portfolio in minutes, work that took a portfolio manager days in Excel. The PM still refines the last part.</li>
+        <li><b>Bridgewater:</b> <a href="https://ai.engineer/nyc/2026/talks/bridgewater" target="_blank" rel="noopener">Vault</a> holds more than 100 million documents for its investors and agents. Better search lifted the share of right documents in the top ten results from about 60% to roughly 90 to 95%. Separately, a model Bridgewater trained with UIUC <a href="https://thinkingmachines.ai/news/one-year-of-tinker/" target="_blank" rel="noopener">beat frontier models</a> on a database-query test at 15% of their cost.</li>
+        <li><b>Citadel Securities:</b> COO João Wenzel <a href="https://ai.engineer/nyc/2026/talks/citadel" target="_blank" rel="noopener">described</a> a world model of the firm, built from Slack, decks and meetings, that flags projects that look healthy but aren't. In a backtest, flagged green projects turned yellow or red almost twice as often as the rest. His line: "Your company has no model of itself."</li>
+      </ul>
+      <p class="why"><b>Why it matters</b>The big funds own the harness (the software around the model, last week's concept) and the data strategy, and they test the sources they plug in. Our content has to work inside the stack they build.</p>
+    </article>
+
+    <article class="story">
+      <span class="kicker">Benefit Street Partners</span>
+      <h3>Benefit Street: a PM builds his own credit tools</h3>
+      <p>In an OpenAI <a href="https://openai.com/index/benefit-street-partners" target="_blank" rel="noopener">case study</a>, Anant Kumar, a portfolio manager at Benefit Street Partners (a credit manager), built a tool that compares how BDCs value the same loan, and a credit agreement analyser that flags clauses that shift value away from lenders. He built both himself, with help from OpenAI's Codex and GPT-6 Astra. The analyser does a first pass in about 20 minutes, then a person reviews it for an hour or more.</p>
+      <p class="why"><b>Why it matters</b>A PM can now build a credit tool on public filings in a day. Our case is the data public filings don't have.</p>
+    </article>
+  </div>
+
+  <div class="back">
+    <section class="explainer" aria-labelledby="concept">
+      <span class="label">Concept of the week</span>
+      <h3 id="concept">Human in the loop</h3>
+      <p>Blackstone's AI memo has no vote, and Anthropic's agents propose changes that a person approves. Human in the loop (HITL) is a system or process in which a human actively takes part in running, monitoring or making decisions inside an automated system.</p>
+      <p>Think of autopilot: the plane flies itself most of the way, but a pilot sits in the seat and takes over for the moments that matter.</p>
+      <p>You'll hear this from clients when they say the agent can draft the memo, but a person signs it off.</p>
+      <p>Explainer from IBM: <a href="https://www.ibm.com/topics/human-in-the-loop" target="_blank" rel="noopener">What is human-in-the-loop?</a></p>
+    </section>
+
+    <div>
+      <section class="box" aria-labelledby="wyt">
+        <span class="label" id="wyt">Worth your time</span>
+        <h3><a href="https://ai.engineer/nyc/2026/talks/two-sigma" target="_blank" rel="noopener">Balancing Acceleration and Safety for AI Agents</a></h3>
+        <p class="dateline" style="margin:0 0 6px">John Feminella, Two Sigma, AI Engineer NYC</p>
+        <p>Five controls that let a firm run many agents safely, shared in his personal capacity. The Citi and Revlon story alone is worth it. His point on brakes: "It's not just so that you can stop, it's so that you can go fast and stop safely."</p>
+      </section>
+
+      <section class="box" aria-labelledby="hiring">
+        <span class="label" id="hiring">AI hiring signals</span>
+        <p style="margin:6px 0 0">This <a href="https://www.semafor.com/article/10/14/2026/a-quarter-of-financial-firms-tie-pay-and-promotions-to-ai-proficiency-survey" target="_blank" rel="noopener">survey</a> caught my eye: about a quarter of US financial firms now tie raises, promotions or bonuses to AI skills. My agent that monitors AI hiring signals at our clients is still running, and last week's report is attached.</p>
+      </section>
+
+      <section class="box" aria-labelledby="diary">
+        <span class="label" id="diary">This week</span>
+        <ul class="diary">
+          <li><span class="when">20 Oct</span><span class="what"><b>Alternative Credit Investor Conference</b>, London. Main panel on AI at 2.45pm: is the technology mature enough for alternative credit? <a href="https://alternativecreditevents.com/aci-conference-2026/agenda/" target="_blank" rel="noopener">ACI</a></span></li>
+          <li><span class="when">20 Oct</span><span class="what"><b>MSCI Q3 results</b>. <a href="https://ir.msci.com/node/22526" target="_blank" rel="noopener">MSCI</a></span></li>
+          <li><span class="when">21 Oct</span><span class="what"><b>Moody's Q3 results</b>. <a href="https://ir.moodys.com/press-releases/news-details/2026/Date-Set-For-Moodys-Earnings-Release-And-Investor-Teleconference-fc9db3848/default.aspx" target="_blank" rel="noopener">Moody's IR</a></span></li>
+          <li><span class="when">22 Oct</span><span class="what"><b>Moody's Banking Conference UK</b>, London, with a session on AI disruption. <a href="https://events.moodys.com/2026-mie26323-london-banking-conference/agenda" target="_blank" rel="noopener">Moody's</a></span></li>
+          <li><span class="when">22 Oct</span><span class="what"><b>Battle of the Quants</b>, London, with speakers from Man Group, Fasanara, Balyasny and Two Sigma. <a href="https://battleofthequants.com/london-2026/" target="_blank" rel="noopener">Battle of the Quants</a></span></li>
+          <li><span class="when">22 Oct</span><span class="what"><b>Blackstone Q3 results</b>. <a href="https://www.blackstone.com/news/press/blackstone-announces-third-quarter-2026-investor-call/" target="_blank" rel="noopener">Blackstone</a></span></li>
+        </ul>
+      </section>
+
+      <section class="box" aria-labelledby="coming">
+        <span class="label" id="coming">Coming up</span>
+        <ul class="diary">
+          <li><span class="when">3–6 Nov</span><span class="what"><b>SuperReturn Europe</b>, Amsterdam. <a href="https://informaconnect.com/superreturneurope/" target="_blank" rel="noopener">SuperReturn</a></span></li>
+          <li><span class="when">4–5 Nov</span><span class="what"><b>FT Future of AI Summit</b>, London. <a href="https://ai.live.ft.com/" target="_blank" rel="noopener">FT Live</a></span></li>
+          <li><span class="when">27 Oct–3 Nov</span><span class="what"><b>Results to listen to for AI</b>: S&amp;P Global 27 Oct (<a href="https://press.spglobal.com/2026-09-29-S-P-Global-Schedules-Third-Quarter-2026-Earnings-Announcement-and-Conference-Call-for-Tuesday,-October-27,-2026" target="_blank" rel="noopener">S&amp;P</a>), Microsoft and Alphabet 28 Oct (<a href="https://finviz.com/news/400058/microsoft-announces-quarterly-earnings-release-date" target="_blank" rel="noopener">Microsoft</a>, <a href="https://abc.xyz/investor/news/news-details/2026/Alphabet-Announces-Date-of-Third-Quarter-2026-Financial-Results-Conference-Call-2026-8tpGZsLS6v/default.aspx" target="_blank" rel="noopener">Alphabet</a>), Ares 29 Oct (<a href="https://www.placera.se/pressmeddelanden/ares-management-ares-management-corporation-updates-the-time-of-its-earnings-conference-call-for-the-third-quarter-ending-september-30-2026-20261002" target="_blank" rel="noopener">Ares</a>), Apollo 3 Nov (<a href="https://ir.apollo.com/news-events/press-releases/detail/652/apollo-to-announce-third-quarter-2026-financial-results-on-november-3-2026" target="_blank" rel="noopener">Apollo</a>).</span></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <span>Edited by Alvaro de Pastors</span>
+    <span>Every fact linked to its source</span>
+  </footer>
+</div>
+
+</body></html>
