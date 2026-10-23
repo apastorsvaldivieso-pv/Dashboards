@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moody's on Snowflake · Blackstone</title>
+<style>
+:root{
+  --moodys-blue:#0a1264; --moodys-blue-700:#35397e; --moodys-blue-50:#efeff5; --moodys-blue-100:#dfe0eb;
+  --bright:#005eff; --bright-50:#e6f0ff; --bright-700:#0044b7;
+  --grey-50:#f0f0f1; --grey-200:#d7d8d7; --grey-600:#75787b; --grey-900:#292b2c;
+  --ink:#000; --bg:#ffffff; --surface:#ffffff; --muted:var(--grey-600); --line:var(--grey-200);
+  --radius:10px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--grey-50);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5}
+a{color:var(--bright)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+/* Header */
+header.top{background:var(--moodys-blue);color:#fff}
+.brandbar{display:flex;align-items:center;gap:14px;padding:18px 0 0}
+.wm-moodys{font-weight:800;font-size:22px;letter-spacing:-.01em}
+.wm-x{opacity:.6;font-size:16px}
+.wm-snow{font-weight:600;font-size:19px;letter-spacing:.01em;opacity:.95}
+.hero{padding:22px 0 26px}
+.hero h1{margin:0 0 8px;font-size:30px;line-height:1.2;font-weight:700;max-width:820px}
+.hero p{margin:0;max-width:760px;color:#dfe0eb}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:var(--radius);padding:12px 14px}
+.stat b{display:block;font-size:22px}
+.stat span{font-size:13px;color:#cfd0e1}
+.asof{font-size:12px;color:#a2a2c4;margin-top:10px}
+
+/* Datasets */
+section.block{padding:26px 0 6px}
+h2{font-size:20px;margin:0 0 4px;color:var(--moodys-blue)}
+.sub{color:var(--muted);margin:0 0 14px;font-size:14px}
+.ds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ds{display:flex;flex-direction:column;justify-content:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:border-color .15s, box-shadow .15s}
+.ds:hover{border-color:var(--bright)}
+.ds[aria-pressed="true"]{border-color:var(--bright);box-shadow:0 0 0 2px var(--bright) inset;background:var(--bright-50)}
+.ds h3{margin:0 0 6px;font-size:15px;color:var(--moodys-blue);display:flex;align-items:center;gap:8px}
+.ds .dot{width:10px;height:10px;border-radius:50%;flex:none}
+.ds p{margin:0 0 8px;font-size:13px}
+.ds .for{font-size:12px;color:var(--muted)}
+.ds .for b{color:var(--grey-900);font-weight:600}
+.note{margin:14px 0 0;background:var(--moodys-blue-50);border-left:3px solid var(--moodys-blue);padding:10px 14px;border-radius:6px;font-size:13px}
+
+/* Filters */
+.filters{position:sticky;top:0;z-index:5;background:var(--grey-50);border-bottom:1px solid var(--line);padding:12px 0;margin-top:18px}
+.frow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+label.fl{font-size:12px;font-weight:600;color:var(--grey-900);text-transform:uppercase;letter-spacing:.04em}
+select{font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--grey-200);border-radius:8px;background:#fff;min-width:260px;max-width:100%}
+.chip{font:inherit;font-size:13px;padding:6px 11px;border-radius:999px;border:1px solid var(--grey-200);background:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip[aria-pressed="true"]{background:var(--moodys-blue);border-color:var(--moodys-blue);color:#fff}
+.chip .dot{width:8px;height:8px;border-radius:50%}
+.reset{font:inherit;font-size:13px;background:none;border:none;color:var(--bright);cursor:pointer;text-decoration:underline;padding:6px 2px}
+.count{font-size:13px;color:var(--muted);margin-left:auto}
+
+/* Layout */
+.main{display:grid;grid-template-columns:230px 1fr;gap:24px;padding:20px 0 40px}
+nav.uc{position:sticky;top:120px;align-self:start}
+nav.uc a{display:flex;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:8px;text-decoration:none;color:var(--grey-900);font-size:14px}
+nav.uc a:hover{background:var(--moodys-blue-50)}
+nav.uc a.active{background:var(--moodys-blue);color:#fff}
+nav.uc a .n{font-size:12px;color:var(--muted)}
+nav.uc a.active .n{color:#cfd0e1}
+nav.uc a.empty{opacity:.4}
+
+.uc-sec{margin-bottom:28px;scroll-margin-top:130px}
+.uc-sec h2{display:flex;align-items:baseline;gap:10px}
+.uc-sec h2 .num{font-size:14px;color:var(--bright);font-weight:700}
+.uc-sec .intro{margin:2px 0 12px;font-size:14px;color:var(--grey-900)}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.card h4{margin:0;font-size:15px;color:var(--moodys-blue)}
+.card p{margin:0;font-size:14px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;padding:3px 8px;border-radius:6px;border:1px solid var(--grey-200);background:#fff;color:var(--grey-900);cursor:pointer;font-family:inherit}
+.tag.ds-tag{border:none;color:#fff;font-weight:600}
+.tag.st-tag:hover{border-color:var(--bright);color:var(--bright)}
+.tag.st-tag.hit{background:var(--bright-50);border-color:var(--bright);color:var(--bright-700);font-weight:600}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:4px}
+.empty-msg{display:none;background:#fff;border:1px dashed var(--grey-200);border-radius:var(--radius);padding:20px;text-align:center;color:var(--muted)}
+
+/* Strategies */
+details.strats{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:4px 16px;margin:6px 0 30px}
+details.strats summary{cursor:pointer;padding:12px 0;font-weight:700;color:var(--moodys-blue);font-size:16px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:12px}
+th,td{text-align:left;padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);border-top:none}
+td.seg{color:var(--muted);white-space:nowrap}
+.tw{overflow-x:auto}
+
+footer{background:var(--moodys-blue);color:#cfd0e1;font-size:13px;padding:22px 0 30px}
+footer h3{color:#fff;font-size:14px;margin:0 0 8px}
+footer ul{margin:0;padding-left:18px}
+footer a{color:#9dc1ff}
+footer .fine{margin-top:14px;color:#a2a2c4}
+
+@media (max-width:900px){
+  .ds-grid{grid-template-columns:repeat(2,1fr)}
+  .main{grid-template-columns:1fr}
+  nav.uc{position:static;display:flex;overflow-x:auto;gap:6px;padding-bottom:6px}
+  nav.uc a{white-space:nowrap;border:1px solid var(--line);background:#fff}
+  .cards{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:560px){
+  .ds-grid{grid-template-columns:1fr}
+  .hero h1{font-size:24px}
+  select{min-width:0;width:100%}
+  .count{margin-left:0;width:100%}
+  .filters{position:static}
+}
+@media print{
+  .filters,nav.uc{display:none}
+  .main{grid-template-columns:1fr}
+  body{background:#fff}
+  .card,.ds{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brandbar" aria-label="Moody's and Snowflake">
+      <span class="wm-moodys">Moody's</span><span class="wm-x">×</span><span class="wm-snow">Snowflake</span>
+    </div>
+    <div class="hero">
+      <h1>Moody's data on Snowflake: use cases across Blackstone</h1>
+      <p>Six Moody's datasets on the Snowflake Marketplace, shared straight into Blackstone's own Snowflake account with no ingestion pipelines to build. <span id="heroCount">59</span> use cases across nine areas, from origination to reporting, mapped to the Blackstone strategies each one serves.</p>
+      <div class="stats">
+        <div class="stat"><b>$480bn</b><span>Credit &amp; Insurance AUM</span></div>
+        <div class="stat"><b>$465bn</b><span>Private Equity AUM</span></div>
+        <div class="stat"><b>$309bn</b><span>Real Estate AUM</span></div>
+        <div class="stat"><b>$114bn</b><span>Multi-Asset Investing AUM</span></div>
+      </div>
+      <div class="asof">Blackstone segment AUM as of 30 September 2026, from Blackstone's Q3 2026 results.</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="block" id="datasets">
+      <h2>The six datasets</h2>
+      <p class="sub">Select a dataset to show only the use cases it supports.</p>
+      <div class="ds-grid" id="dsGrid"></div>
+      <div class="note">EDF-X covers public companies. For private companies, Orbis carries Moody's Probability of Default metrics and other financial strength scores. The three ratings datasets carry current Moody's ratings, refreshed daily. A daily copy kept in Blackstone's Snowflake account builds a dated record of changes from the day it starts, which the change-based use cases below compare against.</div>
+    </section>
+  </div>
+
+  <div class="filters">
+    <div class="wrap">
+      <div class="frow">
+        <label class="fl" for="stratSel">Blackstone strategy</label>
+        <select id="stratSel"></select>
+        <span class="fl" style="margin-left:6px">Dataset</span>
+        <span id="dsChips" class="frow" style="gap:6px"></span>
+        <button class="reset" id="reset" type="button">Clear filters</button>
+        <span class="count" id="count" aria-live="polite"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="main">
+      <nav class="uc" id="ucNav" aria-label="Use cases"></nav>
+      <div>
+        <div id="ucList"></div>
+        <div class="empty-msg" id="emptyMsg">No use case matches this combination. Clear a filter to see more.</div>
+
+        <details class="strats" id="strategies">
+          <summary>Blackstone strategies referenced</summary>
+          <div class="tw"><table>
+            <thead><tr><th>Strategy</th><th>Segment</th><th>Context</th></tr></thead>
+            <tbody id="stratTable"></tbody>
+          </table></div>
+        </details>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h3>Sources</h3>
+    <ul>
+      <li>Dataset contents: Moody's listings on the Snowflake Marketplace (Orbis, EDF-X, Economic Forecast Data, Corporate &amp; Structured Finance Organization Ratings, Corporate &amp; Structured Finance Instrument Ratings, Public Finance Ratings) and <a href="https://www.moodys.com/web/en/us/about-us/partners-marketplace/snowflake.html">Moody's on Snowflake</a></li>
+      <li><a href="https://www.sec.gov/Archives/edgar/data/0001393818/000119312526428297/d160590dex991.htm">Blackstone Q3 2026 results</a> · <a href="https://www.sec.gov/Archives/edgar/data/0001393818/000119312526313250/d153439dex991.htm">Q2 2026 results</a></li>
+      <li><a href="https://www.blackstone.com/our-businesses/credit-and-insurance-bxci/">Blackstone Credit &amp; Insurance</a> · <a href="https://www.blackstone.com/our-businesses/private-equity/">Private Equity</a> · <a href="https://www.blackstone.com/our-businesses/real-estate/">Real Estate</a> · <a href="https://www.blackstone.com/our-businesses/portfolio-operations/">Operating Team</a></li>
+      <li><a href="https://www.blackstone.com/corporate-bond-strategies/">Blackstone Corporate Bond Strategies</a></li>
+      <li><a href="https://www.blackstone.com/news/press/blackstone-credit-insurance-appoints-laura-coady-as-global-head-of-clos-and-european-head-of-liquid-credit-strategies/">BXCI liquid credit, November 2025</a> · <a href="https://www.blackstone.com/wsj-pro-private-equity-blackstone-adds-new-unit-to-focus-its-ai-momentum/">BXN1, April 2026</a></li>
+    </ul>
+    <div class="fine">Prepared by Moody's, October 2026. Blackstone information is taken from Blackstone's public materials.</div>
+  </div>
+</footer>
+
+<script>
+const DATASETS = {
+  ORB:{name:"Moody's Orbis", color:"#0a1264",
+    desc:"630m+ public and private entities: identifiers, legal status, location and industry; detailed financials; corporate hierarchies and beneficial ownership; directors, shareholders and key individuals; Moody's PD metrics and other financial strength scores; M&A deals and rumours; patents and IP; ESG and cyber risk ratings; sanctions and PEPs; shell company indicators.",
+    use:"Data enrichment, compliance and due diligence, supply chain risk, competitive intelligence and market sizing, strategic risk, M&A, credit analysis"},
+  EDF:{name:"Moody's EDF-X", color:"#005eff",
+    desc:"Daily Expected Default Frequency (current, point-in-time and through-the-cycle) on public companies worldwide: corporates, financial institutions, insurance, sovereign and sub-sovereign related entities. Also PD-implied ratings, risk drivers, peer and sector benchmarks, corporate hierarchy, and scenario-conditioned and sensitivity metrics.",
+    use:"Credit risk monitoring, portfolio surveillance, early warning"},
+  ECO:{name:"Moody's Economic Forecast Data", color:"#008c95",
+    desc:"History and 30-year quarterly forecasts, produced monthly: 20,000+ variables across 130+ countries, plus US states, 400+ metros, 33,000+ ZIP codes and 239,000+ block groups. Baseline, up to 10 alternative scenarios, consensus, topical, supervisory (Fed CCAR, BoE, EBA, ECB) and NGFS-aligned climate scenarios.",
+    use:"Stress testing and regulatory compliance, scenario analysis, portfolio and credit risk, real estate and housing, climate risk, regional market analysis"},
+  ORG:{name:"Organization Ratings", color:"#35397e",
+    desc:"Corporate & Structured Finance Organization Ratings: current Moody's issuer ratings, updated daily, on 10,500+ corporates, financial institutions, funds, infrastructure and project finance, insurers, sovereigns, sub-sovereigns and structured finance organisations. Includes family tree, market segment, identifiers (LEI, ticker, CUSIP, ISIN) and regulatory attributes.",
+    use:"Issuer credit quality, rated peers, eligibility and reporting"},
+  INST:{name:"Instrument Ratings", color:"#5c068c",
+    desc:"Corporate & Structured Finance Instrument Ratings: current Moody's ratings, updated daily, on 290,500+ instruments across the same sectors. Includes identifiers (CUSIP, ISIN, Bloomberg Global Identifier), support data and regulatory attributes.",
+    use:"Position-level ratings, CLO and insurance portfolio inputs"},
+  PF:{name:"Public Finance Ratings", color:"#e35205",
+    desc:"581,000+ current Moody's ratings, updated daily, on the US public sector: state and local government, healthcare providers, higher education and not-for-profit, housing agencies, power and gas utilities, public infrastructure. Organisation, instrument and sale level, with family tree, identifiers and regulatory attributes.",
+    use:"US public-sector counterparty credit, municipal holdings"}
+};
+
+const STRATS = [
+  {id:"DL",  name:"Direct lending, incl. BCRED, BXSL, ECRED", seg:"Credit & Insurance", ctx:"$11.9bn of inflows in Q3 2026 across global direct lending; BCRED net asset value $41.1bn (30 September 2026)"},
+  {id:"OPP", name:"Opportunistic credit", seg:"Credit & Insurance", ctx:"Part of BXCI private corporate credit"},
+  {id:"LIQ", name:"Liquid credit and CLOs", seg:"Credit & Insurance", ctx:"$120bn liquid credit platform (November 2025); largest global manager of CLOs and loans; closed three new CLOs (two European, one US) for $1.3bn in Q3 2026"},
+  {id:"SYS", name:"Systematic credit (Blackstone Corporate Bond Strategies)", seg:"Credit & Insurance", ctx:"Systematic investment-grade and high-yield corporate bond portfolios; over $40bn AUM; formerly DCI, acquired in 2020"},
+  {id:"IABC",name:"Infrastructure and asset-based credit", seg:"Credit & Insurance", ctx:"$18.0bn of inflows in Q3 2026, including $16.5bn of insurance SMAs"},
+  {id:"INS", name:"Blackstone Insurance", seg:"Credit & Insurance", ctx:"Investment-grade private credit for insurers, through SMAs and full portfolio management"},
+  {id:"CPE", name:"Corporate Private Equity", seg:"Private Equity", ctx:"$175bn AUM and 105 portfolio companies (30 September 2026); BXPE raised $2.9bn in Q3 2026; Asia III closed at $13.1bn in Q2 2026"},
+  {id:"TAC", name:"Tactical Opportunities", seg:"Private Equity", ctx:"Appreciated 2.2% in Q3 2026 and 8.9% over the last twelve months"},
+  {id:"SP",  name:"Strategic Partners and GP Stakes (BXGP)", seg:"Private Equity", ctx:"$3.1bn of secondaries inflows in Q3 2026; BXGP total AUM $13.2bn"},
+  {id:"INF", name:"Infrastructure and Energy Transition", seg:"Private Equity", ctx:"BIP $81.0bn AUM; $3.7bn of infrastructure inflows and $2.5bn for the fifth energy transition fund in Q3 2026; BXINFRA raised $1.1bn"},
+  {id:"LS",  name:"Life Sciences", seg:"Private Equity", ctx:"Reported within Corporate Private Equity"},
+  {id:"BXN1",name:"Blackstone N1 (BXN1)", seg:"Private Equity", ctx:"Unified platform for growth, hybrid and perpetual PE investing in the AI ecosystem; announced April 2026"},
+  {id:"BREP",name:"Opportunistic real estate (BREP)", seg:"Real Estate", ctx:"Global opportunistic real estate; Q2 2026 investments included a data-centre campus JV in Michigan with Related Digital"},
+  {id:"CORE",name:"Core+ real estate (BPP, BREIT)", seg:"Real Estate", ctx:"Stabilised logistics, residential and office held for income; BREIT raised $1.3bn in Q3 2026"},
+  {id:"DC",  name:"Data centres", seg:"Real Estate", ctx:"Blackstone describes itself as the largest data center provider in the world; Blackstone Digital Infrastructure Trust (BXDC) raised $2.0bn in its Q2 2026 IPO"},
+  {id:"REC", name:"Real estate credit (BREDS, BXMT)", seg:"Real Estate", ctx:"$2.3bn of BREDS inflows in Q3 2026, mainly insurance SMAs; part of Blackstone's $557bn credit platform (BXCI and real estate debt)"},
+  {id:"BXMA",name:"Multi-Asset Investing (BXMA)", seg:"Multi-Asset Investing", ctx:"$113.9bn AUM (30 September 2026)"},
+  {id:"OPS", name:"Operating Team", seg:"Firm-wide", ctx:"Value creation and procurement across 270+ portfolio companies"},
+  {id:"COMP",name:"Compliance", seg:"Firm-wide", ctx:"Firm-wide function"}
+];
+const S = Object.fromEntries(STRATS.map(s=>[s.id,s]));
+const CREDIT = ["DL","OPP","LIQ","SYS","IABC","INS","REC"];
+const ALL = STRATS.map(s=>s.id);
+
+const USE_CASES = [
+ {id:"origination", title:"Origination and sourcing", items:[
+  {t:"Thematic target screen", d:"Private and public companies by sector, size, country, ownership and growth, ranked.", ds:["ORB"], s:["CPE","TAC","BXN1","LS","INF"]},
+  {t:"Market sizing", d:"Count and size the companies in a target market by country and industry.", ds:["ORB"], s:["CPE","BXN1","LS","INF"]},
+  {t:"Data enrichment", d:"Internal company, target and borrower lists enriched with Orbis identifiers, legal status, industry, detailed financials, corporate structure and directors.", ds:["ORB"], s:ALL},
+  {t:"Add-on and buy-and-build screen", d:"Smaller companies in the same industry and regions as a portfolio company, with their owners.", ds:["ORB"], s:["CPE","INF"]},
+  {t:"Borrower and sponsor pipeline screen", d:"Incoming deals checked on size, ownership, financials and PD before a team spends time on them.", ds:["ORB","ORG"], s:["DL","OPP","IABC","REC"]},
+  {t:"New-issue screen", d:"The primary loan and bond pipeline joined to Moody's ratings once assigned, with EDF where the issuer is listed.", ds:["INST","ORG","EDF"], s:["LIQ","INS"]},
+  {t:"Bond universe construction", d:"Daily Moody's ratings on investment-grade and high-yield bonds by CUSIP and ISIN, with regulatory attributes, to define the eligible universe and rating constraints.", ds:["INST","ORG"], s:["SYS","LIQ","INS"]},
+  {t:"Carve-out and seller signals", d:"Listed groups with rating downgrades or rising EDFs, plus M&A deals and rumours, pointing to asset sales.", ds:["ORG","EDF","ORB"], s:["CPE","INF","OPP","BREP"]},
+  {t:"Site and market selection", d:"ZIP and block-group economic data for residential, logistics and data-centre sites, with Moody's ratings on the local municipality and public utility.", ds:["ECO","PF"], s:["CORE","BREP","DC"]},
+  {t:"Occupier and tenant targeting", d:"Companies by location and sector for build-to-suit and leasing.", ds:["ORB"], s:["BREP","CORE"]}
+ ]},
+ {id:"research", title:"Issuer and sector analysis", items:[
+  {t:"Issuer profile", d:"Private or public issuer: financials, group hierarchy and ownership from Orbis, with Moody's ratings where rated and EDF where listed.", ds:["ORB","EDF","ORG"], s:[...CREDIT,"CPE"]},
+  {t:"Peer benchmarking", d:"Margins, leverage and PD against peers by sector and country, with EDF-X peer and sector benchmarks for listed names.", ds:["ORB","EDF"], s:["CPE","DL","LS","INF","OPP"]},
+  {t:"Competitive landscape", d:"A target's competitors by industry and country, with their financials, ownership and M&A activity.", ds:["ORB"], s:["CPE","TAC","BXN1","LS","INF"]},
+  {t:"Patents and IP", d:"Patent and intellectual property holdings of a target and its competitors.", ds:["ORB"], s:["BXN1","LS","CPE"]},
+  {t:"Sector credit trends", d:"Rating changes by sector against the daily copy, plus EDF sector benchmarks.", ds:["ORG","EDF"], s:["LIQ","SYS","OPP","BXMA"]},
+  {t:"Systematic credit signal inputs", d:"Daily EDF, through-the-cycle EDF, PD-implied ratings, risk drivers and peer and sector benchmarks across listed issuers, as inputs to systematic credit models.", ds:["EDF"], s:["SYS"]},
+  {t:"Country and sovereign risk", d:"Moody's sovereign and sub-sovereign ratings, EDF on sovereign-related entities, and country forecasts for each deal country.", ds:["ORG","EDF","ECO"], s:["CPE","INF","BREP","LIQ","INS","OPP"]},
+  {t:"Macro and regional view", d:"GDP, unemployment, income, house prices and interest rates by country and US state, with US detail down to metro, ZIP code and block group.", ds:["ECO"], s:["BREP","CORE","REC","IABC","BXMA"]},
+  {t:"US public-sector context", d:"Credit of the US states, cities and public utilities around a deal.", ds:["PF"], s:["INF","DC","INS"]}
+ ]},
+ {id:"financial-dd", title:"Financial and commercial due diligence", items:[
+  {t:"Financials check", d:"Management's numbers checked against accounts filed in Orbis, gaps flagged, where the target files accounts.", ds:["ORB"], s:["CPE","TAC","LS"]},
+  {t:"Capital structure and debt", d:"Issuer ratings across the rated family tree, and instrument ratings on the group's rated debt by CUSIP and ISIN, with the support data carried in the instrument ratings.", ds:["INST","ORG","ORB"], s:["DL","OPP","CPE"]},
+  {t:"Market and demand", d:"The target's growth and margins against competitors from Orbis, plus demand drivers (income, retail sales, demographics) in its markets.", ds:["ORB","ECO"], s:["CPE","TAC","LS","BREP","CORE"]},
+  {t:"Customer and supplier credit", d:"Credit and PD of the key customers and suppliers named in the data room, concentration flagged.", ds:["ORB","EDF"], s:["CPE","DL","LS"]},
+  {t:"Counterparty DD", d:"Offtakers, hyperscalers, utilities and tenants under long contracts. Public Finance Ratings cover US municipal offtakers and public utilities.", ds:["ORG","EDF","PF"], s:["INF","IABC","DC","BREP"]},
+  {t:"Look-through DD on fund stakes", d:"PD, leverage and ownership on the companies under a secondary.", ds:["ORB"], s:["SP"]},
+  {t:"Deal history", d:"Past M&A deals and rumours involving the target, its owners and its competitors.", ds:["ORB"], s:["CPE","TAC","SP","BXN1"]},
+  {t:"ESG and cyber risk check", d:"ESG and cyber risk ratings on the target and its key suppliers.", ds:["ORB"], s:["CPE","INF","BXN1","DL","OPS"]}
+ ]},
+ {id:"management-dd", title:"Management due diligence and KYC", items:[
+  {t:"Director and executive history", d:"Companies a director or key individual is linked to in Orbis, including ones now inactive or insolvent.", ds:["ORB"], s:["CPE","TAC","BXN1","DL"]},
+  {t:"Beneficial ownership", d:"Who ultimately owns the target, seller, borrower or co-investor.", ds:["ORB"], s:ALL},
+  {t:"Sanctions, PEPs and shell company flags", d:"Screening on owners, directors and counterparties.", ds:["ORB"], s:ALL},
+  {t:"GP and manager DD", d:"Management companies, principals and related entities.", ds:["ORB"], s:["SP","BXMA"]}
+ ]},
+ {id:"underwriting", title:"Underwriting and credit analysis", items:[
+  {t:"Credit quality on unrated borrowers", d:"An independent view: Moody's PD where the borrower has filed financials, alongside Blackstone's own borrower reporting and NAIC designations.", ds:["ORB"], s:["DL","INS","REC"]},
+  {t:"Rated comparables", d:"Rated and PD-matched peers, set against internal pricing and terms data.", ds:["ORG","INST","EDF"], s:["DL","IABC","INS"]},
+  {t:"PD-implied ratings on listed companies", d:"EDF-X PD-implied ratings and risk classifications put listed companies without a Moody's rating on a rating-like scale, with point-in-time and through-the-cycle EDF.", ds:["EDF"], s:["SYS","LIQ","INS","OPP"]},
+  {t:"Downside case", d:"Macro paths for the borrower's countries and US regions under Moody's alternative and severe scenarios.", ds:["ECO"], s:["DL","REC","IABC"]},
+  {t:"Collateral and tenant credit", d:"Tenants and guarantors behind a loan, grouped by parent, with PD.", ds:["ORB","EDF"], s:["REC","CORE"]},
+  {t:"Financing brief for PE deals", d:"Rated comparables and EDF sector benchmarks to put in front of lenders.", ds:["ORG","EDF"], s:["CPE","INF"]}
+ ]},
+ {id:"memos", title:"Investment and credit memos", intro:"Blackstone's own agents can draft from the datasets inside Snowflake, so Moody's figures in a memo can be traced back to their source dataset.", items:[
+  {t:"Investment committee memo", d:"Target, sector, peers, macro and risk sections.", ds:["ORB","EDF","ECO","ORG"], s:["CPE","TAC","INF","LS","BXN1"]},
+  {t:"Credit memo", d:"Borrower profile, PD, rated comparables and downside case.", ds:["ORB","EDF","ORG","ECO"], s:["DL","OPP","IABC","REC"]},
+  {t:"Credit committee note", d:"Issuer, current Moody's ratings, and EDF with the model's underlying risk drivers.", ds:["ORG","INST","EDF"], s:["LIQ","SYS","INS"]},
+  {t:"Real estate IC pack", d:"Tenant credit, metro and ZIP-level economic forecasts, and counterparties.", ds:["ORB","EDF","ECO"], s:["BREP","CORE","DC"]}
+ ]},
+ {id:"monitoring", title:"Portfolio monitoring and early warning", items:[
+  {t:"Daily credit change feed", d:"Day-on-day rating changes joined to holdings every morning by CUSIP, ISIN and LEI from the ratings data, with daily EDF on listed holdings.", ds:["ORG","INST","EDF"], s:CREDIT},
+  {t:"Rating-gap early warning", d:"Holdings where the EDF-X PD-implied rating sits below the Moody's rating, or EDF sits above its sector benchmark, flagged each morning.", ds:["EDF","ORG","INST"], s:["LIQ","SYS","INS","OPP"]},
+  {t:"Holding seen from several angles", d:"One company side by side across the datasets: Moody's ratings, EDF, Orbis financials and ownership, ESG and cyber ratings, and the economic outlook for its markets.", ds:["ORG","EDF","ORB","ECO"], s:ALL},
+  {t:"Private borrower and portfolio company watch", d:"Status, ownership and PD on unlisted names compared with the last copy, alongside borrower reporting.", ds:["ORB"], s:["DL","CPE","SP"]},
+  {t:"Supply chain and counterparty watch", d:"Suppliers, customers, tenants and offtakers from internal records, rolled up to their parents in Orbis.", ds:["ORB","EDF"], s:["CPE","OPS","BREP","INF"]},
+  {t:"Bank and insurer counterparty watch", d:"EDF and Moody's ratings on the banks behind fund financing and derivatives, and on insurers and reinsurers.", ds:["EDF","ORG"], s:["DL","IABC","INS","BXMA","COMP"]},
+  {t:"Structured finance holdings", d:"Moody's ratings on the ABS, CMBS, RMBS and CLO tranches held, by CUSIP and ISIN.", ds:["INST","ORG"], s:["INS","REC","LIQ","IABC"]},
+  {t:"Sector and macro watch", d:"Forecast changes in the economies the book is exposed to.", ds:["ECO"], s:ALL},
+  {t:"Portfolio company business planning", d:"Baseline and alternative economic forecasts as planning inputs for portfolio companies.", ds:["ECO"], s:["OPS","CPE","INF","BREP"]},
+  {t:"Ownership change alerts", d:"New owners, directors or sanctions hits on monitored names, compared with the last copy.", ds:["ORB"], s:ALL}
+ ]},
+ {id:"stress", title:"Stress testing and scenarios", items:[
+  {t:"Portfolio stress test", d:"Macro paths under baseline, alternative and supervisory scenarios (Fed CCAR, BoE, EBA, ECB) to drive Blackstone's own loss models, plus EDF-X scenario-conditioned metrics on listed names.", ds:["ECO","EDF"], s:["DL","LIQ","SYS","INS","BXMA"]},
+  {t:"House-view scenarios", d:"Blackstone's own scenarios built in Moody's Scenario Studio, set against Moody's baseline, consensus and topical scenarios.", ds:["ECO"], s:["DL","INS","BXMA","BREP","INF"]},
+  {t:"Collateral scenarios", d:"House prices and unemployment by state and metro, with interest rate paths, on consumer and property-backed pools.", ds:["ECO"], s:["IABC","REC"]},
+  {t:"Underwriting what-ifs", d:"Macro drivers behind demand and occupancy (GDP, income, employment, demographics) under each scenario.", ds:["ECO"], s:["BREP","CORE","INF"]},
+  {t:"Climate scenarios", d:"NGFS-aligned climate scenarios applied to the book.", ds:["ECO"], s:["INF","INS","CORE"]}
+ ]},
+ {id:"reporting", title:"Client and regulatory reporting", items:[
+  {t:"CLO ratings check", d:"An independent daily read of Moody's issuer and instrument ratings on rated obligors, reconciled against the Moody's ratings in the trustee report.", ds:["INST","ORG"], s:["LIQ"]},
+  {t:"Insurer client reporting", d:"Moody's rating mix on the publicly rated holdings in each SMA, including municipal holdings, with the regulatory attributes carried in the ratings data.", ds:["INST","ORG","PF"], s:["INS"]},
+  {t:"Investor and fund reporting", d:"Portfolio PD, ratings and tenant credit for vehicles such as BCRED, BXSL, ECRED, BREIT and BXMT, within the terms of the Moody's licence.", ds:["ORB","EDF","ORG"], s:["DL","CORE","REC"]}
+ ]}
+];
+
+const state = {strat:"", ds:new Set()};
+const $ = id => document.getElementById(id);
+
+function el(tag, attrs={}, html){ const e=document.createElement(tag); for(const k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!==undefined) e.innerHTML=html; return e; }
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+
+// Dataset cards and chips
+for(const [k,d] of Object.entries(DATASETS)){
+  const b = el("button",{class:"ds",type:"button","aria-pressed":"false","data-ds":k});
+  b.innerHTML = `<h3><span class="dot" style="background:${d.color}"></span>${esc(d.name)}</h3><p>${esc(d.desc)}</p><div class="for"><b>For:</b> ${esc(d.use)}</div>`;
+  b.onclick = ()=>toggleDs(k);
+  $("dsGrid").appendChild(b);
+  const c = el("button",{class:"chip",type:"button","aria-pressed":"false","data-ds":k});
+  c.innerHTML = `<span class="dot" style="background:${d.color}"></span>${esc(d.name.replace("Moody's ",""))}`;
+  c.onclick = ()=>toggleDs(k);
+  $("dsChips").appendChild(c);
+}
+
+// Strategy select
+(function(){
+  const sel=$("stratSel"); sel.appendChild(el("option",{value:""},"All strategies"));
+  const segs=[...new Set(STRATS.map(s=>s.seg))];
+  for(const g of segs){ const og=el("optgroup",{label:g}); STRATS.filter(s=>s.seg===g).forEach(s=>og.appendChild(el("option",{value:s.id},esc(s.name)))); sel.appendChild(og); }
+  sel.onchange=()=>{state.strat=sel.value; render();};
+})();
+
+// Strategy table
+STRATS.forEach(s=>{ const tr=el("tr"); tr.innerHTML=`<td><b>${esc(s.name)}</b></td><td class="seg">${esc(s.seg)}</td><td>${esc(s.ctx)}</td>`; $("stratTable").appendChild(tr); });
+
+function toggleDs(k){ state.ds.has(k)?state.ds.delete(k):state.ds.add(k); render(); }
+function setStrat(id){ state.strat = state.strat===id ? "" : id; $("stratSel").value=state.strat; render(); }
+$("reset").onclick=()=>{ state.strat=""; state.ds.clear(); $("stratSel").value=""; render(); };
+
+function match(it){
+  if(state.strat && !it.s.includes(state.strat)) return false;
+  if(state.ds.size && !it.ds.some(d=>state.ds.has(d))) return false;
+  return true;
+}
+
+function render(){
+  document.querySelectorAll("[data-ds]").forEach(b=>b.setAttribute("aria-pressed", state.ds.has(b.dataset.ds)));
+  const list=$("ucList"), nav=$("ucNav"); list.innerHTML=""; nav.innerHTML="";
+  let shown=0, total=0;
+  USE_CASES.forEach((uc,i)=>{
+    const items=uc.items.filter(match); total+=uc.items.length; shown+=items.length;
+    const a=el("a",{href:"#uc-"+uc.id,class:items.length?"":"empty"}); a.innerHTML=`<span>${i+1}. ${esc(uc.title)}</span><span class="n">${items.length}</span>`; nav.appendChild(a);
+    if(!items.length) return;
+    const sec=el("section",{class:"uc-sec",id:"uc-"+uc.id});
+    sec.appendChild(el("h2",{},`<span class="num">${String(i+1).padStart(2,"0")}</span>${esc(uc.title)}`));
+    if(uc.intro) sec.appendChild(el("p",{class:"intro"},esc(uc.intro)));
+    const grid=el("div",{class:"cards"});
+    items.forEach(it=>{
+      const c=el("article",{class:"card"});
+      c.innerHTML=`<h4>${esc(it.t)}</h4><p>${esc(it.d)}</p>`;
+      const dw=el("div"); dw.appendChild(el("div",{class:"lbl"},"Datasets")); const dt=el("div",{class:"tags"});
+      it.ds.forEach(k=>{ const b=el("button",{class:"tag ds-tag",type:"button",style:`background:${DATASETS[k].color}`,title:"Filter by "+DATASETS[k].name},esc(DATASETS[k].name.replace("Moody's ",""))); b.onclick=()=>toggleDs(k); dt.appendChild(b); });
+      dw.appendChild(dt); c.appendChild(dw);
+      const sw=el("div"); sw.appendChild(el("div",{class:"lbl"},"Blackstone strategies")); const st=el("div",{class:"tags"});
+      if(it.s.length===ALL.length){ st.appendChild(el("span",{class:"tag"},"All strategies")); }
+      else it.s.forEach(id=>{ const b=el("button",{class:"tag st-tag"+(state.strat===id?" hit":""),type:"button",title:S[id].seg},esc(S[id].name)); b.onclick=()=>setStrat(id); st.appendChild(b); });
+      sw.appendChild(st); c.appendChild(sw);
+      grid.appendChild(c);
+    });
+    sec.appendChild(grid); list.appendChild(sec);
+  });
+  $("emptyMsg").style.display = shown ? "none" : "block";
+  $("count").textContent = (state.strat||state.ds.size) ? `Showing ${shown} of ${total} use cases` : `${total} use cases across ${USE_CASES.length} areas`;
+}
+
+// Highlight nav section on scroll
+const obs = ("IntersectionObserver" in window) ? new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ document.querySelectorAll("nav.uc a").forEach(a=>a.classList.toggle("active", a.getAttribute("href")==="#"+e.target.id)); } }); },{rootMargin:"-40% 0px -55% 0px"}) : null;
+const _render = render;
+render = function(){ _render(); if(obs){ obs.disconnect(); document.querySelectorAll(".uc-sec").forEach(s=>obs.observe(s)); } };
+render();
+document.getElementById("heroCount").textContent = USE_CASES.reduce((n,u)=>n+u.items.length,0);
+</script>
+</body>
+</html>
