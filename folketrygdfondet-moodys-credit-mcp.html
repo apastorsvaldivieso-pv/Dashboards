@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moody's Credit MCP for Folketrygdfondet</title>
+<style>
+:root{
+  --navy:#000080;--navy2:#0b1a6b;--ink:#14213d;--muted:#5b6478;--line:#e2e5ee;
+  --bg:#f5f6fa;--card:#ffffff;--accent:#2d6cdf;--accent2:#e9effc;
+  --amber:#b7791f;--amber2:#fbf3e3;--green:#1f7a4d;--green2:#e6f4ec;--red:#b42318;--red2:#fdeceb;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+a{color:var(--accent);text-decoration:none}
+h1,h2,h3,h4{margin:0 0 .4em;line-height:1.2}
+h2{font-size:1.6rem;color:var(--navy)}
+h3{font-size:1.1rem}
+p{margin:0 0 .8em}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 70%,#1d2f8f 100%);color:#fff;padding:40px 48px 36px}
+.brand{display:flex;align-items:center;gap:22px;margin-bottom:28px}
+.brand .moodys{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.7rem;letter-spacing:.5px}
+.brand .div{width:1px;height:40px;background:rgba(255,255,255,.45)}
+.brand .ftf{display:flex;align-items:center;gap:10px}
+.brand .ftf .mark{width:34px;height:34px;border:2px solid #fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;letter-spacing:1px}
+.brand .ftf .name{font-size:1.15rem;font-weight:600;letter-spacing:.4px}
+.brand .ftf img{height:40px;display:none}
+.hero h1{font-size:2.2rem;max-width:900px;font-weight:650}
+.hero .sub{font-size:1.15rem;max-width:820px;opacity:.95}
+.hero .meta{font-size:.85rem;opacity:.75;margin:18px 0 0}
+nav.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);padding:0 48px;display:flex;gap:4px;overflow-x:auto}
+nav.top a{padding:12px 14px;color:var(--muted);font-size:.9rem;white-space:nowrap;border-bottom:3px solid transparent}
+nav.top a:hover,nav.top a.active{color:var(--navy);border-bottom-color:var(--navy)}
+main{max-width:1180px;margin:0 auto;padding:12px 24px 60px}
+section{padding:40px 0 10px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.kicker{font-size:.78rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px}
+.lead{font-size:1.05rem;max-width:860px;color:#2a3350}
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.card h3{color:var(--navy);font-size:1rem;margin-bottom:6px}
+.card p{font-size:.92rem;color:#2a3350;margin:0}
+.card .tool{display:inline-block;margin-top:10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;color:var(--muted);background:#f0f2f8;border-radius:4px;padding:2px 6px}
+.stat{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:10px;padding:16px 18px}
+.stat .n{font-size:1.6rem;font-weight:700;color:var(--navy);line-height:1.1}
+.stat .l{font-size:.85rem;color:var(--muted);margin-top:4px}
+.src{font-size:.75rem;color:var(--muted);margin-top:10px}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.3px}
+.b-rated{background:var(--accent2);color:var(--navy)}
+.b-nr{background:var(--amber2);color:var(--amber)}
+.b-down{background:var(--red2);color:var(--red)}
+.b-aff{background:var(--green2);color:var(--green)}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:.88rem}
+th{background:#eef1f8;color:var(--navy);text-align:left;padding:10px 10px;font-weight:700;font-size:.8rem;letter-spacing:.3px}
+td{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top}
+tr.group td{background:#f8f9fc;font-weight:700;color:var(--navy);font-size:.8rem;letter-spacing:.6px;text-transform:uppercase}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* context layer */
+.ctx{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:start}
+.ctx svg{width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+.node{cursor:pointer}
+.node circle.core{stroke-width:2;transition:all .15s;fill:#fff}
+.node circle.halo{fill:none;stroke-width:0;opacity:0}
+.node text{font-size:11.5px;fill:var(--ink);text-anchor:middle;pointer-events:none;font-weight:600}
+.node:hover circle.core,.node.sel circle.core{fill:var(--c)}
+.node:hover text,.node.sel text{fill:#fff}
+.node.sel circle.halo{stroke:var(--c);stroke-width:10;opacity:.18}
+.spoke{stroke:#d7dbe8;stroke-width:1.2}
+.xlink{fill:none;stroke:#aeb6cc;stroke-width:1.2;stroke-dasharray:3 3;opacity:.95;transition:all .15s}
+.xlink.hot{stroke:var(--navy);stroke-width:2;stroke-dasharray:none;opacity:1}
+.dim .xlink:not(.hot){opacity:.25}
+.dim .node:not(.sel):not(.hot) circle.core{opacity:.65}
+.dim .node:not(.sel):not(.hot) text{opacity:.65}
+.sat rect{fill:#fff;stroke:var(--c);stroke-width:1.2;rx:11}
+.sat text{font-size:10.5px;fill:var(--ink);text-anchor:middle;dominant-baseline:middle}
+.sat line{stroke:var(--c);stroke-width:1;stroke-dasharray:2 2}
+.sat{animation:pop .25s ease-out both}
+@keyframes pop{from{opacity:0;transform:scale(.9);transform-origin:center}to{opacity:1;transform:scale(1)}}
+.panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;min-height:420px}
+.panel h3{color:var(--navy);display:flex;align-items:center;gap:8px}
+.panel h3 i{display:inline-block;width:12px;height:12px;border-radius:50%}
+.panel .tag{font-size:.72rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin:14px 0 4px}
+.panel p{font-size:.92rem}
+.panel ul{margin:0;padding-left:18px;font-size:.9rem}
+.panel li{margin-bottom:5px}
+.panel .src{margin-top:12px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.78rem;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle;margin-right:4px}
+.grp{font-size:.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--navy);margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--navy);display:inline-block}
+.card .for{font-size:.85rem;color:var(--navy);background:var(--accent2);border-radius:6px;padding:8px 10px;margin-top:10px}
+/* platforms */
+.plat{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 22px}
+.plat h3{color:var(--navy);font-size:1.05rem}
+.plat .tag{font-size:.72rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.tile{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#fafbfe;display:flex;align-items:center;justify-content:center;min-height:64px}
+.tile .logo{height:40px;display:flex;align-items:center;justify-content:center}
+.tile .logo img{max-height:30px;max-width:140px;display:block}
+.tile .wm{font-weight:700;color:var(--navy);font-size:.95rem;letter-spacing:.2px}
+.tile .fact{font-size:.8rem;color:#2a3350;flex:1}
+.tile .when{font-size:.7rem;color:var(--muted);margin-top:8px}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}}
+/* skills */
+.skill{display:flex;flex-direction:column;gap:6px}
+.skill .num{font-size:.75rem;color:var(--muted);font-weight:700;letter-spacing:1px}
+.skill .use{font-size:.85rem;color:var(--navy);background:var(--accent2);border-radius:6px;padding:8px 10px;margin-top:6px}
+/* use cases */
+.uc{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start}
+.uc-list{display:flex;flex-direction:column;gap:6px;position:sticky;top:60px}
+.uc-list button{text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px;padding:11px 14px;font:inherit;font-size:.92rem;cursor:pointer;color:var(--ink)}
+.uc-list button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.uc-list button small{display:block;font-size:.75rem;opacity:.75;margin-top:2px}
+.uc-pane{display:none}
+.uc-pane.active{display:block}
+.uc-pane .card{margin-bottom:14px}
+.flow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+.flow .box{border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.9rem;background:#fafbfe}
+.flow .box b{display:block;color:var(--navy);font-size:.78rem;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px}
+.flow .box.after{background:var(--accent2);border-color:#c9d8f7}
+.mini{font-size:.84rem}
+.mini th,.mini td{padding:7px 8px}
+.note{background:var(--amber2);border:1px solid #efd9a8;border-radius:8px;padding:10px 14px;font-size:.85rem;color:#6b4a0f}
+/* efficiency */
+.eff th:first-child,.eff td:first-child{width:22%}
+.eff td{font-size:.9rem}
+/* notes */
+.notes li{margin-bottom:8px;font-size:.9rem}
+.next{background:var(--navy);color:#fff;border-radius:10px;padding:22px 26px;margin-top:24px}
+.next h3{color:#fff}
+.next p{color:#dfe4ff;margin:0}
+footer{text-align:center;color:var(--muted);font-size:.78rem;padding:24px}
+@media (max-width:900px){
+  .g3,.g4,.g2{grid-template-columns:1fr 1fr}
+  .ctx,.uc,.flow{grid-template-columns:1fr}
+  .uc-list{position:static;flex-direction:row;flex-wrap:wrap}
+  .hero{padding:28px 20px}nav.top{padding:0 10px}
+}
+@media (max-width:600px){.g3,.g4,.g2{grid-template-columns:1fr}.hero h1{font-size:1.6rem}}
+@media print{nav.top{display:none}section{page-break-inside:avoid}.uc-pane{display:block!important}.uc-list{display:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="brand">
+    <div class="moodys">Moody's</div>
+    <div class="div"></div>
+    <div class="ftf">
+      <!-- Swap the two lines below for <img src="folketrygdfondet-logo.svg" alt="Folketrygdfondet" style="display:block"> once you have the logo file -->
+      <div class="mark">FTF</div>
+      <div class="name">Folketrygdfondet</div>
+    </div>
+  </div>
+  <h1>Moody's Credit MCP for the fixed income team</h1>
+  <p class="sub">One context layer for the Nordic credit universe, rated and unrated, available inside Claude. Ratings, research, probability of default, financials, ownership, ESG and news on a single resolved issuer, in one request.</p>
+  <p class="meta">Prepared by Alvaro de Pastors, Moody's &nbsp;|&nbsp; October 2026 &nbsp;|&nbsp; All issuer data on this page was retrieved live from Moody's Credit MCP on 21 October 2026</p>
+</header>
+
+<nav class="top">
+  <a href="#why">Context</a>
+  <a href="#data">The data</a>
+  <a href="#context">Context layer</a>
+  <a href="#skills">Five skills</a>
+  <a href="#usecases">Use cases</a>
+  <a href="#efficiency">What changes</a>
+  <a href="#notes">Data notes</a>
+</nav>
+
+<main>
+
+<!-- ============ WHY ============ -->
+<section id="why">
+  <div class="kicker">Context</div>
+  <h2>Folketrygdfondet's fixed income mandate, as published</h2>
+  <p class="lead">A Nordic fixed income universe that runs from government and covered bonds to investment grade and high yield corporates, rated and unrated. This document shows what Moody's holds on that universe and how it reaches the team inside Claude.</p>
+  <div class="grid g4">
+    <div class="stat"><div class="n">60 / 40</div><div class="l">Equities / fixed income benchmark set by the Ministry of Finance</div></div>
+    <div class="stat"><div class="n">85% / 15%</div><div class="l">Fixed income benchmark: Norway / Sweden, Finland and Denmark</div></div>
+    <div class="stat"><div class="n">NOK 145bn</div><div class="l">Fixed income portfolio at year-end 2025 (approx.)</div></div>
+    <div class="stat"><div class="n">3.5%</div><div class="l">Share of outstanding Nordic Trustee-registered Norwegian corporate bonds held (approx.)</div></div>
+  </div>
+  <p class="src">Sources: folketrygdfondet.no (fund management and portfolio overview pages, holdings as at 30 June 2026); HedgeNordic interview with Folketrygdfondet fixed income, March 2026.</p>
+</section>
+
+<!-- ============ DATA ============ -->
+<section id="data">
+  <div class="kicker">Section 1</div>
+  <h2>Moody's data inside the Credit MCP</h2>
+  <p class="lead">Moody's eight data families. Each returns data with document IDs and dates; the small tags name the MCP tools behind it.</p>
+  <div class="grid g4">
+    <div class="card"><h3>Moody's Ratings credit ratings and research</h3><p>Ratings and outlooks with history, credit opinions with upgrade and downgrade factors and scorecards, sector outlooks, methodologies, peer sets, ESG scores and climate data.</p><span class="tool">getEntityRatings · getCreditOpinion · getEntityScorecardV2 · getEntitySectorOutlook · getCreditMethodology · getEntityPeers · getEntityEsg · searchPrecisReports</span></div>
+    <div class="card"><h3>Expected default frequency</h3><p>EDF-X probability of default: one-year and five-year PD, PD-implied rating, risk drivers, CDS-implied EDF and early warning category. Public-firm model for listed names, private-firm model for the rest.</p><span class="tool">getEntityProbabilityOfDefault</span></div>
+    <div class="card"><h3>Detailed global entity financials</h3><p>Statements, key indicators and ratios. Moody's adjusted and as reported for rated issuers, bank formats for financial institutions, registry financials for unrated names.</p><span class="tool">getEntityFinancials_v2 · getEntitySegmentFinancials</span></div>
+    <div class="card"><h3>Global entity firmographics</h3><p>Legal names, identifiers (LEI, register numbers), legal form and status, industry codes, employees, directors and senior managers, shell company indicators.</p><span class="tool">getEntityProfile · getEntityManagersDirectors_v2 · getShellCompanyIndicators</span></div>
+    <div class="card"><h3>Entity hierarchies and ownership structures</h3><p>Shareholders, global ultimate owners, beneficial owners, subsidiaries and branches, across 600 million entities and 2 billion ownership links.</p><span class="tool">getEntityShareholders · getEntityUltimateOwners · getEntityBeneficiaryOwners · getEntitySubsidiaries · getEntityBranches</span></div>
+    <div class="card"><h3>Economic data and research</h3><p>Global Macro Outlook, regional macro research, Moody's Analytics weekly market outlooks and sovereign credit profiles.</p><span class="tool">searchAllDocuments · getEntityCountryProfile</span></div>
+    <div class="card"><h3>News and media</h3><p>Entity-level news with dates, sources and relevance filtering, searchable by entity, keyword and period.</p><span class="tool">searchNews</span></div>
+    <div class="card"><h3>Annual reports</h3><p>Annual and interim filings and earnings-call transcripts, searched by question, returned as the relevant passages with citations.</p><span class="tool">searchCompanyFilings · searchEntityDocuments</span></div>
+  </div>
+
+  <div class="card" style="margin-top:16px"><h3>Entity resolution and screening</h3><p>Resolve a name, ticker, LEI or register number to the right record, with alternatives shown when a group has several rated or financing entities. Criteria searches ("Baa-rated Nordic industrials", "largest Norwegian banks") return a list to work from.</p><span class="tool">findEntity</span></div>
+  <p class="src">Data families as listed on moodys.com. Coverage figures from the Moody's and Anthropic announcement, April 2026. Tool names are the live Moody's Credit MCP tool set as of 21 October 2026.</p>
+
+  <div class="plat">
+    <h3>Where it runs</h3>
+    <div class="tag">AI platforms</div>
+    <div class="tiles">
+      <!-- To use official logos: save each partner's logo file (SVG or PNG, from the partner's brand page) in a "logos" folder next to this file. The wordmark shows until the file is present. -->
+      <div class="tile"><div class="logo"><img src="logos/anthropic-claude.svg" alt="Claude" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">Claude</span></div></div>
+      <div class="tile"><div class="logo"><img src="logos/openai-chatgpt.svg" alt="ChatGPT" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">ChatGPT</span></div></div>
+      <div class="tile"><div class="logo"><img src="logos/microsoft-copilot.svg" alt="Microsoft Copilot" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">Microsoft Copilot</span></div></div>
+      <div class="tile"><div class="logo"><img src="logos/gemini.svg" alt="Gemini" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">Gemini</span></div></div>
+      <div class="tile"><div class="logo"><img src="logos/aws.svg" alt="AWS" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">AWS</span></div></div>
+    </div>
+    <div class="tag">Data and analytics platforms</div>
+    <div class="tiles">
+      <div class="tile"><div class="logo"><img src="logos/snowflake.svg" alt="Snowflake" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">Snowflake</span></div></div>
+      <div class="tile"><div class="logo"><img src="logos/databricks.svg" alt="Databricks" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">Databricks</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTEXT LAYER ============ -->
+<section id="context">
+  <div class="kicker">Section 2</div>
+  <h2>The context layer: every dataset connected to one issuer, and to each other</h2>
+  <p class="lead">Each dataset is useful on its own. Together, resolved to the same issuer record and cross-referenced, they give the whole picture in one request. Click any node to see what Moody's holds on Norsk Hydro ASA, every item retrieved live on 21 October 2026. Colours follow the eight data families in Section 1; dotted lines are cross-references between datasets.</p>
+  <div class="ctx">
+    <div>
+      <svg id="spider" viewBox="0 0 760 640" xmlns="http://www.w3.org/2000/svg" aria-label="Context layer graph"></svg>
+      <div class="legend" id="ctxLegend"></div>
+    </div>
+    <div class="panel" id="ctxPanel">
+      <h3>Norsk Hydro ASA</h3>
+      <p>Norwegian integrated aluminium producer, rated Baa2 with a stable outlook. Chosen as the worked example because it sits in the Nordic industrial core of the mandate and every data family is populated.</p>
+      <div class="tag">What one request returns</div>
+      <ul>
+        <li>Rating, outlook and the June 2026 credit opinion with its upgrade and downgrade thresholds</li>
+        <li>EDF-X probability of default and FY2025 ratios</li>
+        <li>ESG scores, temperature alignment and verified emissions</li>
+        <li>Board and executive team, shareholders (including a 6.15% stake held by Folketrygdfondet) and 221 direct subsidiaries</li>
+        <li>This week's news, Moody's peer set, the aluminium sector view, Norway's sovereign profile and the Global Macro Outlook</li>
+      </ul>
+      <div class="tag">Try it</div>
+      <p>Select a node on the left. The small chips that appear are the actual items from the MCP.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills">
+  <div class="kicker">Section 3</div>
+  <h2>Five Moody's skills</h2>
+  <p class="lead">A skill is a shareable instruction file on the open SKILL.md standard. It tells the AI agent how to run a piece of analysis to a defined standard; the Moody's MCP servers connect it to the data. Moody's published its first five in June 2026, covering the workflows where its analytical frameworks are most concentrated.</p>
+  <div class="grid g3">
+    <div class="card skill"><span class="num">SKILL 01</span><h3>Earnings Call Summary</h3><p>Summarizes earnings call transcripts, covering revenue trends, pricing dynamics, consumer health, tariff exposure and more.</p><div class="use">For the desk: quarterly check on every corporate in the book, with the credit-relevant lines pulled out, run across many names at once.</div></div>
+    <div class="card skill"><span class="num">SKILL 02</span><h3>Peer Analysis</h3><p>Produces an investor-grade comparison across leverage, profitability, credit quality and more.</p><div class="use">For the desk: Nordic banks or Nordic industrials side by side on ratings, PD, ratios and ESG scores, as the starting point for relative value.</div></div>
+    <div class="card skill"><span class="num">SKILL 03</span><h3>Public Information Book</h3><p>Builds a comprehensive dossier on a single entity, spanning financials, governance, competitive landscape and risk profile.</p><div class="use">For the desk: the first full document on an unrated Norwegian issuer, built from Orbis financials, ownership, directors, PD and news.</div></div>
+    <div class="card skill"><span class="num">SKILL 04</span><h3>Rating Pitch</h3><p>Generates a structured pitch deck covering sector context, rating history and peer positioning.</p><div class="use">For the desk: the pre-investment committee view on a new issuer, sector, history and peers in one deck.</div></div>
+    <div class="card skill"><span class="num">SKILL 05</span><h3>Sector Analysis</h3><p>Combines Moody's proprietary research with live market intelligence to deliver a full sector-level outlook.</p><div class="use">For the desk: the sector view that frames allocation across banks, energy, industrials and forest products.</div></div>
+    <div class="card skill" style="background:var(--accent2);border-color:#c9d8f7"><span class="num">AND BEYOND</span><h3>Custom skills on the same data</h3><p>Because the standard is open, the team can write its own skills on top of the MCP: a daily rating-action alert for the book, a new-issue triage, a portfolio screen against the benchmark. Moody's plans further skills in credit analysis, third-party due diligence and insurance underwriting.</p></div>
+  </div>
+  <p class="src">Skill descriptions as published by Moody's, 17 June 2026. Skills are platform-agnostic and run where Moody's MCP is connected.</p>
+</section>
+
+<!-- ============ USE CASES ============ -->
+<section id="usecases">
+  <div class="kicker">Section 4</div>
+  <h2>Use cases for the fixed income team</h2>
+  <p class="lead">Six workflows, each with a live example from a cohort of ten Nordic names: four rated industrials and energy names, three Nordic banks and three unrated Norwegian corporates. Figures are as retrieved on 21 October 2026.</p>
+  <div class="uc">
+    <div class="uc-list" id="ucList">
+      <button class="active" data-uc="uc1">New issue read<small>Pre-pricing view in minutes</small></button>
+      <button data-uc="uc2">Portfolio surveillance<small>What moved in the book</small></button>
+      <button data-uc="uc3">Peer and relative value<small>Banks and industrials side by side</small></button>
+      <button data-uc="uc4">The unrated universe<small>PD and financials where there is no rating</small></button>
+      <button data-uc="uc5">ESG in credit<small>CIS, temperature alignment, emissions</small></button>
+      <button data-uc="uc6">Screening new names<small>From universe to shortlist</small></button>
+    </div>
+    <div>
+
+      <!-- UC1 -->
+      <div class="uc-pane active" id="uc1">
+        <div class="card">
+          <h3>New issue read: a Nordic investment grade industrial comes to market</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>A pre-pricing view on a new bond from a rated Nordic issuer: where the rating stands, what would move it, how the market prices the credit, and the ESG position.</div>
+            <div class="box after"><b>What the MCP returns</b>Rating and outlook, the opinion summary, upgrade and downgrade thresholds, the latest PD and the ESG scores in one answer, each line with its Moody's document ID and date.</div>
+          </div>
+          <h3 style="font-size:.95rem">Live example: Norsk Hydro ASA</h3>
+          <table class="mini">
+            <tr><th style="width:32%">Item</th><th>Moody's Credit MCP output</th></tr>
+            <tr><td>Long-term issuer rating</td><td><span class="badge b-rated">Baa2</span> stable, upgraded 7 June 2024</td></tr>
+            <tr><td>Credit opinion (30 June 2026)</td><td>Rating reflects a fully integrated aluminium value chain from bauxite to recycling, strong market positions, a solid financial profile and a prudent financial policy. Mixed effect from the Middle East conflict: higher aluminium prices and premiums, weaker alumina prices at Alunorte.</td></tr>
+            <tr><td>Upgrade factors</td><td>EBIT margin sustained around 10% or above, debt to EBITDA below 1.0x, RCF to debt above 40%, consistent positive free cash flow.</td></tr>
+            <tr><td>Downgrade factors</td><td>RCF to debt below 25% or debt to EBITDA above 2.5x; any weakening of the conservative financial policy.</td></tr>
+            <tr><td>Probability of default (EDF-X)</td><td>One-year PD 0.05%, PD-implied rating Aa3 (public-firm model, listed entity record). CDS-implied rating A2 at 52 bp five-year spread (20 Oct 2026).</td></tr>
+            <tr><td>Financial ratios FY2025</td><td>EBITDA margin 12.8%, EBITDA to finance costs 10.6x, total debt to total assets 17.6%, current ratio 1.7x</td></tr>
+            <tr><td>ESG</td><td>CIS-3 (E-5, S-4, G-2). Temperature alignment 1.5 degrees versus a 2.0 degree sector average. Scope 1 emissions 6.02 MtCO2e in 2025, third-party verified.</td></tr>
+          </table>
+          <p class="src">Sources: Moody's rating record RTNG_2552; credit opinion PBC_1488670 (30 June 2026); EDF-X record NO914778271 as of 30 September 2026; ESG in Credit (30 June 2026); GHG data from the 2025 Integrated Annual Report, p. 71 and 237.</p>
+        </div>
+      </div>
+
+      <!-- UC2 -->
+      <div class="uc-pane" id="uc2">
+        <div class="card">
+          <h3>Portfolio surveillance: what moved in the bank book</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>Know what moved in the holdings list, and why, before the morning meeting.</div>
+            <div class="box after"><b>What the MCP returns</b>Rating actions, outlook changes, PD moves and new Moody's documents since the last run, with the reason from the credit opinion in the same answer. Runs as a standing request over the holdings list, daily or weekly.</div>
+          </div>
+          <h3 style="font-size:.95rem">Live example: three Nordic banks, last seven days</h3>
+          <table class="mini">
+            <tr><th>Bank</th><th>Senior / issuer rating</th><th>Latest action</th><th>What the credit opinion says</th></tr>
+            <tr><td>Nordea Bank Abp</td><td><span class="badge b-rated">Aa3</span> senior unsecured, stable</td><td><span class="badge b-down">Downgrade 13 Oct 2026</span> from Aa2</td><td>Opinion updated 19 Oct 2026: Aa3 senior and Aa1 deposit ratings reflect an a2 Baseline Credit Assessment, loss-given-failure uplift of one notch (senior) and three (deposits), plus one notch of government support. Downward pressure if the volume of loss-absorbing liabilities falls materially.</td></tr>
+            <tr><td>DNB Bank ASA</td><td><span class="badge b-rated">Aa2</span> senior unsecured, stable</td><td><span class="badge b-aff">Affirmed 12 Oct 2026</span></td><td>Opinion updated 14 Oct 2026: prudent risk and liquidity management, constrained by a high share of less stable funding. CIS-2.</td></tr>
+            <tr><td>SpareBank 1 Sør-Norge ASA</td><td><span class="badge b-rated">Aa3</span> long-term issuer, stable</td><td><span class="badge b-aff">Affirmed 18 Nov 2025</span></td><td>Opinion updated 7 Sept 2026. Post-merger entity (SpareBank 1 SR-Bank and Sparebanken Sør); the MCP resolves the legacy name to the current rated issuer. CIS-2.</td></tr>
+          </table>
+          <p class="src">Sources: rating records RTNG_830625110, RTNG_2766, RTNG_704680; credit opinions PBC_1496439 (Nordea, 19 Oct 2026), PBC_1496712 (DNB, 14 Oct 2026), PBC_1494186 (SpareBank 1 Sør-Norge, 7 Sept 2026).</p>
+        </div>
+      </div>
+
+      <!-- UC3 -->
+      <div class="uc-pane" id="uc3">
+        <div class="card">
+          <h3>Peer and relative value: the cohort on one page</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>Nordic banks or Nordic industrials side by side for relative value and committee papers.</div>
+            <div class="box after"><b>What the MCP returns</b>The Peer Analysis skill builds the table from the same resolved records: rating next to PD next to ratios next to ESG, dated and sourced. Refreshing it is a re-run.</div>
+          </div>
+          <h3 style="font-size:.95rem">Live example: ten Nordic names, retrieved 21 October 2026</h3>
+          <table class="mini">
+            <tr><th>Issuer</th><th>Sector</th><th>Moody's LT rating</th><th class="num">1y PD</th><th>PD-implied</th><th class="num">EBITDA margin FY25</th><th class="num">EBITDA / finance costs</th><th class="num">Debt / assets</th><th>CIS</th></tr>
+            <tr class="group"><td colspan="9">Energy and industrials</td></tr>
+            <tr><td>Equinor ASA (NO)</td><td>Integrated oil and gas</td><td><span class="badge b-rated">Aa2</span> stable</td><td class="num">0.04%</td><td>Aa2</td><td class="num">36.7%</td><td class="num">27.0x</td><td class="num">23.7%</td><td>CIS-3</td></tr>
+            <tr><td>AB Volvo (SE)</td><td>Trucks and machinery</td><td><span class="badge b-rated">A2</span> stable</td><td class="num">0.05%</td><td>Aa2</td><td class="num">10.5%</td><td class="num">16.7x</td><td class="num">39.0%</td><td>CIS-3</td></tr>
+            <tr><td>Norsk Hydro ASA (NO)</td><td>Aluminium</td><td><span class="badge b-rated">Baa2</span> stable</td><td class="num">0.05%</td><td>Aa3</td><td class="num">12.8%</td><td class="num">10.6x</td><td class="num">17.6%</td><td>CIS-3</td></tr>
+            <tr><td>Stora Enso Oyj (FI)</td><td>Pulp and paper</td><td><span class="badge b-rated">Baa3</span> stable</td><td class="num">0.08%</td><td>Aa3</td><td class="num">16.7%</td><td class="num">5.9x</td><td class="num">23.4%</td><td>CIS-2</td></tr>
+            <tr class="group"><td colspan="9">Banks</td></tr>
+            <tr><td>DNB Bank ASA (NO)</td><td>Bank</td><td><span class="badge b-rated">Aa2</span> stable</td><td class="num">0.27%</td><td>Baa1</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td>CIS-2</td></tr>
+            <tr><td>Nordea Bank Abp (FI)</td><td>Bank</td><td><span class="badge b-rated">Aa3</span> stable</td><td class="num">0.26%</td><td>Baa1</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td>CIS-2</td></tr>
+            <tr><td>SpareBank 1 Sør-Norge ASA (NO)</td><td>Bank</td><td><span class="badge b-rated">Aa3</span> stable</td><td class="num">0.16%</td><td>A2</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td>CIS-2</td></tr>
+            <tr class="group"><td colspan="9">Unrated Norwegian corporates</td></tr>
+            <tr><td>Kongsberg Gruppen ASA (NO)</td><td>Defence and maritime technology</td><td><span class="badge b-nr">Not rated</span></td><td class="num">0.06%</td><td>Aa3</td><td class="num">22.0%</td><td class="num">8.8x</td><td class="num">6.5%</td><td>n/a</td></tr>
+            <tr><td>Orkla ASA (NO)</td><td>Branded consumer goods</td><td><span class="badge b-nr">Not rated</span></td><td class="num">0.02%</td><td>Aa1</td><td class="num">16.7%</td><td class="num">13.9x</td><td class="num">18.9%</td><td>n/a</td></tr>
+            <tr><td>Mowi ASA (NO)</td><td>Seafood</td><td><span class="badge b-nr">Not rated</span></td><td class="num">0.03%</td><td>Aa2</td><td class="num">24.9%</td><td class="num">10.9x</td><td class="num">33.9%</td><td>n/a</td></tr>
+          </table>
+          <p class="src">Ratings: Moody's Ratings long-term issuer or senior unsecured rating as shown in the rating record. PD and PD-implied rating: EDF-X public-firm CreditEdge model as of 30 September 2026. PD-implied ratings are model outputs, not Moody's ratings. Bank senior ratings include uplift for loss given failure and government support, which the standalone PD does not, hence the gap. Ratios: FY2025, from the EDF-X financial record. Bank ratios are on a different basis and are left out here. CIS: Moody's ESG Credit Impact Score; not assigned to unrated issuers.</p>
+        </div>
+      </div>
+
+      <!-- UC4 -->
+      <div class="uc-pane" id="uc4">
+        <div class="card">
+          <h3>The unrated universe: a credit view where there is no rating</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>A credit view on a Norwegian issuer that has no public rating.</div>
+            <div class="box after"><b>What the MCP returns</b>The same context layer as a rated name, minus the rating: EDF-X PD and PD-implied rating, risk drivers, registry financials and ratios, ownership, directors and news. The Public Information Book skill turns it into a dossier. For unlisted issuers the private-firm PD model applies.</div>
+          </div>
+          <h3 style="font-size:.95rem">Live example: three unrated Norwegian names</h3>
+          <div class="grid g3">
+            <div class="card"><h3>Kongsberg Gruppen ASA</h3><p><span class="badge b-nr">Not rated by Moody's</span></p><p style="margin-top:8px">One-year PD <b>0.06%</b>, PD-implied Aa3, public-firm model on recent good-quality inputs. FY2025: EBITDA margin 22.0%, EBITDA to finance costs 8.8x, debt to assets 6.5%, current ratio 1.2x. PD moved from 0.08% in August to 0.06% in October 2026.</p></div>
+            <div class="card"><h3>Orkla ASA</h3><p><span class="badge b-nr">Not rated by Moody's</span></p><p style="margin-top:8px">One-year PD <b>0.02%</b>, PD-implied Aa1. FY2025: EBITDA margin 16.7%, EBITDA to finance costs 13.9x, debt to assets 18.9%, current ratio 1.4x. Five-year cumulative PD 0.61%.</p></div>
+            <div class="card"><h3>Mowi ASA</h3><p><span class="badge b-nr">Not rated by Moody's</span></p><p style="margin-top:8px">One-year PD <b>0.03%</b>, PD-implied Aa2. FY2025: EBITDA margin 24.9%, EBITDA to finance costs 10.9x, debt to assets 33.9%, current ratio 2.9x. Five-year cumulative PD 0.97%.</p></div>
+          </div>
+          <div class="note" style="margin-top:14px">PD-implied ratings are outputs of the EDF-X model and are not Moody's credit ratings. They are the anchor the team did not have on unrated names; the judgement still sits with the analyst. For each name the MCP also returns the ten-year PD term structure, the ranked risk drivers (asset volatility, market capitalisation, default point, liabilities) and the early warning category.</div>
+          <p class="src">Sources: EDF-X records NO943753709 (Kongsberg), NO910747711 (Orkla), NO964118191 (Mowi), as of 30 September 2026; rating records RTNG_o049477194, RTNG_o005592592, RTNG_o005641625 confirming no public Moody's ratings.</p>
+        </div>
+      </div>
+
+      <!-- UC5 -->
+      <div class="uc-pane" id="uc5">
+        <div class="card">
+          <h3>ESG in credit: scores, alignment and emissions on the same issuer</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>ESG scores, climate alignment and reported emissions on the same issuer record as the credit view.</div>
+            <div class="box after"><b>What the MCP returns</b>Credit Impact Score and E, S, G profile scores with the analyst's reasoning, temperature alignment against the sector average, and scope 1, 2 and 3 emissions by year with the annual report page the figure came from.</div>
+          </div>
+          <h3 style="font-size:.95rem">Live example: rated names in the cohort</h3>
+          <table class="mini">
+            <tr><th>Issuer</th><th>CIS</th><th>E / S / G</th><th>Temperature alignment</th><th>Sector average</th><th class="num">Scope 1, 2025 (tCO2e)</th><th>What drives the score</th></tr>
+            <tr><td>Equinor ASA</td><td>CIS-3</td><td>E-5 / S-5 / G-1</td><td>1.5 degrees (scopes 1, 2, 3)</td><td>2.41 degrees</td><td class="num">7,800,000</td><td>Carbon transition and societal pressure on upstream, offset by very conservative financial policy and management track record.</td></tr>
+            <tr><td>Norsk Hydro ASA</td><td>CIS-3</td><td>E-5 / S-4 / G-2</td><td>1.5 degrees (scopes 1, 2)</td><td>2.0 degrees</td><td class="num">6,020,000</td><td>Mining and smelting footprint; mitigated by hydro-powered production and prudent financial policy.</td></tr>
+            <tr><td>AB Volvo</td><td>CIS-3</td><td>E-4 / S-4 / G-1</td><td>2.4 degrees (scopes 1, 2, 3)</td><td>2.5 degrees</td><td class="num">203,000</td><td>Carbon transition in trucks; electrification programme and conservative financial policy.</td></tr>
+            <tr><td>Stora Enso Oyj</td><td>CIS-2</td><td>E-3 / S-3 / G-2</td><td>1.5 degrees (scopes 1, 2, 3)</td><td>2.41 degrees</td><td class="num">990,000</td><td>Manufacturing exposure; conservative financial policy with a leverage target below 2x.</td></tr>
+            <tr><td>DNB Bank ASA</td><td>CIS-2</td><td>E-3 / S-3 / G-2</td><td>not assigned</td><td>n/a</td><td class="num">58</td><td>Portfolio exposure to carbon transition in oil, offshore and shipping; low governance risk.</td></tr>
+            <tr><td>Nordea Bank Abp</td><td>CIS-2</td><td>E-3 / S-3 / G-2</td><td>1.5 degrees (scopes 1, 2, 3)</td><td>1.81 degrees</td><td class="num">1,032</td><td>Carbon transition in corporate lending; targets by portfolio; strengthened AML framework.</td></tr>
+            <tr><td>SpareBank 1 Sør-Norge ASA</td><td>CIS-2</td><td>E-3 / S-3 / G-2</td><td>not assigned</td><td>n/a</td><td class="num">37</td><td>Reduced oil, offshore and shipping exposure; savings bank conduct record.</td></tr>
+          </table>
+          <p class="src">Sources: Moody's ESG in Credit records per issuer; temperature alignment as of 2025 (SDA or ARA approach as labelled by Moody's); scope 1 figures third-party verified, data quality score 1, with annual report page references in the MCP output. Bank scope 1 figures cover own operations; financed emissions sit in scope 3 category 15.</p>
+        </div>
+      </div>
+
+      <!-- UC6 -->
+      <div class="uc-pane" id="uc6">
+        <div class="card">
+          <h3>Screening new names: from the universe to a shortlist</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>A first credit read on a set of candidate names, from the benchmark or the new-issue calendar, without doing them one by one.</div>
+            <div class="box after"><b>What the MCP returns</b>A criteria search ("Baa-rated Nordic industrials", "Norwegian corporates with PD below 0.1% and no public rating") returns the candidate list. A batch run then pulls the context layer for each name into one table and flags where data is missing. The same batch pattern serves as the weekly monitor on the holdings list.</div>
+          </div>
+          <div class="grid g3">
+            <div class="card"><h3>1. Define</h3><p>Sector, country, rating band or PD band, size. The MCP resolves the criteria to a list of issuers rather than relying on the model's memory.</p></div>
+            <div class="card"><h3>2. Enrich</h3><p>Rating and outlook, PD and implied rating, key ratios, CIS, latest Moody's document date, ownership flags. Batches of 10 to 15 names per call.</p></div>
+            <div class="card"><h3>3. Shortlist</h3><p>Sort, filter and export to the committee paper. Each cell keeps its source ID so the figure can be checked later.</p></div>
+          </div>
+          <div class="note" style="margin-top:14px">We have built this batch pattern for another European credit team: issuers processed in batches, Moody's data pulled per name, output as a locked-schema table plus a dashboard with click-through to the underlying records. It can be adapted to a Nordic universe and to Folketrygdfondet's holdings file.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ EFFICIENCY ============ -->
+<section id="efficiency">
+  <div class="kicker">Section 5</div>
+  <h2>What changes for the team</h2>
+  <p class="lead">The team keeps its judgement, its systems and its process. What changes is the assembly work before the judgement, and the ability to run the same analysis across many names rather than one at a time.</p>
+  <table class="eff">
+    <tr><th>Workflow</th><th>Today</th><th>With Moody's Credit MCP in Claude</th></tr>
+    <tr><td>New issue read</td><td>Rating report, credit opinion, financials and ESG assembled from separate systems into a one-pager.</td><td>One request, one sourced answer. Rating Pitch skill produces the committee deck from the same data.</td></tr>
+    <tr><td>Monitoring the book</td><td>Alerts and press releases read one by one; the "why" found in the opinion afterwards.</td><td>Daily or weekly run over the holdings list with rating actions, PD moves and the opinion's reasoning in one note. Nordea's 13 October downgrade is the current example.</td></tr>
+    <tr><td>Peer tables</td><td>Rebuilt by hand for each paper, names and dates not always consistent.</td><td>Peer Analysis skill on resolved records; refresh is a re-run; every cell dated and sourced.</td></tr>
+    <tr><td>Unrated names</td><td>Own ratios from the annual report; no independent default signal.</td><td>EDF-X PD and drivers, Orbis financials, ownership and directors; Public Information Book skill for the dossier.</td></tr>
+    <tr><td>Sector view</td><td>Reading across several Moody's publications to form the view.</td><td>Sector Analysis skill: Moody's research for the sector plus market context, as one outlook. March 2026 Europe banks research, for example: 25 banking systems covered, 20 stable, 4 positive, 1 negative, with Finland moved to positive on asset quality and the Nordics among the strongest growth momentum.</td></tr>
+    <tr><td>ESG screening</td><td>Scores and emissions matched to issuers by hand across providers.</td><td>CIS and profile scores, temperature alignment and verified emissions on the same issuer record, with source pages.</td></tr>
+    <tr><td>Earnings season</td><td>Transcripts read selectively; most of the book is not covered every quarter.</td><td>Earnings Call Summary skill across the whole corporate book, credit-relevant lines only.</td></tr>
+  </table>
+  <p class="src">Europe banks figures from Moody's Ratings, "Banks, Europe: Operating environment and solid capital buffers support banks' credit quality", PBC_1476870, 16 March 2026.</p>
+  <div class="next">
+    <h3>Proposed next step</h3>
+    <p>A short trial on Folketrygdfondet's own name list: the team's holdings and watchlist resolved in the MCP, the surveillance run and the peer table built on those names, and a readout at the end to decide what the team keeps.</p>
+  </div>
+</section>
+
+<!-- ============ NOTES ============ -->
+<section id="notes">
+  <div class="kicker">Appendix</div>
+  <h2>Data notes and entity resolution</h2>
+  <ul class="notes">
+    <li><b>Retrieval.</b> All issuer data on this page was retrieved from Moody's Credit MCP on 21 October 2026. Ratings are as of that date; PD figures are as of 30 September 2026 (monthly series) with CDS-implied values to 20 October 2026; financial ratios are FY2025 unless stated.</li>
+    <li><b>Ratings versus implied ratings.</b> "Moody's LT rating" is the Moody's Ratings long-term issuer or senior unsecured rating from the rating record. "PD-implied" is an EDF-X model output and is not a Moody's rating. For banks, the senior rating includes notches of uplift for loss given failure and government support (Nordea: a2 BCA, one notch LGF, one notch support, per the 19 October 2026 opinion); the standalone PD does not include these, which explains the gap between Aa3 and a Baa1 PD-implied rating.</li>
+    <li><b>Norsk Hydro entity resolution.</b> Moody's rates Norsk Hydro ASA under org ID 2552, whose linked data record returned a private-firm benchmark PD with no financials. The listed Norwegian entity (register number NO914778271) carries the public-firm CreditEdge PD and FY2025 financials. The PD and ratios shown come from the listed record; the rating, opinion and ESG scores come from the rated record. The MCP shows both as alternatives; the analyst picks. This is the behaviour to expect for groups with several records, and it is why resolution is shown rather than hidden.</li>
+    <li><b>SpareBank 1 SR-Bank.</b> The name resolves to SpareBank 1 Sør-Norge ASA (org ID 704680), the rated entity after the merger with Sparebanken Sør. The 2024 emissions record in the MCP still cites the SR-Bank annual report.</li>
+    <li><b>DNB Bank financial ratios</b> in the EDF-X record are dated 31 December 2023; bank-format financials to FY2025 are available through the financials tool and were not pulled for this page.</li>
+    <li><b>Context layer coverage.</b> Every node in Section 2 shows live Norsk Hydro data retrieved on 21 October 2026, with two gaps stated on the node itself: the filings service was still ingesting Hydro's annual report, and no earnings-call transcript is indexed for the entity. The news search returned six articles for the past 30 days at the significance threshold; four were about Hydro and are shown, two were unrelated and are left out. Shareholder percentages are from the Orbis register as retrieved; nominee holdings (State Street, JPMorgan, Citibank) are custodial positions, not beneficial owners. For the other nine cohort names, news, filings, ownership, directors and peers were not pulled and can be shown live in the meeting.</li>
+    <li><b>Sector outlook retrieval.</b> The sector outlook tool for DNB returned Moody's banking research across regions (US banking system outlook, US quarterly updates, Europe banks in-depth). The Europe piece is the one used here. Sector research is keyed to Moody's sector classification, not to the issuer's country, so the analyst filters for the relevant region.</li>
+    <li><b>Covered bonds.</b> Nordea Eiendomskreditt, the second-largest fixed income holding on the fund's published list, resolved in this MCP only to its registry record, which carries no public rating, and the covered bond programme could not be found as a deal or programme on 21 October 2026. Covered bond programme ratings are to be confirmed before relying on the MCP for that part of the book.</li>
+    <li><b>Macro data.</b> The Macro node draws on Moody's published research (Global Macro Outlook, regional outlooks, Moody's Analytics weekly market outlook) through the document search in this Credit MCP. Moody's economic forecast databases (country-level GDP, inflation and rate series) sit in a separate Moody's server and are not shown here.</li>
+    <li><b>Folketrygdfondet figures</b> in the opening section are from the fund's public website and a March 2026 HedgeNordic interview, not from Moody's data, and are approximate where marked.</li>
+  </ul>
+</section>
+
+</main>
+<footer>Moody's Analytics · Prepared for Folketrygdfondet · Moody's ratings are published by Moody's Ratings; EDF-X and Orbis data are provided by Moody's. This document is for discussion with the addressee and is not investment advice.</footer>
+
+<script>
+(function(){
+  // ---------- Context layer graph ----------
+  var FAM = {
+    ratings:  {name:"Moody's Ratings credit ratings and research", c:"#000080"},
+    risk:     {name:"Expected default frequency",                  c:"#c2410c"},
+    fin:      {name:"Entity financials and annual reports",        c:"#0f766e"},
+    entity:   {name:"Firmographics, hierarchies and ownership",    c:"#6d28d9"},
+    esg:      {name:"ESG and climate (Moody's Ratings)",           c:"#15803d"},
+    econ:     {name:"Economic data and research",                  c:"#0369a1"},
+    news:     {name:"News and media",                              c:"#b45309"}
+  };
+  var nodes = [
+    {id:"ratings", fam:"ratings", label:["Ratings and","outlook"],
+      what:"Current long-term rating, outlook, last action and the action history since 2000, at issuer and instrument level.",
+      items:["Baa2 long-term issuer rating, stable outlook","Last action: upgrade on 7 June 2024","Lead analyst: Maria Maslovsky","Rating record RTNG_2552"],
+      chips:["Baa2 stable","Upgrade 7 Jun 2024","Analyst: M. Maslovsky"],
+      src:"getEntityRatings, 21 Oct 2026"},
+    {id:"opinion", fam:"ratings", label:["Credit","opinion"],
+      what:"Summary, credit strengths and challenges and the outlook rationale, from the latest or any historical Moody's credit opinion.",
+      items:["30 June 2026: update to credit analysis (PBC_1488670). The Baa2 reflects a fully integrated aluminium value chain, strong market positions, a solid financial profile and a prudent financial policy.","9 June 2026: periodic review completed (PR_524947). The Middle East conflict bolsters the aluminium metal business while pressuring bauxite and alumina earnings.","Stable outlook: leverage expected to stay below 2.5x through a reasonable range of market conditions."],
+      chips:["Opinion 30 Jun 2026","Periodic review 9 Jun 2026","Integrated value chain","Prudent financial policy"],
+      src:"getCreditOpinion, searchAllDocuments"},
+    {id:"triggers", fam:"ratings", label:["Scorecard","and triggers"],
+      what:"Factors that would lead to an upgrade or a downgrade, with the quantitative thresholds, plus the methodology scorecard.",
+      items:["Upgrade: EBIT margin sustained around 10% or above, debt to EBITDA below 1.0x, RCF to debt above 40%, consistent positive free cash flow","Downgrade: RCF to debt below 25% or debt to EBITDA above 2.5x, or any weakening of the conservative financial policy"],
+      chips:["Up: debt/EBITDA < 1.0x","Down: debt/EBITDA > 2.5x","RCF/debt band 25% to 40%","EBIT margin ~10%"],
+      src:"getCreditOpinion (PBC_1488670)"},
+    {id:"pd", fam:"risk", label:["Probability","of default"],
+      what:"EDF-X one-year and five-year PD, ten-year term structure, PD-implied rating, confidence, ranked risk drivers, CDS-implied EDF and early warning category.",
+      items:["One-year PD 0.05% as of 30 September 2026, PD-implied rating Aa3 (a model output, not a Moody's rating)","Public-firm CreditEdge model on recent, good-quality inputs","Five-year cumulative PD 1.83%","CDS-implied rating A2 at a 52 bp five-year spread on 20 October 2026","Early warning category: low"],
+      chips:["1y PD 0.05%","PD-implied Aa3","CDS-implied A2, 52 bp","5y cumulative 1.83%"],
+      src:"getEntityProbabilityOfDefault, listed record NO914778271"},
+    {id:"financials", fam:"fin", label:["Financials","and ratios"],
+      what:"Statements, key indicators and ratios; Moody's adjusted and as reported for rated corporates, Orbis registry financials for the unrated universe.",
+      items:["FY2025 EBITDA margin 12.8%, EBIT margin 6.9%","EBITDA to finance costs 10.6x","Total debt to total assets 17.6%","Current ratio 1.7x, asset turnover 1.0x"],
+      chips:["EBITDA margin 12.8%","EBITDA/interest 10.6x","Debt/assets 17.6%","Current ratio 1.7x"],
+      src:"EDF-X financial record, FY2025"},
+    {id:"filings", fam:"fin", label:["Annual reports","and filings"],
+      what:"Company filings (annual, interim) and earnings-call transcripts, searched by question so the answer comes back as the relevant passages with citations.",
+      items:["Annual report: being ingested by the filings service at the time of writing (21 October 2026), so no passages are shown here","Earnings-call transcripts: none indexed for this entity at the time of writing","Moody's document library: three Hydro-linked publications in 2026 returned on an aluminium query (sector in-depth 13 March, periodic review 9 June, credit opinion 30 June)"],
+      chips:["Annual report: ingesting","Earnings calls: not indexed","3 Moody's docs in 2026"],
+      src:"searchCompanyFilings, searchAllDocuments"},
+    {id:"news", fam:"news", label:["News"],
+      what:"Entity-level news with dates and sources, filtered to articles where the issuer is significant, for the context behind a rating action or a PD move.",
+      items:["20 Oct 2026: Kepler Cheuvreux cuts its target for Norsk Hydro to NOK 81 (Ad Hoc News)","20 Oct 2026: Hydro expected to report NOK 6,894 million in operating profit, per FactSet consensus (MarketScreener)","20 Oct 2026: Hydro receives USD 8.7 million for a zero-emission aluminium technology study (Shanghai Metals Market)","19 Oct 2026: invitation to Hydro's third-quarter results 2026 (Nasdaq)"],
+      chips:["Kepler cuts target to NOK 81","Consensus EBIT NOK 6.9bn","USD 8.7m zero-emission study","Q3 results invitation"],
+      src:"searchNews, past 30 days, 4 of 6 returned articles were Hydro-specific"},
+    {id:"esg", fam:"esg", label:["ESG and","climate"],
+      what:"Credit Impact Score and E, S, G profile scores with analyst commentary; temperature alignment; scope 1, 2 and 3 emissions by year with sources.",
+      items:["CIS-3 (E-5, S-4, G-2): environmental and social risk in line with the sector, mitigated by strong governance and low leverage","Temperature alignment 1.5 degrees on scopes 1 and 2, against a 2.0 degree aluminium sector average","2025 scope 1 emissions 6.02 MtCO2e, scope 3 16.15 MtCO2e, third-party verified, from the 2025 Integrated Annual Report"],
+      chips:["CIS-3","E-5 / S-4 / G-2","1.5 degrees aligned","Scope 1: 6.0 Mt"],
+      src:"getEntityEsg"},
+    {id:"directors", fam:"entity", label:["Directors and","managers"],
+      what:"Current board and executive officers with roles, from Moody's entity data, for governance checks and management due diligence.",
+      items:["President and CEO: Eivind Kallevik","CFO and EVP: Trond Olaf Christophersen","Chair (independent): Rune Bjerke; deputy chair: Kristin Fejerskov Kragseth","Audit committee chair: Marianne Wiinholt","Business EVPs: Paul Warton (Extrusions), Hanne Simensen (Aluminium Metal), John Thuestad (Bauxite and Alumina), Kari Ekelund Thørud (Energy)"],
+      chips:["CEO: Eivind Kallevik","CFO: T. O. Christophersen","Chair: Rune Bjerke","Audit chair: M. Wiinholt"],
+      src:"getEntityManagersDirectors_v2"},
+    {id:"ownership", fam:"entity", label:["Ownership and","structure"],
+      what:"Shareholders, ultimate owners, subsidiaries and branches from Moody's entity data, so the analyst knows which entity issues the bonds and who stands behind it.",
+      items:["Shareholders: Norwegian Ministry of Trade, Industry and Fisheries 34.26%; State Street Bank and Trust 8.79% (nominee); Folketrygdfondet 6.15%; JPMorgan Chase Bank 3.63%; Citibank 3.42%","221 direct subsidiaries, 286 companies in the corporate group","Key partly owned operations: Alunorte 62% and Albras 51% (Brazil), Slovalco 55% (Slovakia), Qatalum 50% (Qatar)","Norwegian operating entities include Hydro Aluminium AS, Hydro Energi AS, Hydro Rein and Hydrovolt"],
+      chips:["Norwegian State 34.3%","Folketrygdfondet 6.15%","221 direct subsidiaries","Alunorte 62%, Albras 51%"],
+      src:"getEntityShareholders, getEntitySubsidiaries"},
+    {id:"peers", fam:"entity", label:["Peers"],
+      what:"Moody's peer set for the issuer, with each peer's rating and outlook, as the starting point for a relative value table.",
+      items:["Hyundai Steel: Baa2 stable (LT issuer rating)","BlueScope Steel: Baa2 stable (LT issuer rating)","Kaiser Aluminum: Ba3 stable (corporate family rating)","Novelis: Ba3 negative (corporate family rating)","Alcoa Corporation: in the peer set, no public rating returned"],
+      chips:["Hyundai Steel Baa2","BlueScope Baa2","Kaiser Aluminum Ba3","Novelis Ba3 neg"],
+      src:"getEntityPeers, 5 peers"},
+    {id:"sector", fam:"ratings", label:["Sector","research"],
+      what:"Moody's research on the issuer's sector: outlooks, sector in-depths and sector comments.",
+      items:["Metals and Mining, Global, 13 March 2026 (PBC_1477376): the Middle East conflict pushes aluminium prices higher, a credit positive for producers. Qatalum, 50% owned by Hydro, curtailed production to around 60% of capacity after cuts to its gas and feedstock supply.","Higher aluminium prices and regional premiums, lower alumina prices; recycling and extrusion producers downstream may face higher input costs."],
+      chips:["Aluminium: prices up on ME conflict","Qatalum at ~60% capacity","Downstream input costs up"],
+      src:"searchAllDocuments (PBC_1477376)"},
+    {id:"macro", fam:"econ", label:["Macro and","sovereign"],
+      what:"Moody's Global Macro Outlook, regional macro research, the Moody's Analytics weekly market outlook and the sovereign credit profile of the issuer's home country.",
+      items:["Government of Norway: Aaa stable (credit opinion 28 April 2026, PBC_1481545). Very large fiscal buffers and very strong institutions; challenges are declining oil and gas output, high household debt and geopolitical event risk.","Global Macro Outlook, August 2026 update (PBC_1493190): G-20 growth forecast 2.5% in 2026 and 2.6% in 2027; rising bond yields, continued energy disruptions and trade tensions keep central banks on hawkish holds","Nordics, September 2026 (PBC_1496463): GDP growth broadly resilient across the region; Sweden recovering strongly, Denmark performing well, Norway more moderate, Finland lagging; the Middle East conflict expected to have a relatively moderate impact on the Nordic countries","Weekly Market Outlook, 8 October 2026 (PBC_1499015): Swedish September CPI expected to rise to about 1% year over year, Danish inflation to 2.1%"],
+      chips:["Norway Aaa stable","G-20 growth 2.5% in 2026","Nordics resilient, Norway moderate","Weekly outlook 8 Oct 2026"],
+      src:"getEntityCountryProfile, searchAllDocuments"}
+  ];
+  // cross-references between datasets
+  var xlinks = [["pd","ratings"],["pd","financials"],["opinion","ratings"],["triggers","opinion"],["triggers","financials"],
+    ["esg","opinion"],["news","ratings"],["news","financials"],["news","directors"],["filings","financials"],["filings","news"],
+    ["directors","ownership"],["peers","ratings"],["peers","sector"],["sector","opinion"],["ownership","ratings"],["macro","sector"],["macro","opinion"],["macro","pd"]];
+  var svg = document.getElementById("spider");
+  var NS = "http://www.w3.org/2000/svg";
+  var cx = 380, cy = 320, R = 185, nr = 46;
+  function el(n, a){ var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+  var byId = {};
+  nodes.forEach(function(nd, i){
+    nd.ang = -Math.PI/2 + i * (2*Math.PI/nodes.length);
+    nd.x = cx + R*Math.cos(nd.ang); nd.y = cy + R*Math.sin(nd.ang);
+    nd.c = FAM[nd.fam].c; byId[nd.id] = nd;
+  });
+  // spokes
+  nodes.forEach(function(nd){ svg.appendChild(el("line", {x1:cx, y1:cy, x2:nd.x, y2:nd.y, "class":"spoke"})); });
+  // cross links as outward-bowing curves
+  var linkEls = [];
+  xlinks.forEach(function(pair){
+    var a = byId[pair[0]], b = byId[pair[1]];
+    var mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+    var dx = mx-cx, dy = my-cy, d = Math.sqrt(dx*dx+dy*dy) || 1;
+    var chord = Math.sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
+    var bow = R + 40 + chord*0.35;
+    var px = cx + dx/d*bow, py = cy + dy/d*bow;
+    var p = el("path", {d:"M"+a.x+","+a.y+" Q"+px+","+py+" "+b.x+","+b.y, "class":"xlink", "data-a":a.id, "data-b":b.id});
+    svg.appendChild(p); linkEls.push(p);
+  });
+  // centre
+  var c = el("g", {"class":"centre"});
+  c.appendChild(el("circle", {cx:cx, cy:cy, r:60, fill:"#000080"}));
+  var t2 = el("text", {x:cx, y:cy-2, "text-anchor":"middle", fill:"#fff", "font-size":"13", "font-weight":"700"}); t2.textContent = "Norsk Hydro ASA";
+  var t3 = el("text", {x:cx, y:cy+16, "text-anchor":"middle", fill:"#dfe4ff", "font-size":"11"}); t3.textContent = "Baa2 stable";
+  c.appendChild(t2); c.appendChild(t3);
+  svg.appendChild(c);
+  // satellites layer (drawn above links, below nodes)
+  var satLayer = el("g", {"class":"sats"}); svg.appendChild(satLayer);
+  // nodes
+  var panel = document.getElementById("ctxPanel");
+  var selected = null;
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+  function showSats(nd){
+    while (satLayer.firstChild) satLayer.removeChild(satLayer.firstChild);
+    var chips = nd.chips || [], n = chips.length;
+    var spread = Math.min(0.9, 0.3*(n-1)+0.2), rr = R + 112;
+    chips.forEach(function(txt, i){
+      var a = nd.ang + (n === 1 ? 0 : -spread/2 + i*(spread/(n-1)));
+      var x = cx + rr*Math.cos(a), y = cy + rr*Math.sin(a);
+      var w = Math.min(160, 14 + txt.length*6.1), h = 22;
+      var g = el("g", {"class":"sat", style:"--c:"+nd.c});
+      g.appendChild(el("line", {x1:nd.x + nr*Math.cos(a), y1:nd.y + nr*Math.sin(a), x2:x, y2:y}));
+      g.appendChild(el("rect", {x:x-w/2, y:y-h/2, width:w, height:h}));
+      var t = el("text", {x:x, y:y+0.5}); t.textContent = txt; g.appendChild(t);
+      satLayer.appendChild(g);
+    });
+  }
+  function select(nd, g){
+    if (selected) selected.classList.remove("sel");
+    selected = g; g.classList.add("sel");
+    svg.classList.add("dim");
+    linkEls.forEach(function(p){ p.classList.toggle("hot", p.getAttribute("data-a") === nd.id || p.getAttribute("data-b") === nd.id); });
+    svg.querySelectorAll(".node").forEach(function(x){ x.classList.remove("hot"); });
+    xlinks.forEach(function(pair){
+      if (pair[0] === nd.id) svg.querySelector('.node[data-id="'+pair[1]+'"]').classList.add("hot");
+      if (pair[1] === nd.id) svg.querySelector('.node[data-id="'+pair[0]+'"]').classList.add("hot");
+    });
+    showSats(nd);
+    var linked = xlinks.filter(function(p){ return p[0] === nd.id || p[1] === nd.id; })
+      .map(function(p){ return byId[p[0] === nd.id ? p[1] : p[0]].label.join(" "); });
+    panel.innerHTML = "<h3><i style='background:"+nd.c+"'></i>" + esc(nd.label.join(" ")) + "</h3>" +
+      "<div class='tag'>What it holds</div><p>" + esc(nd.what) + "</p>" +
+      "<div class='tag'>" + (nd.id === "macro" ? "Norway and global, retrieved 21 October 2026" : "Norsk Hydro ASA, retrieved 21 October 2026") + "</div><ul>" + nd.items.map(function(s){ return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>" +
+      "<div class='tag'>Cross-references</div><p>" + esc(linked.join(" · ")) + "</p>" +
+      "<p class='src'>Source: " + esc(nd.src) + "</p>";
+  }
+  nodes.forEach(function(nd){
+    var g = el("g", {"class":"node", "data-id":nd.id, style:"--c:"+nd.c});
+    g.appendChild(el("circle", {"class":"halo", cx:nd.x, cy:nd.y, r:nr}));
+    g.appendChild(el("circle", {"class":"core", cx:nd.x, cy:nd.y, r:nr, stroke:nd.c}));
+    nd.label.forEach(function(line, j){
+      var y = nd.y + (nd.label.length === 1 ? 4 : (j === 0 ? -3 : 11));
+      var t = el("text", {x:nd.x, y:y}); t.textContent = line; g.appendChild(t);
+    });
+    g.addEventListener("click", function(){ select(nd, g); });
+    svg.appendChild(g);
+  });
+  // legend
+  var lg = document.getElementById("ctxLegend");
+  Object.keys(FAM).forEach(function(k){
+    var s = document.createElement("span"); s.innerHTML = "<i style='background:"+FAM[k].c+"'></i>" + FAM[k].name; lg.appendChild(s);
+  });
+  select(byId["ownership"], svg.querySelector('.node[data-id="ownership"]'));
+  var s2 = document.createElement("span"); s2.innerHTML = "<span style='display:inline-block;width:18px;border-top:1px dashed #9aa3bd;vertical-align:middle;margin-right:4px'></span>cross-reference between datasets"; lg.appendChild(s2);
+
+  // ---------- Use case tabs ----------
+  var btns = document.querySelectorAll("#ucList button");
+  btns.forEach(function(b){
+    b.addEventListener("click", function(){
+      btns.forEach(function(x){ x.classList.remove("active"); });
+      document.querySelectorAll(".uc-pane").forEach(function(p){ p.classList.remove("active"); });
+      b.classList.add("active");
+      document.getElementById(b.getAttribute("data-uc")).classList.add("active");
+    });
+  });
+
+  // ---------- Nav highlight ----------
+  var links = document.querySelectorAll("nav.top a");
+  var secs = Array.prototype.map.call(links, function(a){ return document.querySelector(a.getAttribute("href")); });
+  function onScroll(){
+    var y = window.scrollY + 90, idx = 0;
+    secs.forEach(function(s, i){ if (s && s.offsetTop <= y) idx = i; });
+    links.forEach(function(a, i){ a.classList.toggle("active", i === idx); });
+  }
+  window.addEventListener("scroll", onScroll); onScroll();
+})();
+</script>
+</body>
+</html>
