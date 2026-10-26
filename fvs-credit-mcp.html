@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moody's Credit MCP for Flossbach von Storch</title>
+<style>
+:root{
+  --navy:#000080;--navy2:#0b1a6b;--ink:#14213d;--muted:#5b6478;--line:#e2e5ee;
+  --bg:#f5f6fa;--card:#ffffff;--accent:#2d6cdf;--accent2:#e9effc;
+  --amber:#b7791f;--amber2:#fbf3e3;--green:#1f7a4d;--green2:#e6f4ec;--red:#b42318;--red2:#fdeceb;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+a{color:var(--accent);text-decoration:none}
+h1,h2,h3,h4{margin:0 0 .4em;line-height:1.2}
+h2{font-size:1.6rem;color:var(--navy)}
+h3{font-size:1.1rem}
+p{margin:0 0 .8em}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 70%,#1d2f8f 100%);color:#fff;padding:40px 48px 36px}
+.brand{display:flex;align-items:center;gap:22px;margin-bottom:28px}
+.brand .moodys{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.7rem;letter-spacing:.5px}
+.brand .div{width:1px;height:40px;background:rgba(255,255,255,.45)}
+.brand .ftf{display:flex;align-items:center;gap:10px}
+.brand .ftf .mark{width:34px;height:34px;border:2px solid #fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;letter-spacing:.5px}
+.brand .ftf .name{font-size:1.15rem;font-weight:600;letter-spacing:.4px}
+.brand .ftf img{height:40px;display:none}
+.hero h1{font-size:2.2rem;max-width:900px;font-weight:650}
+.hero .sub{font-size:1.15rem;max-width:820px;opacity:.95}
+.hero .meta{font-size:.85rem;opacity:.75;margin:18px 0 0}
+nav.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);padding:0 48px;display:flex;gap:4px;overflow-x:auto}
+nav.top a{padding:12px 14px;color:var(--muted);font-size:.9rem;white-space:nowrap;border-bottom:3px solid transparent}
+nav.top a:hover,nav.top a.active{color:var(--navy);border-bottom-color:var(--navy)}
+main{max-width:1180px;margin:0 auto;padding:12px 24px 60px}
+section{padding:40px 0 10px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.kicker{font-size:.78rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px}
+.lead{font-size:1.05rem;max-width:860px;color:#2a3350}
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.card h3{color:var(--navy);font-size:1rem;margin-bottom:6px}
+.card p{font-size:.92rem;color:#2a3350;margin:0}
+.card .tool{display:inline-block;margin-top:10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;color:var(--muted);background:#f0f2f8;border-radius:4px;padding:2px 6px}
+.stat{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:10px;padding:16px 18px}
+.stat .n{font-size:1.6rem;font-weight:700;color:var(--navy);line-height:1.1}
+.stat .l{font-size:.85rem;color:var(--muted);margin-top:4px}
+.src{font-size:.75rem;color:var(--muted);margin-top:10px}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.3px}
+.b-rated{background:var(--accent2);color:var(--navy)}
+.b-nr{background:var(--amber2);color:var(--amber)}
+.b-down{background:var(--red2);color:var(--red)}
+.b-aff{background:var(--green2);color:var(--green)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:.88rem}
+th{background:#eef1f8;color:var(--navy);text-align:left;padding:10px 10px;font-weight:700;font-size:.8rem;letter-spacing:.3px}
+td{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top}
+tr.group td{background:#f8f9fc;font-weight:700;color:var(--navy);font-size:.8rem;letter-spacing:.6px;text-transform:uppercase}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.gap{color:var(--red);font-weight:700}
+/* context layer */
+.ctx{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:start}
+.ctx svg{width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+.node{cursor:pointer}
+.node circle.core{stroke-width:2;transition:all .15s;fill:#fff}
+.node circle.halo{fill:none;stroke-width:0;opacity:0}
+.node text{font-size:11.5px;fill:var(--ink);text-anchor:middle;pointer-events:none;font-weight:600}
+.node:hover circle.core,.node.sel circle.core{fill:var(--c)}
+.node:hover text,.node.sel text{fill:#fff}
+.node.sel circle.halo{stroke:var(--c);stroke-width:10;opacity:.18}
+.spoke{stroke:#d7dbe8;stroke-width:1.2}
+.xlink{fill:none;stroke:#aeb6cc;stroke-width:1.2;stroke-dasharray:3 3;opacity:.95;transition:all .15s}
+.xlink.hot{stroke:var(--navy);stroke-width:2;stroke-dasharray:none;opacity:1}
+.dim .xlink:not(.hot){opacity:.25}
+.dim .node:not(.sel):not(.hot) circle.core{opacity:.65}
+.dim .node:not(.sel):not(.hot) text{opacity:.65}
+.sat rect{fill:#fff;stroke:var(--c);stroke-width:1.2;rx:11}
+.sat text{font-size:10.5px;fill:var(--ink);text-anchor:middle;dominant-baseline:middle}
+.sat line{stroke:var(--c);stroke-width:1;stroke-dasharray:2 2}
+.sat{animation:pop .25s ease-out both}
+@keyframes pop{from{opacity:0;transform:scale(.9);transform-origin:center}to{opacity:1;transform:scale(1)}}
+.panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;min-height:420px}
+.panel h3{color:var(--navy);display:flex;align-items:center;gap:8px}
+.panel h3 i{display:inline-block;width:12px;height:12px;border-radius:50%}
+.panel .tag{font-size:.72rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin:14px 0 4px}
+.panel p{font-size:.92rem}
+.panel ul{margin:0;padding-left:18px;font-size:.9rem}
+.panel li{margin-bottom:5px}
+.panel .src{margin-top:12px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.78rem;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle;margin-right:4px}
+/* platforms */
+.plat{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 22px}
+.plat h3{color:var(--navy);font-size:1.05rem}
+.plat .tag{font-size:.72rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.tile{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#fafbfe;display:flex;align-items:center;justify-content:center;min-height:64px}
+.tile .logo{height:40px;display:flex;align-items:center;justify-content:center}
+.tile .logo img{max-height:30px;max-width:140px;display:block}
+.tile .wm{font-weight:700;color:var(--navy);font-size:.95rem;letter-spacing:.2px}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}}
+/* skills */
+.skill{display:flex;flex-direction:column;gap:6px}
+.skill .num{font-size:.75rem;color:var(--muted);font-weight:700;letter-spacing:1px}
+.skill .use{font-size:.85rem;color:var(--navy);background:var(--accent2);border-radius:6px;padding:8px 10px;margin-top:6px}
+/* use cases */
+.uc{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start}
+.uc-list{display:flex;flex-direction:column;gap:6px;position:sticky;top:60px}
+.uc-list button{text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px;padding:11px 14px;font:inherit;font-size:.92rem;cursor:pointer;color:var(--ink)}
+.uc-list button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.uc-list button small{display:block;font-size:.75rem;opacity:.75;margin-top:2px}
+.uc-pane{display:none;min-width:0}
+.uc-pane.active{display:block}
+.uc-pane .card{margin-bottom:14px}
+.flow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+.flow .box{border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.9rem;background:#fafbfe}
+.flow .box b{display:block;color:var(--navy);font-size:.78rem;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px}
+.flow .box.after{background:var(--accent2);border-color:#c9d8f7}
+.prompt{margin:12px 0 14px;border:1px dashed #9fb3e6;border-radius:8px;padding:10px 14px;background:#fbfcff;font-size:.9rem;color:#1d2a55}
+.prompt b{display:block;font-size:.72rem;letter-spacing:.8px;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.mini{font-size:.84rem}
+.mini th,.mini td{padding:7px 8px}
+.note{background:var(--amber2);border:1px solid #efd9a8;border-radius:8px;padding:10px 14px;font-size:.85rem;color:#6b4a0f}
+/* efficiency */
+.eff th:first-child,.eff td:first-child{width:22%}
+.eff td{font-size:.9rem}
+/* notes */
+.notes li{margin-bottom:8px;font-size:.9rem}
+.next{background:var(--navy);color:#fff;border-radius:10px;padding:22px 26px;margin-top:24px}
+.next h3{color:#fff}
+.next p{color:#dfe4ff;margin:0}
+footer{text-align:center;color:var(--muted);font-size:.78rem;padding:24px}
+@media (max-width:900px){
+  .g3,.g4,.g2{grid-template-columns:1fr 1fr}
+  .ctx,.uc,.flow{grid-template-columns:1fr}
+  .uc-list{position:static;flex-direction:row;flex-wrap:wrap}
+  .hero{padding:28px 20px}nav.top{padding:0 10px}
+}
+@media (max-width:600px){.g3,.g4,.g2{grid-template-columns:1fr}.hero h1{font-size:1.6rem}}
+@media print{nav.top{display:none}section{page-break-inside:avoid}.uc-pane{display:block!important}.uc-list{display:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="brand">
+    <div class="moodys">Moody's</div>
+    <div class="div"></div>
+    <div class="ftf">
+      <!-- Swap the two lines below for <img src="flossbach-von-storch-logo.svg" alt="Flossbach von Storch" style="display:block"> once you have the logo file -->
+      <div class="mark">FvS</div>
+      <div class="name">Flossbach von Storch</div>
+    </div>
+  </div>
+  <h1>Moody's Credit MCP for the fixed income team</h1>
+  <p class="sub">One context layer for the issuers in your bond book, rated and unrated, available inside the AI tools your analysts already use. Ratings, research, probability of default, market signals, financials, ownership, ESG and news on a single resolved issuer, in one request.</p>
+  <p class="meta">Prepared by Alvaro de Pastors, Moody's &nbsp;|&nbsp; October 2026 &nbsp;|&nbsp; All issuer data on this page was retrieved live from Moody's Credit MCP on 26 October 2026</p>
+</header>
+
+<nav class="top">
+  <a href="#why">Context</a>
+  <a href="#data">The data</a>
+  <a href="#context">Context layer</a>
+  <a href="#skills">Five skills</a>
+  <a href="#usecases">Use cases</a>
+</nav>
+
+<main>
+
+<!-- ============ WHY ============ -->
+<section id="why">
+  <div class="kicker">Context</div>
+  <h2>Flossbach von Storch fixed income, as published</h2>
+  <p class="lead">A benchmark-free, global bond book built on in-house research. Every issuer carries an FvS rating from the RATES process, approved by the fixed income credit committee and reviewed on quarterly results and management meetings. This document shows what Moody's holds on the issuers in that book and how it reaches the team inside its AI tools.</p>
+  <div class="grid g4">
+    <div class="stat"><div class="n">EUR 60bn</div><div class="l">Client assets under management (approx.)</div></div>
+    <div class="stat"><div class="n">Benchmark-free</div><div class="l">Absolute return approach across the bond and multi-asset funds</div></div>
+    <div class="stat"><div class="n">Global</div><div class="l">Corporates, governments, covered and inflation-linked bonds, investment grade and high yield</div></div>
+    <div class="stat"><div class="n">In-house</div><div class="l">Every issuer rated through RATES and approved by the fixed income credit committee</div></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>Where the examples come from</h3>
+    <p>In the September commentary the team noted that data-centre build-out is increasingly financed through the bond market, and that rising debt financing raises the risks. Amazon and Alphabet are the two largest corporate positions in Bond Opportunities, BMW and Volkswagen carry the auto theme, and ING and Rabobank anchor the bank exposure. Every example on this page uses names from your published holdings.</p>
+  </div>
+  <p class="src">Sources: flossbachvonstorch.de; Bond Opportunities factsheet (30 September 2026) and presentation (31 August 2026); Multiple Opportunities factsheet (30 September 2026).</p>
+</section>
+
+<!-- ============ DATA ============ -->
+<section id="data">
+  <div class="kicker">Section 1</div>
+  <h2>Moody's data inside the Credit MCP</h2>
+  <p class="lead">Moody's eight data families. Each returns data with document IDs and dates; the small tags name the MCP tools behind it.</p>
+  <div class="grid g4">
+    <div class="card"><h3>Moody's Ratings credit ratings and research</h3><p>Ratings and outlooks with history, credit opinions with upgrade and downgrade factors and scorecards, sector outlooks, methodologies, peer sets, ESG scores and climate data.</p><span class="tool">getEntityRatings · getCreditOpinion · getEntityScorecardV2 · getEntitySectorOutlook · getCreditMethodology · getEntityPeers · getEntityEsg · searchPrecisReports</span></div>
+    <div class="card"><h3>Expected default frequency</h3><p>EDF-X probability of default: one-year and five-year PD, PD-implied rating, risk drivers, CDS-implied EDF and early warning category. Public-firm model for listed names, private-firm model for the rest.</p><span class="tool">getEntityProbabilityOfDefault</span></div>
+    <div class="card"><h3>Detailed global entity financials</h3><p>Statements, key indicators and ratios. Moody's adjusted and as reported for rated issuers, bank formats for financial institutions, registry financials for unrated names.</p><span class="tool">getEntityFinancials_v2 · getEntitySegmentFinancials</span></div>
+    <div class="card"><h3>Global entity firmographics</h3><p>Legal names, identifiers (LEI, register numbers), legal form and status, industry codes, employees, directors and senior managers, shell company indicators.</p><span class="tool">getEntityProfile · getEntityManagersDirectors_v2 · getShellCompanyIndicators</span></div>
+    <div class="card"><h3>Entity hierarchies and ownership structures</h3><p>Shareholders, global ultimate owners, beneficial owners, subsidiaries and branches, across 600 million entities and 2 billion ownership links.</p><span class="tool">getEntityShareholders · getEntityUltimateOwners · getEntityBeneficiaryOwners · getEntitySubsidiaries · getEntityBranches</span></div>
+    <div class="card"><h3>Economic data and research</h3><p>Global Macro Outlook, regional macro research, Moody's Analytics weekly market outlooks and sovereign credit profiles.</p><span class="tool">searchAllDocuments · getEntityCountryProfile</span></div>
+    <div class="card"><h3>News and media</h3><p>Entity-level news with dates, sources and relevance filtering, searchable by entity, keyword and period.</p><span class="tool">searchNews</span></div>
+    <div class="card"><h3>Annual reports</h3><p>Annual and interim filings and earnings-call transcripts, searched by question, returned as the relevant passages with citations.</p><span class="tool">searchCompanyFilings · searchEntityDocuments</span></div>
+  </div>
+
+  <div class="card" style="margin-top:16px"><h3>Entity resolution and screening</h3><p>Resolve a name, ticker, LEI or register number to the right record, with alternatives shown when a group has several rated or financing entities (ING Groep and ING Bank, BMW AG and its finance vehicles, Volkswagen AG and Volkswagen International Finance). Criteria searches ("Baa-rated German residential landlords", "largest European auto manufacturers") return a list to work from.</p><span class="tool">findEntity</span></div>
+  <p class="src">Data families as listed on moodys.com. Coverage figures from the Moody's and Anthropic announcement, April 2026. Tool names are the live Moody's Credit MCP tool set as of 26 October 2026.</p>
+
+  <div class="plat">
+    <h3>Where it runs</h3>
+    <div class="tag">AI platforms</div>
+    <div class="tiles">
+      <!-- To use official logos: save each partner's logo file (SVG or PNG, from the partner's brand page) in a "logos" folder next to this file. The wordmark shows until the file is present. -->
+      <div class="tile"><div class="logo"><img src="logos/anthropic-claude.svg" alt="Claude" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">Claude</span></div></div>
+      <div class="tile"><div class="logo"><img src="logos/openai-chatgpt.svg" alt="ChatGPT" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">ChatGPT</span></div></div>
+      <div class="tile"><div class="logo"><img src="logos/microsoft-copilot.svg" alt="Microsoft Copilot" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">Microsoft Copilot</span></div></div>
+      <div class="tile"><div class="logo"><img src="logos/gemini.svg" alt="Gemini" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">Gemini</span></div></div>
+      <div class="tile"><div class="logo"><img src="logos/aws.svg" alt="AWS" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">AWS</span></div></div>
+    </div>
+    <div class="tag">Data and analytics platforms</div>
+    <div class="tiles">
+      <div class="tile"><div class="logo"><img src="logos/snowflake.svg" alt="Snowflake" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">Snowflake</span></div></div>
+      <div class="tile"><div class="logo"><img src="logos/databricks.svg" alt="Databricks" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="wm" style="display:none">Databricks</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTEXT LAYER ============ -->
+<section id="context">
+  <div class="kicker">Section 2</div>
+  <h2>The context layer: every dataset connected to one issuer, and to each other</h2>
+  <p class="lead">Each dataset is useful on its own. Together, resolved to the same issuer record and cross-referenced, they give the whole picture in one request. Click any node to see what Moody's holds on Amazon.com, Inc., every item retrieved live on 26 October 2026. Colours follow the data families in Section 1; dotted lines are cross-references between datasets.</p>
+  <div class="ctx">
+    <div>
+      <svg id="spider" viewBox="0 0 760 640" xmlns="http://www.w3.org/2000/svg" aria-label="Context layer graph"></svg>
+      <div class="legend" id="ctxLegend"></div>
+    </div>
+    <div class="panel" id="ctxPanel">
+      <h3>Amazon.com, Inc.</h3>
+      <p>Rated A1 with a stable outlook. The largest corporate line in Bond Opportunities and held in the Multi Asset funds, and the clearest case of the AI capex financed through bonds that the team wrote about in September.</p>
+      <div class="tag">What one request returns</div>
+      <ul>
+        <li>Rating, outlook and the credit opinion with its upgrade and downgrade factors</li>
+        <li>EDF-X probability of default, the CDS-implied signal and FY2025 ratios</li>
+        <li>2026 capex and debt raised, from the Q1 and Q2 filings</li>
+        <li>ESG scores and verified emissions, board and management, shareholders and subsidiaries</li>
+        <li>This week's news, Moody's peer set, hyperscaler research, the US sovereign profile and the Global Macro Outlook</li>
+      </ul>
+      <div class="tag">Try it</div>
+      <p>Select a node on the left. The small chips that appear are the actual items from the MCP.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills">
+  <div class="kicker">Section 3</div>
+  <h2>Five Moody's skills</h2>
+  <p class="lead">A skill is a shareable instruction file on the open SKILL.md standard. It tells the AI agent how to run a piece of analysis to a defined standard; the Moody's MCP servers connect it to the data. Moody's published its first five in June 2026, covering the workflows where its analytical frameworks are most concentrated.</p>
+  <div class="grid g3">
+    <div class="card skill"><span class="num">SKILL 01</span><h3>Earnings Call Summary</h3><p>Summarizes earnings call transcripts, covering revenue trends, pricing dynamics, consumer health, tariff exposure and more.</p><div class="use">For the desk: this week Alphabet and Amazon report, and BMW on 3 November. Credit-relevant lines for every corporate in the book, run across many names at once.</div></div>
+    <div class="card skill"><span class="num">SKILL 02</span><h3>Peer Analysis</h3><p>Produces an investor-grade comparison across leverage, profitability, credit quality and more.</p><div class="use">For the desk: BMW and Volkswagen against auto peers, or the hyperscalers side by side, as an input next to the RATES file.</div></div>
+    <div class="card skill"><span class="num">SKILL 03</span><h3>Public Information Book</h3><p>Builds a comprehensive dossier on a single entity, spanning financials, governance, competitive landscape and risk profile.</p><div class="use">For the desk: the first full document on an issuer with no Moody's rating, such as Pershing Square Holdings, built from Orbis financials, ownership, directors, PD and news.</div></div>
+    <div class="card skill"><span class="num">SKILL 04</span><h3>Rating Pitch</h3><p>Generates a structured pitch deck covering sector context, rating history and peer positioning.</p><div class="use">For the desk: the credit committee view on a new issuer before the FvS rating is signed off, with sector, history and peers in one deck.</div></div>
+    <div class="card skill"><span class="num">SKILL 05</span><h3>Sector Analysis</h3><p>Combines Moody's proprietary research with live market intelligence to deliver a full sector-level outlook.</p><div class="use">For the desk: the AI infrastructure and auto themes from the house view, set against Moody's sector research.</div></div>
+    <div class="card skill" style="background:var(--accent2);border-color:#c9d8f7"><span class="num">AND BEYOND</span><h3>Custom skills on the same data</h3><p>Because the standard is open, the team can write its own skills on top of the MCP: a daily rating-action alert across the 116 issuers in Bond Opportunities, a new-issue triage, or a RATES pre-fill that puts Moody's triggers next to the internal score. Moody's plans further skills in credit analysis, third-party due diligence and insurance underwriting.</p></div>
+  </div>
+  <p class="src">Skill descriptions as published by Moody's, 17 June 2026. Skills are platform-agnostic and run where Moody's MCP is connected.</p>
+</section>
+
+<!-- ============ USE CASES ============ -->
+<section id="usecases">
+  <div class="kicker">Section 4</div>
+  <h2>Use cases for the fixed income team</h2>
+  <p class="lead">Six workflows, each with a live example from twelve issuers in your published holdings and a prompt the team can type as written. Figures are as retrieved on 26 October 2026.</p>
+  <div class="uc">
+    <div class="uc-list" id="ucList">
+      <button class="active" data-uc="uc1">New issue read<small>Pre-pricing view in minutes</small></button>
+      <button data-uc="uc2">Portfolio surveillance<small>What moved in the book</small></button>
+      <button data-uc="uc3">Your rating against ours<small>Three signals per issuer</small></button>
+      <button data-uc="uc4">Banks and capital structure<small>Which entity, which class</small></button>
+      <button data-uc="uc5">Thin coverage<small>PD and financials without a rating</small></button>
+      <button data-uc="uc6">Sector view<small>AI capex and autos</small></button>
+    </div>
+    <div style="min-width:0">
+
+      <!-- UC1 -->
+      <div class="uc-pane active" id="uc1">
+        <div class="card">
+          <h3>New issue read: Amazon comes back to the bond market</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>Decide quickly whether a new deal from an existing issuer fits: where the rating stands, what would move it, how the market prices the credit and how much debt the issuer is adding.</div>
+            <div class="box after"><b>What the MCP returns</b>Rating and outlook, the opinion summary, upgrade and downgrade factors, the latest PD and CDS-implied signal and the funding figures from the filings, in one answer, each line with its Moody's document ID and date.</div>
+          </div>
+          <div class="prompt"><b>Ask it like this</b>Amazon is issuing again. Give me Moody's rating and outlook, the downgrade factors, the EDF-X PD and the CDS-implied rating with their trend this year, and how much debt Amazon has raised in 2026 from its filings. Show the source for every line.</div>
+          <h3 style="font-size:.95rem">Live example: Amazon.com, Inc. (Bond Opportunities 3.50%)</h3>
+          <div class="tw"><table class="mini">
+            <tr><th style="width:30%">Item</th><th>Moody's Credit MCP output</th></tr>
+            <tr><td>Rating</td><td><span class="badge b-rated">A1</span> senior unsecured, stable; Prime-1. Outlook changed to stable from positive in February 2026.</td></tr>
+            <tr><td>Credit opinion (24 Feb 2026)</td><td>Market leadership in online retail and cloud computing. Investment spending rising to about USD 200 billion; Moody's expects negative free cash flow in 2026, with capital investment funded from external sources to keep liquidity very strong.</td></tr>
+            <tr><td>Upgrade factors</td><td>Consistent profit growth with relatively stable margins, very strong liquidity, positive free cash flow, a robust cash and investments to debt position, conservative financial strategies.</td></tr>
+            <tr><td>Downgrade factors</td><td>Weaker operating performance, key investments not paying off, a significantly more aggressive financial strategy, RCF to debt below 50% for an extended period.</td></tr>
+            <tr><td>Probability of default (EDF-X)</td><td>One-year PD 0.03%, PD-implied rating Aa1 (30 Sep 2026, public-firm model). Five-year cumulative PD 0.42%.</td></tr>
+            <tr><td>Market signal</td><td>Five-year CDS 91 bp on 23 Oct 2026, from 35 bp at the end of January. CDS-implied rating <span class="gap">Ba1</span>, from Baa1 in January.</td></tr>
+            <tr><td>Funding in 2026</td><td>Cash capex USD 96.3bn in the first half (USD 55.6bn a year earlier). Debt proceeds USD 82.4bn in the first half, including EUR 14.5bn of euro notes in March. Moody's-adjusted debt USD 242bn at 30 June 2026, from USD 170bn at December 2025.</td></tr>
+            <tr><td>ESG</td><td>CIS-2 (E-3, S-3, G-2), against a sector median of CIS-3.</td></tr>
+          </table></div>
+          <div class="note" style="margin-top:14px">Moody's rating is A1, the EDF-X model implies Aa1 and CDS spreads imply Ba1. The MCP returns all three, dated, in the same answer, so the gap is on the table before the credit committee meets.</div>
+          <p class="src">Sources: rating record RTNG_600042665; credit opinion PBC_1472300 (24 Feb 2026); EDF-X record US911646860 as of 30 Sep 2026, CDS series to 23 Oct 2026; Amazon 10-Q Q2 2026 (p. 25, 27) and Q1 2026; Moody's sector in-depth PBC_1496534 (19 Oct 2026); ESG in Credit (6 Mar 2026).</p>
+        </div>
+      </div>
+
+      <!-- UC2 -->
+      <div class="uc-pane" id="uc2">
+        <div class="card">
+          <h3>Portfolio surveillance: what moved in your book in 2026</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>Check the issuers in the book between quarterly reviews and flag anything the credit committee should look at again.</div>
+            <div class="box after"><b>What the MCP returns</b>Rating actions, outlook changes, PD moves and new Moody's documents since the last run, with the reason from the credit opinion in the same answer. Runs as a standing request over the holdings list, daily or weekly.</div>
+          </div>
+          <div class="prompt"><b>Ask it like this</b>Take our Bond Opportunities and Multi Asset holdings. List every Moody's rating or outlook change this year, the date, and the reason from the latest credit opinion. Flag any issuer whose one-year PD rose this quarter.</div>
+          <h3 style="font-size:.95rem">Live example: six of your issuers, 2026 to date</h3>
+          <div class="tw"><table class="mini">
+            <tr><th>Issuer (your holding)</th><th>Moody's rating</th><th>Latest action</th><th>What the credit opinion says</th></tr>
+            <tr><td>BMW AG (BO 2.43%)</td><td><span class="badge b-rated">A2</span> issuer, negative</td><td><span class="badge b-down">Outlook to negative 19 Jun 2026</span></td><td>Opinion 30 Jun 2026: 2026 automotive EBIT margin guidance cut to 1% to 3%. Moody's expects an adjusted EBIT margin of 1.3% to 3.3% against about 7% commensurate with A2; downgrade if it stays below 7% or FCF stays negative.</td></tr>
+            <tr><td>ING Bank N.V. (ING Groep BO 2.40%)</td><td><span class="badge b-rated">A2</span> senior unsecured, stable</td><td><span class="badge b-down">Downgrade 21 Apr 2026</span> from A1</td><td>Opinion 7 Jul 2026: deposits Aa3 and senior A2 on a baa1 BCA, with loss-given-failure uplift and one notch of government support. ING Groep senior stays Baa1.</td></tr>
+            <tr><td>Rabobank (MAD 1.20% perpetual)</td><td><span class="badge b-rated">Aa3</span> issuer, stable</td><td><span class="badge b-down">Downgrade 21 Apr 2026</span></td><td>Same 21 April action on Dutch banking groups as ING.</td></tr>
+            <tr><td>TAG Immobilien AG (MO II 0.28% CV)</td><td><span class="badge b-rated">Baa2</span> issuer, stable</td><td><span class="badge b-aff">Upgrade 18 May 2026</span> from Baa3</td><td>Opinion 26 May 2026: solid rental growth and low vacancy in Germany and Poland, disciplined financial management, broader funding. Constraints: asset encumbrance and refinancing costs over 2026 to 2027.</td></tr>
+            <tr><td>Amazon.com, Inc. (BO 3.50%)</td><td><span class="badge b-rated">A1</span> senior unsecured, stable</td><td><span class="badge b-down">Outlook to stable from positive, Feb 2026</span></td><td>Opinion 24 Feb 2026: negative free cash flow expected in 2026, capex funded from external sources.</td></tr>
+            <tr><td>Alphabet Inc. (BO 3.14%)</td><td><span class="badge b-rated">Aa2</span> issuer, stable</td><td><span class="badge b-aff">Affirmed 30 Mar 2026</span></td><td>Opinion 9 Apr 2026: capex projected around USD 185bn in 2026 and USD 210bn in 2027, with free cash flow near break-even.</td></tr>
+          </table></div>
+          <p class="src">Sources: rating records RTNG_96038, RTNG_542100, RTNG_635600, RTNG_823445631, RTNG_600042665, RTNG_824906971; credit opinions PBC_1488472 (BMW), PBC_1480876 (ING), PBC_1483061 (TAG), PBC_1472300 (Amazon), PBC_1478011 (Alphabet). Holdings: FvS factsheets 30 Sep 2026 and semi-annual reports 31 Mar 2026. BO = Bond Opportunities, MAD = Multi Asset Defensive, MO II = Multiple Opportunities II.</p>
+        </div>
+      </div>
+
+      <!-- UC3 -->
+      <div class="uc-pane" id="uc3">
+        <div class="card">
+          <h3>Your rating against ours: three signals on every issuer</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>Before the credit committee signs off an FvS rating, see where Moody's, the default model and the market sit on the same name.</div>
+            <div class="box after"><b>What the MCP returns</b>Moody's rating next to the EDF-X PD-implied rating, the CDS-implied rating and key ratios, all on resolved records, dated and sourced. The Peer Analysis skill builds the table; refreshing it is a re-run.</div>
+          </div>
+          <div class="prompt"><b>Ask it like this</b>For our top corporate and bank holdings, put Moody's rating, the EDF-X PD-implied rating and the CDS-implied rating side by side with FY2025 margins and leverage. Flag every name where the market sits three or more notches below Moody's.</div>
+          <h3 style="font-size:.95rem">Live example: twelve of your issuers, retrieved 26 October 2026</h3>
+          <div class="tw"><table class="mini">
+            <tr><th>Issuer</th><th>Moody's rating</th><th class="num">1y PD</th><th>PD-implied</th><th class="num">5y CDS</th><th>CDS-implied</th><th class="num">EBITDA margin FY25</th><th class="num">EBITDA / finance costs</th><th class="num">Debt / assets</th></tr>
+            <tr class="group"><td colspan="9">Technology and consumer</td></tr>
+            <tr><td>Amazon.com, Inc.</td><td><span class="badge b-rated">A1</span> stable</td><td class="num">0.03%</td><td>Aa1</td><td class="num">91 bp</td><td class="gap">Ba1</td><td class="num">13.9%</td><td class="num">43.8x</td><td class="num">18.7%</td></tr>
+            <tr><td>Alphabet Inc.</td><td><span class="badge b-rated">Aa2</span> stable</td><td class="num">0.01%</td><td>Aaa</td><td class="num">81 bp</td><td class="gap">Baa3</td><td class="num">39.7%</td><td class="num">143.1x</td><td class="num">10.0%</td></tr>
+            <tr><td>Booking Holdings Inc.</td><td><span class="badge b-rated">A3</span> stable</td><td class="num">0.04%</td><td>Aa2</td><td class="num">n/a</td><td>n/a</td><td class="num">33.7%</td><td class="num">5.6x</td><td class="num">66.3%</td></tr>
+            <tr class="group"><td colspan="9">Health care and energy</td></tr>
+            <tr><td>Johnson &amp; Johnson</td><td><span class="badge b-rated">Aaa</span> stable</td><td class="num">0.01%</td><td>Aaa</td><td class="num">14 bp</td><td>Aaa</td><td class="num">35.6%</td><td class="num">34.6x</td><td class="num">24.1%</td></tr>
+            <tr><td>TotalEnergies SE</td><td><span class="badge b-rated">Aa3</span> stable</td><td class="num">0.02%</td><td>Aaa</td><td class="num">39 bp</td><td>A3</td><td class="num">21.2%</td><td class="num">13.1x</td><td class="num">21.0%</td></tr>
+            <tr class="group"><td colspan="9">Autos</td></tr>
+            <tr><td>BMW AG</td><td><span class="badge b-rated">A2</span> negative</td><td class="num">0.22%</td><td>A3</td><td class="num">72 bp</td><td class="gap">Baa3</td><td class="num">8.1%</td><td class="num">19.2x</td><td class="num">40.0%</td></tr>
+            <tr><td>Volkswagen AG</td><td><span class="badge b-rated">Baa1</span> stable</td><td class="num">0.29%</td><td>Baa2</td><td class="num">122 bp</td><td class="gap">Ba1</td><td class="num">3.9%</td><td class="num">3.9x</td><td class="num">29.5%</td></tr>
+            <tr class="group"><td colspan="9">German residential real estate</td></tr>
+            <tr><td>Vonovia SE</td><td><span class="badge b-rated">Baa1</span> stable</td><td class="num">0.42%</td><td>Baa2</td><td class="num">n/a</td><td>n/a</td><td class="num">80.9%</td><td class="num">4.2x</td><td class="num">41.8%</td></tr>
+            <tr><td>TAG Immobilien AG</td><td><span class="badge b-rated">Baa2</span> stable</td><td class="num">0.61%</td><td>Baa3</td><td class="num">n/a</td><td>n/a</td><td class="num">56.4%</td><td class="num">5.3x</td><td class="num">47.4%</td></tr>
+            <tr class="group"><td colspan="9">Banks</td></tr>
+            <tr><td>ING Groep N.V.</td><td><span class="badge b-rated">Baa1</span> stable</td><td class="num">0.31%</td><td>Baa2</td><td class="num">65 bp</td><td>Baa2</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td></tr>
+            <tr><td>Rabobank</td><td><span class="badge b-rated">Aa3</span> stable</td><td class="num">0.18%</td><td>A3</td><td class="num">n/a</td><td>n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td></tr>
+            <tr class="group"><td colspan="9">No Moody's rating</td></tr>
+            <tr><td>Pershing Square Holdings</td><td><span class="badge b-nr">Not rated</span></td><td class="num">0.60%</td><td>Baa3</td><td class="num">n/a</td><td>n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">19.0%</td></tr>
+          </table></div>
+          <div class="note" style="margin-top:14px">Highlighted: the four names where the CDS-implied rating sits three or more notches below Moody's rating. Amazon (six notches) and Alphabet (seven) are the two largest corporate lines in Bond Opportunities, and both CDS spreads have more than doubled since January.</div>
+          <p class="src">Ratings: Moody's Ratings long-term issuer or senior unsecured rating as shown in the rating record; TotalEnergies shows its senior unsecured shelf rating. PD and PD-implied: EDF-X as of 30 Sep 2026 (public-firm model; Rabobank and Pershing Square private-firm model, 1 Oct 2026). CDS-implied ratings from 5-year CDS spreads on 23 Oct 2026. PD-implied and CDS-implied ratings are model outputs, not Moody's ratings. Ratios: FY2025 from the EDF-X financial record; bank ratios are on a different basis and are left out.</p>
+        </div>
+      </div>
+
+      <!-- UC4 -->
+      <div class="uc-pane" id="uc4">
+        <div class="card">
+          <h3>Banks and capital structure: which entity, which class</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>Price HoldCo senior, OpCo senior, deposits, AT1 and covered bonds from one bank group, and know why each sits where it does.</div>
+            <div class="box after"><b>What the MCP returns</b>The rated entities in the group, the rating for each debt class, and the notching from the credit opinion: standalone assessment, loss-given-failure uplift and government support.</div>
+          </div>
+          <div class="prompt"><b>Ask it like this</b>Map ING's capital structure. Which entity issues what, how Moody's rates each class, and why ING Bank sits higher than ING Groep. Then do the same for Rabobank and tell me what the 21 April action changed.</div>
+          <h3 style="font-size:.95rem">Live example: ING (Bond Opportunities 2.40%, ING-DiBa covered bonds in Bond Defensive)</h3>
+          <div class="tw"><table class="mini">
+            <tr><th>Entity and class</th><th>Moody's rating</th><th>How Moody's gets there</th></tr>
+            <tr><td>ING Bank N.V., deposits</td><td><span class="badge b-rated">Aa3</span> stable</td><td>baa1 BCA, three notches of loss-given-failure uplift, one notch of government support (Netherlands Aaa stable).</td></tr>
+            <tr><td>ING Bank N.V., senior unsecured</td><td><span class="badge b-rated">A2</span> stable</td><td>baa1 BCA, one notch of loss-given-failure uplift, one notch of support. Downgraded from A1 on 21 Apr 2026.</td></tr>
+            <tr><td>ING Groep N.V., senior unsecured (HoldCo)</td><td><span class="badge b-rated">Baa1</span> stable</td><td>baa1 BCA with no loss-given-failure uplift and no support uplift. Affirmed 18 Nov 2025.</td></tr>
+            <tr><td>Standalone assessment</td><td>baa1 BCA</td><td>Positioned at the lower end of a baa1 to a2 scorecard range; sensitive to the TCE ratio falling below 13%.</td></tr>
+          </table></div>
+          <p class="src">Sources: rating records RTNG_542100 and RTNG_600008419; credit opinion PBC_1480876 (7 Jul 2026); Rabobank rating record RTNG_635600.</p>
+        </div>
+      </div>
+
+      <!-- UC5 -->
+      <div class="uc-pane" id="uc5">
+        <div class="card">
+          <h3>Thin coverage: a credit view where there is no Moody's rating</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>Build a view on an issuer with no agency rating, which is what the in-house rating process exists for, and have an independent default signal next to it.</div>
+            <div class="box after"><b>What the MCP returns</b>The same context layer as a rated name, minus the rating: EDF-X PD and PD-implied rating, risk drivers, registry financials and ratios, ownership, directors and news. The Public Information Book skill turns it into a dossier.</div>
+          </div>
+          <div class="prompt"><b>Ask it like this</b>Pershing Square Holdings has a 4.25% 2030 bond in Multi Asset Defensive. Confirm whether Moody's rates it, then give me the EDF-X PD and its trend, the ratios behind it, the ownership and the last 90 days of news.</div>
+          <div class="grid g2">
+            <div class="card"><h3>Pershing Square Holdings, Ltd.</h3><p><span class="badge b-nr">No public Moody's rating</span></p><p style="margin-top:8px">One-year PD <b>0.60%</b>, PD-implied Baa3, steady between 0.60% and 0.62% since June. Private-firm model on partial financials. Debt to assets 19.0%, current ratio 2.7x, return on equity 16.8% (FY2025). Early warning category: medium.</p></div>
+            <div class="card"><h3>TAG Immobilien AG</h3><p><span class="badge b-rated">Baa2 stable</span></p><p style="margin-top:8px">Held as a 0.625% 2026 convertible in Multiple Opportunities II. Resolution shows the issuer is rated: upgraded to Baa2 from Baa3 on 18 May 2026, with a credit opinion, a one-year PD of 0.61% and a PD-implied rating of Baa3.</p></div>
+          </div>
+          <div class="note" style="margin-top:14px">PD-implied ratings are outputs of the EDF-X model and are not Moody's credit ratings. They give an independent anchor on names with no agency rating; the judgement stays with the analyst and the credit committee.</div>
+          <p class="src">Sources: rating record RTNG_o161961863 confirming no public Moody's rating; EDF-X record GBGG54602 as of 1 Oct 2026; TAG rating record RTNG_823445631 and credit opinion PBC_1483061 (26 May 2026).</p>
+        </div>
+      </div>
+
+      <!-- UC6 -->
+      <div class="uc-pane" id="uc6">
+        <div class="card">
+          <h3>Sector view: the AI infrastructure and auto themes</h3>
+          <div class="flow">
+            <div class="box"><b>The task</b>Test the house themes against Moody's sector research before positioning across the bond and multi-asset funds.</div>
+            <div class="box after"><b>What the MCP returns</b>Moody's sector outlooks and in-depth research for the issuer's sector, with figures and document IDs. The Sector Analysis skill combines them with live market context into one outlook.</div>
+          </div>
+          <div class="prompt"><b>Ask it like this</b>What does Moody's say about hyperscaler capex and how it is being financed, and what is the outlook for European automakers? Give me the key numbers and the document each comes from.</div>
+          <div class="grid g2">
+            <div class="card"><h3>AI infrastructure</h3><p>Moody's forecasts capex of about USD 785bn in 2026 and nearly USD 1 trillion in 2027 for the six largest hyperscalers, funded increasingly from debt and now equity markets. Data-centre lease commitments for the six total about USD 1.2 trillion, of which more than USD 820bn have not yet commenced. Amazon led net debt issuance among large US tech at USD 76bn over the last twelve months.</p><p class="src">PBC_1490738 (22 Jul 2026); PBC_1494880 (22 Sep 2026); PBC_1496534 (19 Oct 2026).</p></div>
+            <div class="card"><h3>Autos</h3><p>Global automotive outlook negative (1 June 2026): tariffs, trade disputes and the Middle East conflict weigh on growth, with light vehicle sales about flat at 92.3 million units in 2026. Moody's sees the greatest credit pressure on European manufacturers, from tariffs, emission rules, Chinese competition and weaker China earnings. Your book holds BMW (A2 negative) and Volkswagen hybrids (Baa1 stable).</p><p class="src">PBC_1484252 (1 Jun 2026); PBC_1490072 (3 Sep 2026).</p></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="next">
+    <h3>Next step</h3>
+    <p>A short trial on Flossbach von Storch's own name list: the Bond Opportunities holdings resolved in the MCP, the surveillance run and the side-by-side table built on those names next to RATES, and a readout at the end to decide what the team keeps.</p>
+  </div>
+</section>
+
+</main>
+<footer>Moody's Analytics · Prepared for Flossbach von Storch · Moody's ratings are published by Moody's Ratings; EDF-X and Orbis data are provided by Moody's. This document is for discussion with the addressee and is not investment advice.</footer>
+
+<script>
+(function(){
+  // ---------- Context layer graph ----------
+  var FAM = {
+    ratings:  {name:"Moody's Ratings credit ratings and research", c:"#000080"},
+    risk:     {name:"Expected default frequency",                  c:"#c2410c"},
+    fin:      {name:"Entity financials and annual reports",        c:"#0f766e"},
+    entity:   {name:"Firmographics, hierarchies and ownership",    c:"#6d28d9"},
+    esg:      {name:"ESG and climate (Moody's Ratings)",           c:"#15803d"},
+    econ:     {name:"Economic data and research",                  c:"#0369a1"},
+    news:     {name:"News and media",                              c:"#b45309"}
+  };
+  var nodes = [
+    {id:"ratings", fam:"ratings", label:["Ratings and","outlook"],
+      what:"Current long-term rating, outlook, last action and the action history, at issuer and instrument level.",
+      items:["A1 senior unsecured rating, stable outlook; Prime-1 commercial paper","Outlook changed to stable from positive in February 2026","A1 assigned to new senior unsecured debt on 10 March 2026","Lead analyst: Raj Joshi","Rating record RTNG_600042665"],
+      chips:["A1 stable","Outlook to stable, Feb 2026","Analyst: R. Joshi"],
+      src:"getEntityRatings, 26 Oct 2026"},
+    {id:"opinion", fam:"ratings", label:["Credit","opinion"],
+      what:"Summary, credit strengths and challenges and the outlook rationale, from the latest or any historical Moody's credit opinion.",
+      items:["24 Feb 2026: update following the outlook change (PBC_1472300). Credit quality reflects leadership in online retail and cloud computing, with investment spending rising to about USD 200 billion.","Moody's expects negative free cash flow in 2026, with capital investment funded from external sources to keep liquidity very strong.","Stable outlook: solid credit metrics and at least strong liquidity, while operating cash flow does not fully fund the investment cycle.","Challenge: competition from larger, well-capitalised companies building out AI and cloud."],
+      chips:["Opinion 24 Feb 2026","Capex ~USD 200bn","Negative FCF in 2026","External funding"],
+      src:"getCreditOpinion (PBC_1472300)"},
+    {id:"triggers", fam:"ratings", label:["Scorecard","and triggers"],
+      what:"Factors that would lead to an upgrade or a downgrade, with the quantitative thresholds, plus the methodology scorecard.",
+      items:["Upgrade: consistent profit growth with stable margins, very strong liquidity, positive free cash flow, a robust cash and investments to debt position, conservative financial strategies","Downgrade: weaker operating performance, key investments not paying off, a significantly more aggressive financial strategy, RCF to debt below 50% for an extended period"],
+      chips:["Down: RCF/debt < 50%","Down: investments not paying off","Up: positive FCF","Up: robust cash to debt"],
+      src:"getCreditOpinion (PBC_1472300)"},
+    {id:"pd", fam:"risk", label:["Probability","of default"],
+      what:"EDF-X one-year and five-year PD, ten-year term structure, PD-implied rating, confidence, ranked risk drivers, CDS-implied EDF and early warning category.",
+      items:["One-year PD 0.03% as of 30 September 2026, PD-implied rating Aa1 (a model output, not a Moody's rating)","Public-firm CreditEdge model on recent, good-quality inputs","Five-year cumulative PD 0.42%","Five-year CDS 91 bp on 23 October 2026, from 35 bp at the end of January; CDS-implied rating Ba1, from Baa1","Early warning category: low"],
+      chips:["1y PD 0.03%","PD-implied Aa1","CDS 91 bp, from 35 bp","CDS-implied Ba1"],
+      src:"getEntityProbabilityOfDefault, record US911646860"},
+    {id:"financials", fam:"fin", label:["Financials","and ratios"],
+      what:"Statements, key indicators and ratios; Moody's adjusted and as reported for rated corporates, Orbis registry financials for the unrated universe.",
+      items:["FY2025 EBITDA margin 13.9%, EBIT margin 11.2%","EBITDA to finance costs 43.8x","Total debt to total assets 18.7%, current ratio 1.05x","Moody's-adjusted debt USD 242bn at 30 June 2026, from USD 170bn at December 2025 (PBC_1496534)"],
+      chips:["EBITDA margin 13.9%","EBITDA/interest 43.8x","Debt/assets 18.7%","Adj. debt USD 242bn"],
+      src:"EDF-X financial record FY2025; searchAllDocuments (PBC_1496534)"},
+    {id:"filings", fam:"fin", label:["Annual reports","and filings"],
+      what:"Company filings (annual, interim) and earnings-call transcripts, searched by question so the answer comes back as the relevant passages with citations.",
+      items:["Q2 2026 10-Q (p. 27): cash capex USD 96.3bn in the first half, from USD 55.6bn a year earlier","Debt proceeds USD 82.4bn in the first half of 2026; the company expects further financing in 2026","EUR 14.5bn of euro-denominated notes issued in March 2026, designated as net investment hedges","Leases not yet commenced USD 137.2bn at 30 June 2026 (p. 15)","Q4 2025 earnings-call transcript (5 Feb 2026) indexed and searchable"],
+      chips:["H1 capex USD 96.3bn","H1 debt raised USD 82.4bn","EUR 14.5bn notes, Mar 2026","Leases not yet started USD 137bn"],
+      src:"searchCompanyFilings (10-Q Q1 and Q2 2026, Q4 2025 call)"},
+    {id:"news", fam:"news", label:["News"],
+      what:"Entity-level news with dates and sources, filtered to articles where the issuer is significant, for the context behind a rating action or a PD move.",
+      items:["26 Oct 2026: Bank of America expects Amazon to beat Q3 expectations as AWS growth accelerates (Proactive Investors)","26 Oct 2026: Verizon announces an AI infrastructure deal worth more than USD 2bn with AWS (Fidelity)","26 Oct 2026: Amazon begins its largest corporate workforce reduction in years, citing AI efficiency (Kalkine Media)","26 Oct 2026: Alphabet reports Wednesday and Amazon Thursday, alongside the Fed decision (MSN)"],
+      chips:["BofA sees Q3 beat","Verizon deal with AWS","Workforce reduction","Q3 results Thursday"],
+      src:"searchNews, past 30 days, significance filter"},
+    {id:"esg", fam:"esg", label:["ESG and","climate"],
+      what:"Credit Impact Score and E, S, G profile scores with analyst commentary; temperature alignment; scope 1, 2 and 3 emissions by year with sources.",
+      items:["CIS-2 (E-3, S-3, G-2), against a sector median of CIS-3","Environmental: carbon transition exposure from a delivery fleet still mainly combustion-engine; physical climate risk low","Governance: conservative financial policy, high cash balances and moderate leverage; separate chair and CEO","2024 scope 1 emissions 15.1 MtCO2e, scope 3 50.3 MtCO2e, third-party verified, from the 2024 Sustainability Report, p. 50 and 56"],
+      chips:["CIS-2","E-3 / S-3 / G-2","Scope 1: 15.1 Mt","Verified emissions"],
+      src:"getEntityEsg"},
+    {id:"directors", fam:"entity", label:["Directors and","managers"],
+      what:"Current board and executive officers with roles, from Moody's entity data, for governance checks and management due diligence.",
+      items:["President and CEO: Andrew R. Jassy","Executive Chair and founder: Jeffrey P. Bezos","SVP and CFO: Brian T. Olsavsky","CEO, Amazon Web Services: Matthew S. Garman","Audit committee chair: Indra Nooyi"],
+      chips:["CEO: Andy Jassy","Exec. Chair: Jeff Bezos","CFO: Brian Olsavsky","AWS CEO: Matt Garman"],
+      src:"getEntityManagersDirectors_v2"},
+    {id:"ownership", fam:"entity", label:["Ownership and","structure"],
+      what:"Shareholders, ultimate owners, subsidiaries and branches from Moody's entity data, so the analyst knows which entity issues the bonds and who stands behind it.",
+      items:["Shareholders: Jeff Bezos 8.84%; The Vanguard Group 7.17%; BlackRock 5.86%; Norges Bank 1.30%; Flossbach von Storch SE 0.05%","910 direct subsidiaries, 1,475 companies in the corporate group","Key operating entities include Amazon Web Services Inc., Amazon EU S.à r.l. and Amazon Web Services EMEA SARL (Luxembourg), Whole Foods Market","Strategic stakes: Rivian 10.97%, Aurora Innovation 7.16%; preferred stock in OpenAI and Anthropic per the Q2 2026 10-Q"],
+      chips:["Bezos 8.84%","FvS SE 0.05%","910 direct subsidiaries","AWS EMEA, Luxembourg"],
+      src:"getEntityShareholders, getEntitySubsidiaries"},
+    {id:"peers", fam:"entity", label:["Peers"],
+      what:"Moody's peer set for the issuer, with each peer's rating and outlook, as the starting point for a relative value table.",
+      items:["Walmart Inc.: Aa2 stable (LT issuer rating)","Alphabet Inc.: Aa2 stable (LT issuer rating)","Costco Wholesale: Aa3 stable (senior unsecured)","Alibaba Group: A1 stable (LT issuer rating)","Oracle Corporation: Baa2 negative (senior unsecured)"],
+      chips:["Walmart Aa2","Alphabet Aa2","Costco Aa3","Oracle Baa2 neg"],
+      src:"getEntityPeers, 5 peers"},
+    {id:"sector", fam:"ratings", label:["Sector","research"],
+      what:"Moody's research on the issuer's sector: outlooks, sector in-depths and sector comments.",
+      items:["22 Jul 2026 (PBC_1490738): capex forecast of about USD 785bn in 2026 and nearly USD 1 trillion in 2027 for the six largest hyperscalers, requiring significant debt and now equity funding","22 Sep 2026 (PBC_1494880): the five largest hyperscalers disclose about USD 2.8 trillion of commitments that remain largely off balance sheet","19 Oct 2026 (PBC_1496534): Amazon led net debt issuance among large US tech at USD 76bn over the last twelve months"],
+      chips:["Capex ~USD 785bn in 2026","~USD 1tn in 2027","USD 2.8tn off balance sheet","Amazon top issuer"],
+      src:"searchAllDocuments"},
+    {id:"macro", fam:"econ", label:["Macro and","sovereign"],
+      what:"Moody's Global Macro Outlook, regional macro research, the Moody's Analytics weekly market outlook and the sovereign credit profile of the issuer's home country.",
+      items:["Government of the United States: Aa1 stable (credit opinion 22 May 2026, PBC_1483479). Exceptional economic strength and funding capacity; debt affordability declining to very weak levels.","Global Macro Outlook, August 2026 update (PBC_1493190): G-20 growth 2.5% in 2026 and 2.6% in 2027; 2026 forecast for Germany raised","FAQ on rising government bond yields, 31 Aug 2026 (PBC_1494728): 30-year US Treasury at its highest since 2007, 10-year Bund above 3.25% for the first time since 2011"],
+      chips:["US Aa1 stable","G-20 growth 2.5% in 2026","Bund 10y above 3.25%","UST 30y highest since 2007"],
+      src:"getEntityCountryProfile, searchAllDocuments"}
+  ];
+  // cross-references between datasets
+  var xlinks = [["pd","ratings"],["pd","financials"],["opinion","ratings"],["triggers","opinion"],["triggers","financials"],
+    ["esg","opinion"],["news","ratings"],["news","financials"],["news","directors"],["filings","financials"],["filings","news"],
+    ["directors","ownership"],["peers","ratings"],["peers","sector"],["sector","opinion"],["ownership","ratings"],["macro","sector"],["macro","opinion"],["macro","pd"],["filings","sector"]];
+  var svg = document.getElementById("spider");
+  var NS = "http://www.w3.org/2000/svg";
+  var cx = 380, cy = 320, R = 185, nr = 46;
+  function el(n, a){ var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+  var byId = {};
+  nodes.forEach(function(nd, i){
+    nd.ang = -Math.PI/2 + i * (2*Math.PI/nodes.length);
+    nd.x = cx + R*Math.cos(nd.ang); nd.y = cy + R*Math.sin(nd.ang);
+    nd.c = FAM[nd.fam].c; byId[nd.id] = nd;
+  });
+  nodes.forEach(function(nd){ svg.appendChild(el("line", {x1:cx, y1:cy, x2:nd.x, y2:nd.y, "class":"spoke"})); });
+  var linkEls = [];
+  xlinks.forEach(function(pair){
+    var a = byId[pair[0]], b = byId[pair[1]];
+    var mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+    var dx = mx-cx, dy = my-cy, d = Math.sqrt(dx*dx+dy*dy) || 1;
+    var chord = Math.sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
+    var bow = R + 40 + chord*0.35;
+    var px = cx + dx/d*bow, py = cy + dy/d*bow;
+    var p = el("path", {d:"M"+a.x+","+a.y+" Q"+px+","+py+" "+b.x+","+b.y, "class":"xlink", "data-a":a.id, "data-b":b.id});
+    svg.appendChild(p); linkEls.push(p);
+  });
+  var c = el("g", {"class":"centre"});
+  c.appendChild(el("circle", {cx:cx, cy:cy, r:60, fill:"#000080"}));
+  var t2 = el("text", {x:cx, y:cy-2, "text-anchor":"middle", fill:"#fff", "font-size":"13", "font-weight":"700"}); t2.textContent = "Amazon.com, Inc.";
+  var t3 = el("text", {x:cx, y:cy+16, "text-anchor":"middle", fill:"#dfe4ff", "font-size":"11"}); t3.textContent = "A1 stable";
+  c.appendChild(t2); c.appendChild(t3);
+  svg.appendChild(c);
+  var satLayer = el("g", {"class":"sats"}); svg.appendChild(satLayer);
+  var panel = document.getElementById("ctxPanel");
+  var selected = null;
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+  function showSats(nd){
+    while (satLayer.firstChild) satLayer.removeChild(satLayer.firstChild);
+    var chips = nd.chips || [], n = chips.length;
+    var spread = Math.min(0.9, 0.3*(n-1)+0.2), rr = R + 112;
+    chips.forEach(function(txt, i){
+      var a = nd.ang + (n === 1 ? 0 : -spread/2 + i*(spread/(n-1)));
+      var x = cx + rr*Math.cos(a), y = cy + rr*Math.sin(a);
+      var w = Math.min(160, 14 + txt.length*6.1), h = 22;
+      var g = el("g", {"class":"sat", style:"--c:"+nd.c});
+      g.appendChild(el("line", {x1:nd.x + nr*Math.cos(a), y1:nd.y + nr*Math.sin(a), x2:x, y2:y}));
+      g.appendChild(el("rect", {x:x-w/2, y:y-h/2, width:w, height:h}));
+      var t = el("text", {x:x, y:y+0.5}); t.textContent = txt; g.appendChild(t);
+      satLayer.appendChild(g);
+    });
+  }
+  function select(nd, g){
+    if (selected) selected.classList.remove("sel");
+    selected = g; g.classList.add("sel");
+    svg.classList.add("dim");
+    linkEls.forEach(function(p){ p.classList.toggle("hot", p.getAttribute("data-a") === nd.id || p.getAttribute("data-b") === nd.id); });
+    svg.querySelectorAll(".node").forEach(function(x){ x.classList.remove("hot"); });
+    xlinks.forEach(function(pair){
+      if (pair[0] === nd.id) svg.querySelector('.node[data-id="'+pair[1]+'"]').classList.add("hot");
+      if (pair[1] === nd.id) svg.querySelector('.node[data-id="'+pair[0]+'"]').classList.add("hot");
+    });
+    showSats(nd);
+    var linked = xlinks.filter(function(p){ return p[0] === nd.id || p[1] === nd.id; })
+      .map(function(p){ return byId[p[0] === nd.id ? p[1] : p[0]].label.join(" "); });
+    panel.innerHTML = "<h3><i style='background:"+nd.c+"'></i>" + esc(nd.label.join(" ")) + "</h3>" +
+      "<div class='tag'>What it holds</div><p>" + esc(nd.what) + "</p>" +
+      "<div class='tag'>" + (nd.id === "macro" ? "United States and global, retrieved 26 October 2026" : "Amazon.com, Inc., retrieved 26 October 2026") + "</div><ul>" + nd.items.map(function(s){ return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>" +
+      "<div class='tag'>Cross-references</div><p>" + esc(linked.join(" · ")) + "</p>" +
+      "<p class='src'>Source: " + esc(nd.src) + "</p>";
+  }
+  nodes.forEach(function(nd){
+    var g = el("g", {"class":"node", "data-id":nd.id, style:"--c:"+nd.c});
+    g.appendChild(el("circle", {"class":"halo", cx:nd.x, cy:nd.y, r:nr}));
+    g.appendChild(el("circle", {"class":"core", cx:nd.x, cy:nd.y, r:nr, stroke:nd.c}));
+    nd.label.forEach(function(line, j){
+      var y = nd.y + (nd.label.length === 1 ? 4 : (j === 0 ? -3 : 11));
+      var t = el("text", {x:nd.x, y:y}); t.textContent = line; g.appendChild(t);
+    });
+    g.addEventListener("click", function(){ select(nd, g); });
+    svg.appendChild(g);
+  });
+  var lg = document.getElementById("ctxLegend");
+  Object.keys(FAM).forEach(function(k){
+    var s = document.createElement("span"); s.innerHTML = "<i style='background:"+FAM[k].c+"'></i>" + FAM[k].name; lg.appendChild(s);
+  });
+  select(byId["pd"], svg.querySelector('.node[data-id="pd"]'));
+  var s2 = document.createElement("span"); s2.innerHTML = "<span style='display:inline-block;width:18px;border-top:1px dashed #9aa3bd;vertical-align:middle;margin-right:4px'></span>cross-reference between datasets"; lg.appendChild(s2);
+
+  // ---------- Use case tabs ----------
+  var btns = document.querySelectorAll("#ucList button");
+  btns.forEach(function(b){
+    b.addEventListener("click", function(){
+      btns.forEach(function(x){ x.classList.remove("active"); });
+      document.querySelectorAll(".uc-pane").forEach(function(p){ p.classList.remove("active"); });
+      b.classList.add("active");
+      document.getElementById(b.getAttribute("data-uc")).classList.add("active");
+    });
+  });
+
+  // ---------- Nav highlight ----------
+  var links = document.querySelectorAll("nav.top a");
+  var secs = Array.prototype.map.call(links, function(a){ return document.querySelector(a.getAttribute("href")); });
+  function onScroll(){
+    var y = window.scrollY + 90, idx = 0;
+    secs.forEach(function(s, i){ if (s && s.offsetTop <= y) idx = i; });
+    links.forEach(function(a, i){ a.classList.toggle("active", i === idx); });
+  }
+  window.addEventListener("scroll", onScroll); onScroll();
+})();
+</script>
+</body>
+</html>
