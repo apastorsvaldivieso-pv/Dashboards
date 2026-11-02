@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Competitive Intel — week ending 4 Sep 2026</title>
+<style>
+  :root{
+    --bg:#f7f6f3; --surface:#ffffff; --ink:#1b1a17; --muted:#61605c;
+    --line:#e3e1dc; --accent:#7a5cff;
+    --hi-bg:#fdeeec; --hi-ink:#8f2413; --hi-line:#e8b6ad;
+    --md-bg:#fdf4e3; --md-ink:#7a5610; --md-line:#e8d3a6;
+    --lo-bg:#eef1f5; --lo-ink:#4a5563; --lo-line:#ccd3dc;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#141413; --surface:#1e1e1c; --ink:#eeece6; --muted:#a3a099;
+      --line:#33322e; --accent:#a892ff;
+      --hi-bg:#3a1a14; --hi-ink:#ffb4a2; --hi-line:#5e2a20;
+      --md-bg:#332711; --md-ink:#f0cd88; --md-line:#54401b;
+      --lo-bg:#23272c; --lo-ink:#b3bcc7; --lo-line:#383e45;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#141413; --surface:#1e1e1c; --ink:#eeece6; --muted:#a3a099;
+    --line:#33322e; --accent:#a892ff;
+    --hi-bg:#3a1a14; --hi-ink:#ffb4a2; --hi-line:#5e2a20;
+    --md-bg:#332711; --md-ink:#f0cd88; --md-line:#54401b;
+    --lo-bg:#23272c; --lo-ink:#b3bcc7; --lo-line:#383e45;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-text-size-adjust:100%}
+  .wrap{max-width:720px;margin:0 auto;padding:20px 16px 64px}
+  header{padding:8px 0 20px;border-bottom:1px solid var(--line);margin-bottom:20px}
+  .kicker{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);font-weight:650;margin:0 0 8px}
+  h1{font-size:25px;line-height:1.2;margin:0 0 10px;letter-spacing:-.015em}
+  .window{font-size:14px;color:var(--muted);margin:0 0 16px}
+  .counts{display:flex;flex-wrap:wrap;gap:7px}
+  .pill{font-size:12px;font-weight:650;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+  .pill.hi{background:var(--hi-bg);color:var(--hi-ink);border-color:var(--hi-line)}
+  .pill.md{background:var(--md-bg);color:var(--md-ink);border-color:var(--md-line)}
+  .pill.lo{background:var(--lo-bg);color:var(--lo-ink);border-color:var(--lo-line)}
+  .correction{background:var(--hi-bg);border:1px solid var(--hi-line);border-radius:12px;padding:15px 17px;margin:0 0 24px}
+  .correction .lbl{font-size:11px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;color:var(--hi-ink);margin:0 0 7px}
+  .correction p{margin:0;font-size:14.5px}
+  h2.sec{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:650;
+    margin:30px 0 12px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+  article{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 17px;margin:0 0 14px;
+    border-left:4px solid var(--line)}
+  article.hi{border-left-color:var(--hi-ink)}
+  article.md{border-left-color:var(--md-ink)}
+  article.lo{border-left-color:var(--lo-line)}
+  .meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 9px}
+  .tag{font-size:11px;font-weight:750;letter-spacing:.07em;padding:3px 8px;border-radius:5px;border:1px solid}
+  .tag.hi{background:var(--hi-bg);color:var(--hi-ink);border-color:var(--hi-line)}
+  .tag.md{background:var(--md-bg);color:var(--md-ink);border-color:var(--md-line)}
+  .tag.lo{background:var(--lo-bg);color:var(--lo-ink);border-color:var(--lo-line)}
+  .date{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .flag{font-size:10.5px;font-weight:650;letter-spacing:.05em;color:var(--muted);border:1px dashed var(--line);padding:2px 7px;border-radius:5px}
+  h3{font-size:17px;line-height:1.3;margin:0 0 9px;letter-spacing:-.01em}
+  article p{margin:0 0 11px;font-size:14.5px}
+  .sowhat{background:var(--bg);border-radius:8px;padding:11px 12px;margin:0 0 11px;font-size:14.5px}
+  .sowhat b{color:var(--accent)}
+  .src{font-size:12.5px;margin:0;color:var(--muted)}
+  .src a{color:var(--accent);word-break:break-word}
+  .quiet{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-size:14px;color:var(--muted)}
+  .quiet b{color:var(--ink)}
+  .quiet p{margin:0 0 10px}
+  .quiet p:last-child{margin:0}
+  .close{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 17px}
+  .close p{margin:0;font-size:15px}
+  footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">Moody's · Competitive Intelligence</p>
+  <h1>Weekly Brief — week ending 4 Sep 2026</h1>
+  <p class="window">Coverage window 28 Aug – 4 Sep 2026 · ninth edition · deduped against the 25 Jul baseline and the 31 Jul, 3 Aug, 7 Aug, 14 Aug, 21 Aug, 28 Aug and 30 Aug editions</p>
+  <div class="counts">
+    <span class="pill">13 net-new items</span>
+    <span class="pill hi">6 HIGH</span>
+    <span class="pill md">5 MEDIUM</span>
+    <span class="pill lo">2 LOW</span>
+  </div>
+</header>
+
+<div class="correction">
+  <p class="lbl">Corrected edition</p>
+  <p>The first version of this brief called the week quiet. It was not. Searching by company name and date missed six items that sat in plain sight on Rogo's own news page and Model ML's own blog — plus the S&amp;P Global CapIQ spinoff report and two frontier model releases. Three HIGH items below are pre-window and previously unreported; each is flagged.</p>
+</div>
+
+<h2 class="sec">High — changes what to say in the room</h2>
+
+<article class="hi">
+  <div class="meta"><span class="tag hi">HIGH</span><span class="date">1 Sep 2026</span></div>
+  <h3>S&amp;P Global explores a multibillion-dollar spinoff of Capital IQ Pro</h3>
+  <p>Bloomberg reported S&amp;P Global is weighing a separation of Capital IQ Pro — its flagship data and research platform, carrying research on 60m+ private companies — into a standalone listed company at a possible valuation in the high single-digit billions. S&amp;P called discussions preliminary and said it may not proceed. Shares reversed an earlier loss to close up more than 3%. This is Martina Cheung's second separation in two months after Mobility Global in July, and follows the July reorganisation of Market Intelligence into Kensho Data &amp; Platforms and Enterprise Solutions.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> a standalone CapIQ would be a pure-play data competitor sized against FactSet and LSEG's data division, and it changes the multi-year conversation at BlackRock, Apollo and Ares where CapIQ sits alongside us — a business being prepared for separation gets firmer on pricing and renewal discipline, not softer, so the "S&amp;P will undercut us" line weakens; and there is a continuity question the buyer has not thought of yet, namely who owns the roadmap and the data rights post-separation, which nobody at S&amp;P can answer today. It is a report, not a deal — do not overplay it.</div>
+  <p class="src">Sources: <a href="https://finance.yahoo.com/markets/stocks/articles/p-global-shares-rise-report-184319702.html">Yahoo Finance / Investing.com</a> · <a href="https://www.bloomberg.com/news/articles/2026-09-01/s-p-weighs-multibillion-dollar-spinout-of-data-platform-capital-iq">Bloomberg (original report)</a></p>
+</article>
+
+<article class="hi">
+  <div class="meta"><span class="tag hi">HIGH</span><span class="date">1 Sep 2026</span></div>
+  <h3>Anthropic releases Claude Fable 5.1 and Mythos 5.1</h3>
+  <p>Fable 5.1 scored <strong>52.6% on Terminal-Bench-Science 0.1</strong> against 24.7% for Fable 5, 29.0% for Claude Opus 5 and 22.4% for GPT-5.6 Sol — roughly double its predecessor. Cache reads are 75% cheaper, but higher token usage means cost per task came out about 20% above Fable 5. Fable 5.1 is generally available; Mythos 5.1 is restricted to selected US organisations under an invitation-only Life Sciences Verification Program.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> our partner's model got materially better inside the window, which is the strongest evidence yet for the April Moody's–Anthropic integration story at Apollo, Ares and HPS — use the cost note honestly rather than hiding it, because "per-task cost went up" pushes the buyer straight to the question we want, which is what grounds the reasoning. The answer to "we'll just wait for the next model" is that model quality now moves faster than any procurement cycle, and the only durable asset is the licensed content the model calls.</div>
+  <p class="src">Sources: <a href="https://www.rdworldonline.com/anthropic-doubles-a-science-benchmark-score-with-fable-5-1-while-openai-says-its-astra-models-crosses-critical-cyber-threshold/">R&amp;D World</a> · <a href="https://9to5mac.com/2026/09/01/anthropic-upgrades-claude-with-new-fable-5-1-model-details-here/">9to5Mac</a></p>
+</article>
+
+<article class="hi">
+  <div class="meta"><span class="tag hi">HIGH</span><span class="date">1 &amp; 4 Sep 2026</span></div>
+  <h3>Model ML ships Fable 5.1 on day one, then benchmarks GPT-6 Astra on its own finance eval</h3>
+  <p>Model ML is a London-founded agentic operating system for financial services — Excel, PowerPoint, Outlook and firm systems, with workflows, document review, chat, grids and dashboards — running a <strong>model-agnostic architecture that routes each task to whichever model performs best</strong>. The Model ML Composite is their finance-specific evaluation: thirteen models from OpenAI, Anthropic, Google, Meta and xAI plus open-weight models from Mistral, DeepSeek, Moonshot and Z.ai, all run inside the same agent harness so only the model varies, scored by financial-services domain experts across PowerPoint and Excel creation, analytical finance, financial workflows and document retrieval, with a real dollar-per-task cost computed from published token pricing. They shipped Fable 5.1 the day it launched and had Astra benchmarked within a day.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> this is the structurally important item of the week and it cuts against how we currently tell the Anthropic story — Model ML's entire pitch is that the model is a commodity swapped per task on measured cost and performance, so at any account running it (and HSBC Asset Management is now an investor, below) "we're integrated with Claude" lands as a feature of one interchangeable component. Reframe to: the model changes every eight weeks, the licensed credit content underneath does not. Tactically, they score on dollar-per-task, so inside that harness we would be judged on token efficiency, not just answer quality.</div>
+  <p class="src">Sources: <a href="https://www.modelml.com/articles/introducing-the-model-ml-composite">Model ML — Introducing the Model ML Composite</a> · <a href="https://modelml.com/blog">Model ML blog (Astra 4 Sep, Fable 5.1 1 Sep)</a></p>
+</article>
+
+<article class="hi">
+  <div class="meta"><span class="tag hi">HIGH</span><span class="date">24 Aug 2026</span><span class="flag">PRE-WINDOW · PREVIOUSLY UNREPORTED</span></div>
+  <h3>Rogo puts Preqin's full alternatives universe inside Felix</h3>
+  <p>Felix is Rogo's agent platform, built to take a user from question to deliverable without switching systems. Preqin's alternatives universe is now queryable inside it in natural language — private equity, venture, private debt, hedge funds, real estate, infrastructure and natural resources — with fund performance, investor intelligence, manager profiles, fund terms, transactions, dry powder and ESG. Access is limited to mutual Preqin and Rogo customers and respects each firm's existing Preqin entitlements. Named use cases: deal sourcing and diligence, buyer/sponsor/LP target lists, manager due diligence, fund benchmarking, liquidity modelling, roadshow planning. Dated 24 Aug — inside the 21–28 Aug edition's window, which missed it.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> this matters more than the LSEG item below because it is BlackRock's own Preqin content being distributed through an AI-native challenger rather than through Aladdin — at Permira, Hayfin, ICG and Ares the private-markets data question is now fully commoditised at fund level, with three routes to the same content inside a workflow. Stop competing on private-markets breadth; the ground we hold is issuer- and instrument-level credit — ratings, PDs, recovery, sector benchmarks — which Preqin does not carry. Note the entitlement gating: that is the pattern to expect in our own AI licensing conversations.</div>
+  <p class="src">Sources: <a href="https://rogo.com/news/preqin-now-live-in-felix-by-rogo">Rogo — Preqin now live in Felix</a> · <a href="https://rogo.com/news">Rogo newsroom</a></p>
+</article>
+
+<article class="hi">
+  <div class="meta"><span class="tag hi">HIGH</span><span class="date">11 Aug 2026</span><span class="flag">PRE-WINDOW · PREVIOUSLY UNREPORTED</span></div>
+  <h3>HSBC Asset Management takes an equity stake in Model ML</h3>
+  <p>HSBC Asset Management invested through its flagship venture strategy; amount undisclosed. Model ML has raised over $100m to date — a $75m Series A led by FT Partners in November 2025, plus $12m seed. Founders Chaz Englander (CEO) and Arnie Englander. Named clients include Deloitte and PwC; FT Partners rolled it out firm-wide in July.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> a European asset manager did not buy an AI tool, it bought a piece of the vendor — a different level of commitment, and the clearest signal yet of where European buy-side AI budget is actually going, plus a reference customer that will get quoted at us. When it surfaces at Permira, Hayfin or ICG, do not argue against Model ML as a workflow layer; ask what independent licensed credit content sits underneath it, because they are model-agnostic and content-agnostic by design and that gap is ours to fill rather than fight.</div>
+  <p class="src">Sources: <a href="https://tech.eu/2026/08/11/hsbc-asset-management-invests-in-london-founded-model-ml/">Tech.eu</a> · <a href="https://finance.yahoo.com/technology/ai/articles/model-ml-secures-investment-hsbc-160500649.html">Yahoo Finance / Accesswire</a></p>
+</article>
+
+<article class="hi">
+  <div class="meta"><span class="tag hi">HIGH</span><span class="date">August 2026</span><span class="flag">PRE-WINDOW · PREVIOUSLY UNREPORTED</span></div>
+  <h3>LSEG puts private markets intelligence inside Workspace and Data Feeds</h3>
+  <p>Nasdaq eVestment and Preqin datasets are now accessible inside LSEG Workspace, covering private equity, private debt, real assets, infrastructure, investor intelligence, holdings and relationships, fronted by a Private Markets Dashboard spanning benchmarks, fundraising, deals, performance and investor activity. Through Data Feeds clients additionally get eVestment Market Lens (28,000+ investors, 18,000+ managers, 120,000+ key contacts) and eVestment Private Market Fund Performance, roughly 13,000 funds. Jenn Giacobbe, Head of Private Markets at LSEG, frames the coverage as bought through partnerships rather than built. <em>LSEG's page carries no day beyond "August 2026" — exact date unconfirmed.</em></p>
+  <div class="sowhat"><b>So what for Alvaro:</b> read together with the Rogo item — Preqin content now reaches European AM desks through at least three routes (Aladdin, LSEG Workspace, Rogo's Felix), so the "who owns the private-markets view inside the workflow" question is settled and it is not us; answer on ratings depth and issuer coverage, and drop breadth-of-fund-data claims that a Workspace demo will beat.</div>
+  <p class="src">Source: <a href="https://www.lseg.com/en/data-analytics/products/workspace/updates/elevate-your-private-markets-insight-with-lseg">LSEG Workspace updates</a></p>
+</article>
+
+<h2 class="sec">Medium — shifts positioning</h2>
+
+<article class="md">
+  <div class="meta"><span class="tag md">MEDIUM</span><span class="date">4 Sep 2026</span></div>
+  <h3>OpenAI releases GPT-6 Astra</h3>
+  <p>Rolling out to a limited set of organisations first, then broadly. API pricing <strong>$10 per million input tokens, $50 per million output</strong>, with a Fast Mode at double speed and double cost. Benchmarks: OSWorld 2.0 72.6% on computer use with tasks ~47% faster than its predecessor, Terminal-Bench 4.0 57.9%, GPQA Diamond 96.0%, FrontierMath Tier 4 97.6%, ARC-AGI-3 99.9%. On cyber, ExploitBench 100% and ExploitGym 42.4% — OpenAI says one configuration crosses a critical cyber threshold and access to the most advanced cyber capability is restricted at launch. Available via ChatGPT Plus/Pro/Business/Enterprise, the API, Azure and AWS Bedrock; off by default for enterprise workspaces until an admin enables it.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> the practical point is document, spreadsheet and presentation generation plus computer use — precisely the analyst workflow our buyers are automating — and published token pricing now resets the price anchor every buyer uses when weighing what our content costs inside an agent, so expect a sharper version of "the model does the analysis, why do we need the data licence".</div>
+  <p class="src">Sources: <a href="https://openai.com/index/gpt-6-astra/">OpenAI</a> · <a href="https://9to5mac.com/2026/09/04/openai-releasing-major-upgrade-to-chatgpt-and-codex-with-gpt-6-astra-details-here/">9to5Mac</a></p>
+</article>
+
+<article class="md">
+  <div class="meta"><span class="tag md">MEDIUM</span><span class="date">1 Sep 2026</span><span class="flag">SINGLE-SOURCED</span></div>
+  <h3>Rogo acquires Arvo, an AI meeting assistant for financial institutions</h3>
+  <p>Rogo's third acquisition of 2026, after Offset in March and Rivanna in August. Terms not disclosed. Sourced to Rogo's own newsroom listing — no independent trade coverage found, so treat the detail as unconfirmed beyond Rogo's site, though the pattern is clear.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> Rogo is buying its way from research assistant to full deal-workflow coverage — diligence via Rivanna, meetings via Arvo, agent architecture via Offset — which is the same surface our client-facing teams are trying to reach through the Moody's agent story, assembled faster by acquisition than we can build it; a workflow-adjacency threat, not a data threat.</div>
+  <p class="src">Source: <a href="https://rogo.com/news">Rogo newsroom</a></p>
+</article>
+
+<article class="md">
+  <div class="meta"><span class="tag md">MEDIUM</span><span class="date">11 Aug 2026</span><span class="flag">PRE-WINDOW · PREVIOUSLY UNREPORTED</span></div>
+  <h3>Rogo acquires Rivanna, an AI due-diligence intelligence layer</h3>
+  <p>Rivanna built AI for due diligence; Rogo confirmed the acquisition publicly. Terms not disclosed.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> due diligence is where private-markets clients consume credit content most heavily, so this is Rogo moving toward the workflow sitting directly on top of our data at Permira, Hayfin and Ares — worth a question in any private-markets conversation about what they use for diligence today.</div>
+  <p class="src">Sources: <a href="https://www.rivanna.ai/post/rivanna-acquired-by-rogo">Rivanna</a> · <a href="https://x.com/RogoAI/status/2087226824241598661">Rogo</a></p>
+</article>
+
+<article class="md">
+  <div class="meta"><span class="tag md">MEDIUM</span><span class="date">3 Sep 2026</span></div>
+  <h3>Clearwater Analytics: asset managers say their data is complete but not accurate</h3>
+  <p>Survey of 178 senior executives across Europe, the US and Asia — insurance asset managers, hedge funds, private credit managers and generalists — fielded March 2026. 93% treat AI integration as important or critical; 73% expect AI's role in risk management to accelerate within three years; over 80% expect AI spend up at least 50% in twelve months, 22% of them by 100–299%. The line that matters: <strong>79% call their data complete, only 56% call it accurate.</strong> Souvik Das, Clearwater CTO, on the record.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> that 79/56 gap is the cleanest third-party framing of our pitch we will get this quarter and it is the direct answer to the Model ML and Rogo items above — the constraint is not model access or workflow, it is whether the content underneath can be trusted; open with it at Apollo, Ares and HPS, and note private credit managers are explicitly in the sample so it survives a "that's a banking stat" pushback.</div>
+  <p class="src">Source: <a href="https://www.investorideas.com/news/2026/technology/09032-clearwater-analytics-ai-risk-management-research.asp">Clearwater Analytics research release</a></p>
+</article>
+
+<article class="md">
+  <div class="meta"><span class="tag md">MEDIUM</span><span class="date">31 Aug 2026</span></div>
+  <h3>WatersTechnology: "Banks should not count humans out in adoption of agentic AI"</h3>
+  <p>Commentary rather than a vendor move.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> the counter-narrative to the DBS agentic credit-memo scale-up covered on 30 Aug, useful where a client is nervous about autonomy — decision-grade data under human review, not headcount replacement.</div>
+  <p class="src">Source: <a href="https://www.waterstechnology.com/emerging-technologies/7953208/banks-should-not-count-humans-out-in-adoption-of-agentic-ai">WatersTechnology</a></p>
+</article>
+
+<h2 class="sec">Low — worth knowing</h2>
+
+<article class="lo">
+  <div class="meta"><span class="tag lo">LOW</span><span class="date">2 Sep 2026</span></div>
+  <h3>FactSet sets Q4 FY2026 earnings call for 30 September</h3>
+  <p>Quarter ended 31 August, call at 09:00 ET.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> more than a diary item now — given the CapIQ spinoff report it is the next scheduled read on how a direct competitor prices agentic and MCP access, and FactSet will be asked about a standalone CapIQ.</div>
+  <p class="src">Source: <a href="https://www.globenewswire.com/news-release/2026/09/02/3354957/7768/en/factset-schedules-fourth-quarter-2026-earnings-call.html">GlobeNewswire</a></p>
+</article>
+
+<article class="lo">
+  <div class="meta"><span class="tag lo">LOW</span><span class="date">3 Sep 2026</span></div>
+  <h3>Manuela Veloso on how banks can make their AI dreams reality</h3>
+  <p>The former JP Morgan head of AI research argues open-ended enquiry, rather than narrow task automation, unlocks the technology.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> a name to drop in an AI-strategy conversation — nothing to change.</div>
+  <p class="src">Source: <a href="https://www.waterstechnology.com/emerging-technologies/7953239/manuela-veloso-on-how-banks-can-make-their-ai-dreams-reality">WatersTechnology</a></p>
+</article>
+
+<h2 class="sec">Moody's own moves</h2>
+<div class="quiet">
+  <p>Nothing net-new in the window — the last item on the Moody's press page is still <b>"Moody's brings its decision-grade intelligence to Gemini Enterprise for Financial Services"</b> (25 Aug), already covered and already corrected as one of thirteen named launch partners.</p>
+  <p>Worth stating plainly: <b>two competitor moves this week cut directly at our positioning.</b> Model ML's model-agnostic Composite weakens "we are integrated with Anthropic" as a differentiator, and Rogo putting Preqin inside Felix closes the private-markets workflow gap from a third direction. Neither is answered by anything publicly visible on the Moody's roadmap.</p>
+</div>
+
+<h2 class="sec">Checked, nothing net-new</h2>
+<div class="quiet">
+  <p>Bloomberg (Terminal, BQuant, ASKB) · MSCI · FactSet on product · 9fin · Debtwire · BlackRock Aladdin / eFront / Preqin / Aladdin Copilot · Fitch Ratings and Fitch Solutions · Morningstar and PitchBook · Dun &amp; Bradstreet · AlphaSense · Hebbia · Perplexity Finance · Brightwave · Endex · Google Cloud.</p>
+  <p><b>Outside the window — do not re-report as new:</b> S&amp;P Global's Market Intelligence reorganisation into Kensho Data &amp; Platforms and Enterprise Solutions (6 Jul 2026); S&amp;P Global Mobility spinoff (Jul 2026); MSCI's Private Credit Factor Model (3 Sep <b>2025</b> — a year old and easy to misdate as this week); 9fin AI Chat and Research Grid (9 Jun 2026); 9fin $170m Series C at $1.3bn; Perplexity Computer for Professional Finance (6 May 2026); Anthropic Claude for Financial Services (5 May 2026); Rogo $160m Series D (29 Apr 2026); Rogo acquires Offset (13 Mar 2026); Rogo Deal Room (6 Aug 2026); Rogo–Entropia partnership (4 Aug 2026); Model ML–LSEG partnership (18 Jul 2026); Model ML MCP support (21 Jul 2026); Kensho / S&amp;P Global Plugin for Claude Cowork (24 Feb 2026); ICE acquires MarketAxess (30 Jul 2026).</p>
+  <p><b>One name trap:</b> Rogo's "Credit Center" (22 Jun 2026) is <b>not</b> a credit product — it is AI spend governance and consumption forecasting for Rogo administrators. Do not let the name mislead anyone internally.</p>
+</div>
+
+<h2 class="sec">What this changes for next week</h2>
+<div class="close">
+  <p>The private-markets data argument is over and we did not win it — Preqin content now reaches European AM desks through Aladdin, LSEG Workspace and Rogo's Felix, so at Permira, Hayfin, ICG and Ares stop selling breadth and sell issuer-level credit depth instead. The bigger adjustment is at Apollo, Ares and HPS, where "we are integrated with Anthropic" needs retiring as a headline: Model ML's Composite treats the model as a per-task commodity and HSBC Asset Management just bought equity in that thesis, so lead with the licensed content that survives every model swap and use the Clearwater 79/56 accuracy gap as the opening frame. Ask a CapIQ continuity question in any S&amp;P-overlap account — who owns the roadmap and the data rights if Capital IQ Pro is separated — because nobody at S&amp;P can answer it yet and it costs us nothing to plant. Diary 30 September for FactSet's Q4 call, now a read on both agentic pricing and the standalone-CapIQ question. And treat Rogo as an account-level competitor rather than a curiosity: three acquisitions this year and Preqin inside the product is a different company from the one we logged in July.</p>
+</div>
+
+<footer>
+  Every item was verified against a named source before inclusion; single-sourced items are flagged. <b>Method note for future runs:</b> search alone missed six of these — open rogo.com/news, modelml.com/blog, the LSEG Workspace updates page, press.spglobal.com and the Moody's press page directly every week. Prepared for Alvaro De Pastors · Moody's Analytics.
+</footer>
+
+</div>
+</body>
+</html>

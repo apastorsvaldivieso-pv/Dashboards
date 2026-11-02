@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Competitive Intel Brief — week ending 28 Aug 2026</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --ink:#14181f; --muted:#5b6470; --line:#e4e7ec;
+    --high:#c0392b; --high-bg:#fdecea; --med:#b8860b; --med-bg:#fdf6e3; --low:#3a6ea5; --low-bg:#eaf1f8;
+    --moody:#1a5e5e; --moody-bg:#e7f2f0; --accent:#0b3d91;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f1216; --card:#171b21; --ink:#e9edf2; --muted:#9aa4b1; --line:#272d36;
+      --high:#ff7a6b; --high-bg:#3a1e1b; --med:#e8c25a; --med-bg:#332a12; --low:#7bb0e0; --low-bg:#16283a;
+      --moody:#5fc7bd; --moody-bg:#12292a; --accent:#8fb4ff;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;font-size:16px;-webkit-text-size-adjust:100%}
+  .wrap{max-width:760px;margin:0 auto;padding:18px 14px 60px}
+  header.top{padding:6px 2px 14px;border-bottom:2px solid var(--line);margin-bottom:16px}
+  h1{font-size:20px;margin:0 0 6px;letter-spacing:-.2px}
+  .win{color:var(--muted);font-size:14px;margin:2px 0}
+  .counts{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .pill{font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px;border:1px solid var(--line)}
+  .pill.h{color:var(--high);background:var(--high-bg)}
+  .pill.m{color:var(--med);background:var(--med-bg)}
+  .pill.l{color:var(--low);background:var(--low-bg)}
+  .pill.mo{color:var(--moody);background:var(--moody-bg)}
+  .lead{font-size:14px;color:var(--muted);margin:14px 2px 4px}
+  .sect{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);
+    margin:26px 2px 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;margin:10px 0;
+    box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .card.h{border-left:5px solid var(--high)}
+  .card.m{border-left:5px solid var(--med)}
+  .card.l{border-left:5px solid var(--low)}
+  .card.mo{border-left:5px solid var(--moody)}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+  .tag{font-size:11px;font-weight:700;letter-spacing:.4px;padding:2px 8px;border-radius:6px}
+  .tag.h{color:var(--high);background:var(--high-bg)}
+  .tag.m{color:var(--med);background:var(--med-bg)}
+  .tag.l{color:var(--low);background:var(--low-bg)}
+  .tag.mo{color:var(--moody);background:var(--moody-bg)}
+  .co{font-weight:700;font-size:15px}
+  .date{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+  .hl{font-size:15px;font-weight:600;margin:2px 0 6px}
+  .body{font-size:14px;margin:0 0 8px}
+  .sowhat{font-size:13.5px;background:var(--bg);border-radius:8px;padding:8px 10px;margin:8px 0 2px}
+  .sowhat b{color:var(--accent)}
+  .src{font-size:12px;margin-top:8px;word-break:break-word}
+  .src a{color:var(--accent);text-decoration:none}
+  .src a:hover{text-decoration:underline}
+  .flag{font-size:11px;font-weight:700;color:var(--med);background:var(--med-bg);padding:2px 7px;border-radius:6px}
+  .checked{font-size:13px;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:12px 14px}
+  .checked p{margin:6px 0}
+  .change{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:14px}
+  footer{margin-top:26px;font-size:12px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>Competitive Intel Brief</h1>
+  <div class="win">Week ending <b>28 Aug 2026</b> · coverage window 21–28 Aug 2026</div>
+  <div class="win">Seventh edition · deduped against the 25 Jul baseline and the 31 Jul, 3 Aug, 7 Aug, 14 Aug and 21 Aug editions</div>
+  <div class="counts">
+    <span class="pill h">1 HIGH</span>
+    <span class="pill m">2 MEDIUM</span>
+    <span class="pill l">1 LOW</span>
+    <span class="pill mo">1 Moody's own move</span>
+  </div>
+  <p class="lead">Two threads this week, both about proprietary data climbing inside the hyperscalers' agentic assistants. Google Cloud launched Gemini Enterprise for Financial Services with Moody's as a launch partner via its Credit MCP server — Moody's own move, and a direct answer to S&amp;P's earlier push into Microsoft 365 Copilot, which no prior edition caught and which I'm surfacing now. AlphaSense took the only Leader spot in Forrester's new Wave. One unconfirmed corporate item (Nvidia–Perplexity) rounds it out. Honest read: a positioning week, not a firefighting one.</p>
+</header>
+
+<div class="sect">HIGH — changes what to say in the room</div>
+
+<div class="card h">
+  <div class="row"><span class="tag h">HIGH</span><span class="co">S&amp;P Global × Microsoft</span><span class="date">12 Aug 2026</span></div>
+  <div class="row"><span class="flag">PRE-WINDOW · previously unreported</span></div>
+  <div class="hl">S&amp;P embeds Essential Intelligence directly into Microsoft 365 Copilot workflows and agentic experiences</div>
+  <p class="body">S&amp;P Global expanded its Microsoft collaboration to pipe its AI-ready data, insights and analytics — including Capital IQ Pro content and Kensho AI Data Portal capabilities, with Excel connectors and agentic plugins — natively into Microsoft 365 Copilot. It's delivered through the newly formed Kensho Data &amp; Platforms vertical. Dated 12 Aug, so strictly before this window, but the 7–14 and 14–21 editions both logged S&amp;P as "no window press" and missed it; it's on the bullseye, so I'm surfacing it rather than leaving it buried.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> this is the same "data-in-the-agent, not the desktop" distribution play Moody's runs with its own April Microsoft 365 Copilot integration — expect S&amp;P to claim the Copilot beachhead in any BlackRock, Apollo or Ares seat where you both sit. The counter is that Moody's decision-grade credit content is now available in <i>both</i> agentic stacks — Microsoft Copilot (April) <i>and</i> Google's Gemini Enterprise (25 Aug, below) — so the buyer never has to bet on one assistant winning.</p>
+  <div class="src"><b>Sources:</b>
+    <a href="https://press.spglobal.com/2026-08-12-S-P-Global-Expands-Collaboration-with-Microsoft,-Brings-Breadth-of-Essential-Intelligence-to-Microsoft-365-Copilot">S&amp;P Global press release (12 Aug)</a> ·
+    <a href="https://a-teaminsight.com/briefs/sp-global-expands-collaboration-with-microsoft-to-integrate-ai-data-into-microsoft-365-copilot/">A-Team Insight</a>
+  </div>
+</div>
+
+<div class="sect">MEDIUM — context that shifts positioning</div>
+
+<div class="card m">
+  <div class="row"><span class="tag m">MEDIUM</span><span class="co">Google Cloud — Gemini Enterprise for Financial Services</span><span class="date">25 Aug 2026</span></div>
+  <div class="hl">Google Cloud launches a verticalised agentic platform for finance; Deutsche Bank and CME Group among first adopters</div>
+  <p class="body">Google Cloud launched Gemini Enterprise for Financial Services, a finance-specific agentic environment, naming Deutsche Bank and CME Group among first adopters and a roster of data launch partners — Moody's among them (see Moody's own moves). It is the third hyperscaler-grade agentic workspace competing for the buy-side seat alongside Microsoft 365 Copilot and Anthropic's Claude/Cowork.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> reinforces the line to carry into every European-AM AI conversation — the desktop is losing to the agent, and the only durable question is whose data an agent calls. Moody's being a named launch partner is a concrete proof point for BlackRock, Apollo and Ares: "our content is already callable in the stack you're evaluating, whichever one you pick."</p>
+  <div class="src"><b>Sources:</b>
+    <a href="https://www.googlecloudpresscorner.com/2026-08-25-Google-Cloud-Launches-Gemini-Enterprise-for-Financial-Services">Google Cloud press (25 Aug)</a> ·
+    <a href="https://finance.biggo.com/news/7055c8ce-1374-40b0-ae8a-29819f60b3f7">BigGo Finance (Deutsche Bank / CME)</a>
+  </div>
+</div>
+
+<div class="card m">
+  <div class="row"><span class="tag m">MEDIUM</span><span class="co">AlphaSense</span><span class="date">27 Aug 2026</span></div>
+  <div class="hl">Named the only Leader in Forrester Wave: Market &amp; Competitive Intelligence Platforms, Q3 2026; discloses $700M+ ARR</div>
+  <p class="body">AlphaSense was the sole Leader in the new Forrester Wave, top scores in 14 of 29 criteria (LLMs/GenAI, AI agents, accuracy, security, innovation). It leaned hard on "decision-grade AI" language — fully cited, traceable, verifiable, auditable outputs — and disclosed surpassing $700M ARR in Q2 2026 across 7,800 customers, with 90%+ of research projects now run by agents. Follows its June $350M raise (already on file).</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> "decision-grade, cited, auditable" is the exact phrase Moody's owns — AlphaSense is now marketing on Moody's turf. When AlphaSense surfaces in a research-tooling conversation at a European AM, differentiate on <i>proprietary</i> credit content (ratings, PDs, ownership, adverse media, sector benchmarks) versus their aggregation-plus-expert-call library; they synthesise the market's documents, Moody's supplies the independent credit view underneath.</p>
+  <div class="src"><b>Sources:</b>
+    <a href="https://www.globenewswire.com/news-release/2026/08/27/3352129/0/en/alphasense-named-the-only-leader-in-market-and-competitive-intelligence-platforms-by-independent-research-firm.html">AlphaSense / GlobeNewswire (27 Aug)</a>
+  </div>
+</div>
+
+<div class="sect">LOW — worth knowing, no action</div>
+
+<div class="card l">
+  <div class="row"><span class="tag l">LOW</span><span class="co">Nvidia × Perplexity</span><span class="date">23 Aug 2026</span></div>
+  <div class="hl">Nvidia reportedly in talks to invest in Perplexity at a $30B+ valuation <span style="font-weight:400;color:var(--muted)">(unconfirmed)</span></div>
+  <p class="body">The Information reported Nvidia is discussing an investment in Perplexity at a valuation above $30B. Unconfirmed by either party and corporate rather than a finance-product move, but it signals the war-chest behind Perplexity's Finance push.</p>
+  <div class="sowhat"><b>So what for Alvaro:</b> no action — a watch item on Perplexity Finance's staying power; if a European AM raises Perplexity as a cheap research alternative, note it is a horizontal search layer, not a credit-data source.</p>
+  <div class="src"><b>Sources:</b>
+    <a href="https://finance.yahoo.com/technology/ai/articles/nvidia-30b-perplexity-bet-extends-093340421.html">Yahoo Finance / The Information (23 Aug)</a>
+  </div>
+</div>
+
+<div class="sect">Moody's own moves — same-view read</div>
+
+<div class="card mo">
+  <div class="row"><span class="tag mo">MOODY'S</span><span class="co">Moody's × Google Cloud Gemini Enterprise</span><span class="date">25 Aug 2026</span></div>
+  <div class="hl">Moody's is a launch partner for Gemini Enterprise for Financial Services, delivered via its Credit MCP server</div>
+  <p class="body">Moody's connected intelligence — Moody's Ratings credit ratings and research, plus curated company, entity and risk data — is now available natively inside Google Cloud's Gemini Enterprise for Financial Services, accessed through the Moody's Credit Model Context Protocol (MCP) server. Professionals can ground AI research across credit analysis, counterparty assessment, entity screening and market research without leaving the platform.</p>
+  <div class="sowhat"><b>Same-view read:</b> this directly answers S&amp;P-into-Microsoft-Copilot (above). Moody's is now the credit-data launch partner in two hyperscaler agentic stacks — Microsoft (April) and Google (Aug) — while S&amp;P is visible in one. The talking point writes itself: Moody's is the neutral credit layer no matter which enterprise assistant an AM standardises on. Keep the MCP / data-licensing story first and crisp in the room.</p>
+  <div class="src"><b>Sources:</b>
+    <a href="https://www.moodys.com/web/en/us/media-relations/press-releases/moodys-brings-its-decision-grade-intelligence-to-gemini-enterprise-for-financial-services.html">Moody's press release (25 Aug)</a> ·
+    <a href="https://investingnews.com/moody-s-brings-its-decision-grade-intelligence-to-gemini-enterprise-for-financial-services/">Investing News Network</a>
+  </div>
+</div>
+
+<div class="sect">Checked — nothing net-new inside 21–28 Aug</div>
+<div class="checked">
+  <p><b>Bloomberg</b> — no net-new Terminal / BQuant / ASKB news; ASKB agentic launch was Feb.</p>
+  <p><b>MSCI</b> — only the routine 12 Aug index review; UBS private-markets partnership was Jul.</p>
+  <p><b>FactSet</b> — Q3 FY26 earnings and AI-for-Banking alpha / Finster AI are pre-window; the 11–12 Aug MCP material was thought-leadership, noted 14 Aug.</p>
+  <p><b>9fin</b> — AI Chat &amp; Research Grid launched 9 Jun; $170M Series C was Mar. Nothing in window.</p>
+  <p><b>Debtwire</b> — nothing net-new in window.</p>
+  <p><b>BlackRock Aladdin / eFront / Preqin</b> — no window product press; Preqin private-credit / benchmarks expansion May–Jul, Hebbia-Aladdin integration Dec 2025.</p>
+  <p><b>Fitch Ratings</b> — nothing net-new; record 6% private-credit default print covered 7 Aug.</p>
+  <p><b>LSEG</b> — nothing in window; H1 results and Workspace/Copilot/MCP detail covered 3 Aug.</p>
+  <p><b>Morningstar / PitchBook</b> — nothing net-new; Lumonic MCP GA covered 14 Aug.</p>
+  <p><b>Dun &amp; Bradstreet</b> — nothing net-new; nCino headless alliance covered 14 Aug.</p>
+  <p><b>Rogo / Hebbia</b> — no new commercial event; Rogo/Rivanna covered 14 Aug.</p>
+  <p><b>Anthropic / OpenAI</b> — no new FS-specific product in window; Sonnet 5 pricing + Compliance API covered 14 Aug, Blackstone "Ode" JV and finance agents in May.</p>
+  <p><b>Perplexity Finance / Brightwave / Endex / Ellis</b> — no net-new FS product; Nvidia–Perplexity talks noted above as LOW; Ellis stealth launch covered 3 Aug.</p>
+</div>
+
+<div class="sect">What this changes for next week</div>
+<div class="change">
+  The week's theme is that the fight has moved inside the hyperscalers' agentic assistants, and Moody's is winning distribution there — walk into BlackRock, Apollo and Ares able to say Moody's credit content is a launch partner in both Microsoft 365 Copilot and Google's new Gemini Enterprise for Financial Services, so they never have to bet on one assistant. Use the S&amp;P-into-Copilot move as the reason to lead with that "neutral credit layer in every stack" line before S&amp;P frames the Copilot seat as theirs. When AlphaSense comes up in any European-AM research-tooling conversation, meet its "decision-grade, cited, auditable" pitch head-on and pivot to proprietary credit, PD and ownership data it does not hold. Nothing this week forces a move on a live deal; the job is positioning. Keep last week's threads warm — Rogo/Felix diligence, Lumonic covenant monitoring and the NVIDIA-consortium AI-infra credit exposures at Apollo and BlackRock still need Moody's independent view underneath.
+</div>
+
+<footer>Generated 28 Aug 2026 · atomic-search verified · unconfirmed items flagged · sources linked on every item</footer>
+
+</div>
+</body>
+</html>

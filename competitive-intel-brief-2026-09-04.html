@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Competitive Intel Brief — week ending 04 Sep 2026</title>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#f6f7f9; --card:#ffffff; --ink:#14181f; --muted:#5b6572; --line:#e2e6eb;
+  --high:#b3261e; --high-bg:#fdecea; --med:#8a5a00; --med-bg:#fdf3e2; --low:#2c5f4a; --low-bg:#e9f3ee;
+  --moody:#1b4c8c; --moody-bg:#e8f0fa; --accent:#1b4c8c;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f1216; --card:#171b21; --ink:#e9edf2; --muted:#9aa5b1; --line:#262c34;
+    --high:#ff8a80; --high-bg:#2b1614; --med:#f0c069; --med-bg:#2a2113; --low:#8fd3b4; --low-bg:#122019;
+    --moody:#8fb6e8; --moody-bg:#111c2b; --accent:#8fb6e8;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-text-size-adjust:100%;}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+header{border-bottom:2px solid var(--accent);padding-bottom:14px;margin-bottom:20px}
+h1{font-size:21px;line-height:1.25;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:13.5px;margin:0}
+.counts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pill{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  padding:5px 10px;border-radius:999px;border:1px solid var(--line)}
+.p-high{color:var(--high);background:var(--high-bg);border-color:transparent}
+.p-med{color:var(--med);background:var(--med-bg);border-color:transparent}
+.p-low{color:var(--low);background:var(--low-bg);border-color:transparent}
+.p-tot{color:var(--muted);background:transparent}
+.callout{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);
+  border-radius:8px;padding:14px 16px;margin:0 0 24px;font-size:14.5px;color:var(--muted)}
+.callout strong{color:var(--ink)}
+h2{font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+  margin:30px 0 12px;font-weight:700}
+.item{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:16px;margin-bottom:14px}
+.item-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.badge{font-size:11px;font-weight:800;letter-spacing:.06em;padding:3px 8px;border-radius:4px}
+.b-high{color:var(--high);background:var(--high-bg)}
+.b-med{color:var(--med);background:var(--med-bg)}
+.b-low{color:var(--low);background:var(--low-bg)}
+.b-moody{color:var(--moody);background:var(--moody-bg)}
+.date{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.co{font-size:16.5px;font-weight:700;margin:0 0 6px;letter-spacing:-.01em}
+.item p{margin:0 0 10px;font-size:15px}
+.sowhat{font-size:14.5px;border-top:1px dashed var(--line);padding-top:10px;margin-top:12px !important;color:var(--ink)}
+.sowhat b{color:var(--accent)}
+.flag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;
+  color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:2px 6px;margin-left:2px}
+a{color:var(--accent)}
+.src{font-size:13px;color:var(--muted);margin-top:10px}
+.src a{word-break:break-word}
+.quiet{background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:16px;
+  font-size:14.5px;color:var(--muted)}
+.quiet b{color:var(--ink)}
+.close{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:8px}
+.close p{margin:0;font-size:15px}
+footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Competitive Intel Brief — week ending 04 Sep 2026</h1>
+  <p class="sub">Coverage window: 28 Aug – 4 Sep 2026 · Ninth edition · Deduped against the 25 Jul baseline and the 31 Jul, 3 Aug, 7 Aug, 14 Aug, 21 Aug, 28 Aug and 30 Aug editions</p>
+  <div class="counts">
+    <span class="pill p-tot">4 net-new items</span>
+    <span class="pill p-high">1 High</span>
+    <span class="pill p-med">1 Medium</span>
+    <span class="pill p-low">2 Low</span>
+  </div>
+</header>
+
+<div class="callout">
+  <strong>The week was quiet.</strong> Nothing net-new was verified from S&amp;P Global, Bloomberg, MSCI, FactSet (product), 9fin, Debtwire, BlackRock Aladdin / eFront / Preqin, Fitch, Morningstar / PitchBook, Dun &amp; Bradstreet, AlphaSense, Rogo, Hebbia, Perplexity Finance, Brightwave, Endex, Anthropic, OpenAI or Google Cloud inside the window. The late-August burst — Gemini Enterprise for Financial Services, D&amp;B×Perplexity, Claudeforce — was the news; this week is the digestion. One previously-unreported August item is carried in because prior editions missed it and it lands squarely on the private-markets beat.
+</div>
+
+<h2>LSEG</h2>
+
+<div class="item">
+  <div class="item-top">
+    <span class="badge b-high">HIGH</span>
+    <span class="date">August 2026 <span class="flag">PRE-WINDOW · PREVIOUSLY UNREPORTED</span></span>
+  </div>
+  <p class="co">Private markets intelligence goes live inside Workspace — Nasdaq eVestment and Preqin data, side by side</p>
+  <p>LSEG has put private markets data directly into Workspace and Data Feeds. Both Nasdaq eVestment and Preqin datasets are now accessible in Workspace, spanning private equity, private debt, real assets, infrastructure, investor intelligence, holdings and relationships, fronted by a Private Markets Dashboard covering benchmarks, fundraising, deals, performance and investor activity. Through Data Feeds, clients also get eVestment Market Lens (28,000+ investors, 18,000+ managers, 120,000+ key contacts) and eVestment Private Market Fund Performance (~13,000 funds across PE, private debt and real assets). Jenn Giacobbe, Head of Private Markets at LSEG, frames it as broader coverage through "strategic partnerships" rather than build.</p>
+  <p>The page carries no precise publication date beyond "August 2026" — treat the day as unconfirmed; the substance is on LSEG's own site and is not in dispute.</p>
+  <p class="sowhat"><b>So what for Alvaro:</b> LSEG is now distributing Preqin content into the same European AM desks that BlackRock is trying to lock into Aladdin — which means the "who owns the private-markets view in the workflow" question is live at Permira, Hayfin and ICG next week, and the line that no incumbent has a unified private-markets picture inside the terminal no longer survives contact with a Workspace demo.</p>
+  <p class="src">Source: <a href="https://www.lseg.com/en/data-analytics/products/workspace/updates/elevate-your-private-markets-insight-with-lseg">LSEG Workspace updates — Elevate Your Private Markets Insight with LSEG</a></p>
+</div>
+
+<h2>Trade press — agentic AI in financial services</h2>
+
+<div class="item">
+  <div class="item-top">
+    <span class="badge b-med">MEDIUM</span>
+    <span class="date">31 Aug 2026</span>
+  </div>
+  <p class="co">WatersTechnology: "Banks should not count humans out in adoption of agentic AI"</p>
+  <p>Trade-press piece arguing that human oversight remains structurally necessary as banks scale agentic deployments — commentary rather than a vendor move, but it is the register the market is now speaking in.</p>
+  <p class="sowhat"><b>So what for Alvaro:</b> This is the counter-narrative to the DBS scale-up covered on 30 Aug, and it is useful ammunition in any room where a client is nervous about autonomy — the pitch is decision-grade data under human review, not headcount replacement.</p>
+  <p class="src">Source: <a href="https://www.waterstechnology.com/emerging-technologies/7953208/banks-should-not-count-humans-out-in-adoption-of-agentic-ai">WatersTechnology</a></p>
+</div>
+
+<div class="item">
+  <div class="item-top">
+    <span class="badge b-low">LOW</span>
+    <span class="date">03 Sep 2026</span>
+  </div>
+  <p class="co">WatersTechnology: Manuela Veloso on how banks can make their AI dreams reality</p>
+  <p>The former JP Morgan head of AI research argues open-ended enquiry, rather than narrow task automation, is what unlocks the technology's full potential.</p>
+  <p class="sowhat"><b>So what for Alvaro:</b> Worth knowing as a name-drop in an AI-strategy conversation; no deal impact and nothing to change in the pitch.</p>
+  <p class="src">Source: <a href="https://www.waterstechnology.com/emerging-technologies/7953239/manuela-veloso-on-how-banks-can-make-their-ai-dreams-reality">WatersTechnology</a></p>
+</div>
+
+<h2>FactSet</h2>
+
+<div class="item">
+  <div class="item-top">
+    <span class="badge b-low">LOW</span>
+    <span class="date">02 Sep 2026</span>
+  </div>
+  <p class="co">Q4 FY2026 results scheduled for 30 September</p>
+  <p>FactSet confirmed it will report fourth-quarter fiscal 2026 results (quarter ended 31 August 2026) on 30 September 2026, with a call at 09:00 ET. Diary item only — no product, pricing or client news.</p>
+  <p class="sowhat"><b>So what for Alvaro:</b> Put 30 September in the diary — FactSet's AI commentary and any pricing or packaging change will surface on that call, and it is the next scheduled read on how a direct competitor is monetising MCP and agentic access.</p>
+  <p class="src">Source: <a href="https://www.globenewswire.com/news-release/2026/09/02/3354957/7768/en/factset-schedules-fourth-quarter-2026-earnings-call.html">GlobeNewswire</a></p>
+</div>
+
+<h2>Moody's own moves</h2>
+
+<div class="quiet">
+  <b>Nothing net-new in the window.</b> The last item on Moody's press page remains <em>Moody's brings its decision-grade intelligence to Gemini Enterprise for Financial Services</em> (25 Aug 2026), already covered and already corrected — Moody's is one of thirteen named data launch partners, alongside S&amp;P Global, LSEG, MSCI, PitchBook, FactSet and Dun &amp; Bradstreet, not a uniquely positioned one. No competitor move this week directly answers or pre-empts a Moody's move.
+</div>
+
+<h2>Checked, nothing net-new (28 Aug – 4 Sep)</h2>
+
+<div class="quiet">
+  S&amp;P Global Market Intelligence / Kensho · Bloomberg (Terminal, BQuant, ASKB) · MSCI · FactSet (product) · 9fin · Debtwire · BlackRock Aladdin, eFront, Preqin, Aladdin Copilot · Fitch Ratings / Fitch Solutions · Morningstar and PitchBook · Dun &amp; Bradstreet · AlphaSense · Rogo · Hebbia · Perplexity Finance · Brightwave · Endex · Anthropic · OpenAI · Google Cloud.
+  <br><br>
+  Two items surfaced in searching but fall outside the window and outside the ledger's remit: the Kensho S&amp;P Global Plugin for Claude Cowork (24 Feb 2026) and ICE's $6bn acquisition of MarketAxess (30 Jul 2026). Neither is this week's news; the ICE deal is flagged here only so a future run does not treat it as new.
+</div>
+
+<h2>What this changes for next week</h2>
+
+<div class="close">
+  <p>Very little, and that is worth saying plainly rather than padding. The one thing to act on is LSEG: private markets intelligence now sits inside Workspace with Preqin and eVestment content behind it, so at Permira, Hayfin and ICG the question is no longer whether a competitor can show a private-markets view in the workflow but whose view is credit-grade. Expect that to come up as an objection rather than a request, and answer it on ratings depth and issuer coverage rather than on breadth of fund data, where LSEG now looks strong. Nothing else this week changes what to say in the room. Diary 30 September for FactSet's Q4 call, which is the next scheduled competitor disclosure that could move positioning.</p>
+</div>
+
+<footer>
+  Compiled 4 September 2026 · Coverage window 28 Aug – 4 Sep 2026 · Every item verified against a named source. Ratings assess impact on selling Moody's data, analytics and agentic solutions into European asset management.
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competitive Intel Brief — week ending 21 Aug 2026</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --ink: #1a1d23;
+    --muted: #5c636e;
+    --line: #e3e6ea;
+    --high: #c0392b;
+    --high-bg: #fdecea;
+    --med: #b8860b;
+    --med-bg: #fdf5e3;
+    --low: #2c6e8f;
+    --low-bg: #e9f2f7;
+    --accent: #0b3d5c;
+    --link: #1558a8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14171c;
+      --card: #1d2127;
+      --ink: #e8eaed;
+      --muted: #9aa2ad;
+      --line: #2c313a;
+      --high: #ff6b5e;
+      --high-bg: #3a1f1c;
+      --med: #e6b84d;
+      --med-bg: #352c17;
+      --low: #6cb6d6;
+      --low-bg: #16303c;
+      --accent: #8fc4e0;
+      --link: #6db3f2;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 18px 14px 60px; }
+  header.top {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+  }
+  h1 { font-size: 1.32rem; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .window { color: var(--muted); font-size: 0.9rem; margin: 2px 0; }
+  .counts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .pill {
+    font-size: 0.78rem; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--muted);
+  }
+  .pill.big { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .lede {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 22px; font-size: 0.95rem;
+  }
+  .lede strong { color: var(--accent); }
+  h2.company {
+    font-size: 1.02rem; margin: 26px 0 10px; padding-bottom: 6px;
+    border-bottom: 1px solid var(--line); letter-spacing: 0.01em;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-left-width: 5px; border-radius: 10px;
+    padding: 13px 15px; margin-bottom: 14px;
+  }
+  .card.HIGH { border-left-color: var(--high); }
+  .card.MEDIUM { border-left-color: var(--med); }
+  .card.LOW { border-left-color: var(--low); }
+  .badgerow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .rating {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+    padding: 3px 9px; border-radius: 6px; text-transform: uppercase;
+  }
+  .rating.HIGH { color: var(--high); background: var(--high-bg); }
+  .rating.MEDIUM { color: var(--med); background: var(--med-bg); }
+  .rating.LOW { color: var(--low); background: var(--low-bg); }
+  .date { font-size: 0.78rem; color: var(--muted); }
+  .flag {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.03em;
+    padding: 3px 8px; border-radius: 6px; text-transform: uppercase;
+    color: var(--muted); border: 1px dashed var(--line);
+  }
+  .headline { font-weight: 650; font-size: 0.98rem; margin: 2px 0 6px; }
+  .body { font-size: 0.9rem; color: var(--ink); margin: 6px 0; }
+  .sowhat {
+    font-size: 0.88rem; margin-top: 8px; padding: 8px 11px;
+    background: var(--bg); border-radius: 8px;
+  }
+  .sowhat b { color: var(--accent); }
+  .src { font-size: 0.8rem; margin-top: 9px; word-break: break-word; }
+  .src a { color: var(--link); text-decoration: none; }
+  .src a:hover { text-decoration: underline; }
+  .quiet {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px; font-size: 0.92rem;
+  }
+  ul.checked { margin: 8px 0 0; padding-left: 18px; }
+  ul.checked li { margin-bottom: 5px; font-size: 0.87rem; color: var(--muted); }
+  ul.checked li b { color: var(--ink); font-weight: 600; }
+  .changes {
+    background: var(--accent); color: #fff; border-radius: 12px;
+    padding: 16px 18px; margin-top: 26px;
+  }
+  .changes h2 { color: #fff; border: none; margin: 0 0 8px; font-size: 1.02rem; }
+  .changes p { font-size: 0.92rem; margin: 0; color: #eef4f8; }
+  footer.foot { margin-top: 26px; color: var(--muted); font-size: 0.8rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>Competitive Intel Brief</h1>
+    <div class="window">Coverage window: 14–21 Aug 2026 · Sixth edition</div>
+    <div class="window">European AM · alternative asset managers · private credit · GenAI</div>
+    <div class="counts">
+      <span class="pill big">0 net-new in window</span>
+      <span class="pill">1 flagged pre-window context</span>
+      <span class="pill">0 HIGH · 1 MEDIUM · 0 LOW</span>
+    </div>
+  </header>
+
+  <div class="lede">
+    A genuinely <strong>quiet week</strong>, and I'm not going to dress it up. I checked every core name and every AI challenger and found <strong>nothing verified net-new dated inside 14–21 Aug</strong>. The heavy weeks were the prior two — S&amp;P Adaptive Retrieval, the Anthropic–Blackstone "Ode" JV, the 10 finance agents, NVIDIA's $500B consortium, Rogo/Rivanna, D&amp;B-into-nCino, Lumonic's MCP — and all of those are already in the ledger. The one thing worth carrying into meetings this week isn't a competitor move at all: the <strong>EU AI Act's high-risk obligations became enforceable on 2 Aug</strong>, which reshapes the compliance conversation around deploying agents in European AM. Flagged below as pre-window context, not net-new. No item this week forces a change of plan on a live deal.
+  </div>
+
+  <!-- REGULATORY / CROSS-CUTTING -->
+  <h2 class="company">Regulatory backdrop — cross-cutting</h2>
+
+  <div class="card MEDIUM">
+    <div class="badgerow">
+      <span class="rating MEDIUM">Medium</span>
+      <span class="date">2 Aug 2026</span>
+      <span class="flag">Pre-window · flag if already covered</span>
+    </div>
+    <div class="headline">EU AI Act — high-risk obligations now fully enforceable</div>
+    <div class="body">
+      From 2 Aug 2026 the EU AI Act's obligations for high-risk AI systems are binding: provider requirements (Articles 9–17) and deployer requirements (Article 26). For financial services this bites directly on AI used in <b>credit scoring / creditworthiness assessment of natural persons</b>, fraud detection and insurance underwriting — each now needs a risk-management system, data-governance and technical documentation, bias testing, human-oversight mechanisms and a conformity assessment before deployment. Penalties reach €15M or 3% of global turnover. New high-risk systems must comply now; legacy systems get until Feb 2027.
+    </div>
+    <div class="sowhat">
+      <b>So what for Alvaro:</b> this is the governance frame every European AM deploying agents is now working inside, and it's the natural bridge from last week's Anthropic Compliance-API item — position Moody's data as decision-grade, documented, auditable content that helps a deployer meet Article 26 traceability and human-oversight duties, rather than something that adds model risk. Use it as a live opener with BlackRock, Apollo and Ares InfoSec/compliance stakeholders who are scoping what "high-risk" means for their own credit and monitoring agents. (Dated 2 Aug so pre-window — if the 7 Aug edition already caught it, ignore.)
+    </div>
+    <div class="src">
+      Sources:
+      <a href="https://www.dataprotectionreport.com/2026/07/the-eu-ai-act-when-does-it-become-enforceable-now/">Norton Rose Fulbright — Data Protection Report</a> ·
+      <a href="https://www.finextra.com/blogposting/31653/the-eu-ai-acts-august-2026-deadline-what-financial-services-firms-must-do-now">Finextra — Aug 2026 deadline for FS firms</a> ·
+      <a href="https://artificialintelligenceact.eu/article/26/">EU AI Act — Article 26 (deployer obligations)</a>
+    </div>
+  </div>
+
+  <!-- CHECKED, NOTHING NET-NEW -->
+  <h2 class="company">Checked, nothing net-new inside 14–21 Aug</h2>
+  <div class="quiet">
+    Every name run this week with nothing verified net-new dated in the window:
+    <ul class="checked">
+      <li><b>S&amp;P Global</b> — no window press. The MI operating-model reorg (Kensho Data &amp; Platforms / Enterprise Solutions, Co-Heads Moore &amp; Thomas, CLO retirement) is dated 6 Jul; Adaptive Retrieval, With Intelligence-in-Capital IQ Pro, datacenterHawk all prior/pre-window.</li>
+      <li><b>Bloomberg</b> — no net-new Terminal / BQuant / ASKB news; ASKB agentic launch was Feb 2026, Canoe acquisition covered 31 Jul.</li>
+      <li><b>MSCI</b> — only the routine 12 Aug index-review print; Q2 and first AI training-data licence in prior briefs.</li>
+      <li><b>FactSet</b> — nothing net-new; the 11–12 Aug MCP / connected-AI material was thought-leadership, already noted last week.</li>
+      <li><b>BlackRock Aladdin / eFront / Preqin</b> — no window product press; appears only via the NVIDIA consortium (covered 14 Aug). Preqin private-credit-on-Aladdin was May, eFront-Preqin integration Feb.</li>
+      <li><b>Fitch Ratings</b> — nothing net-new; record 6% private-credit default print covered 7 Aug.</li>
+      <li><b>LSEG</b> — nothing in window; H1 results and Workspace/Copilot/MCP detail covered 3 Aug.</li>
+      <li><b>Morningstar / PitchBook</b> — nothing net-new; Lumonic MCP GA covered 14 Aug, Perplexity integration was 7 May.</li>
+      <li><b>Dun &amp; Bradstreet</b> — nothing net-new; the nCino headless alliance covered 14 Aug.</li>
+      <li><b>AlphaSense / Hebbia / Rogo</b> — fresh comparison/thought-leadership only, no new commercial event; Rogo/Rivanna covered 14 Aug, Rogo $75M Series C was Jan, AlphaSense $350M round Jun.</li>
+      <li><b>Perplexity / OpenAI / Anthropic</b> — no FS-specific product dated in window; Anthropic–Blackstone "Ode" JV and 10 finance agents/Moody's MCP both May, Sonnet 5 pricing + Compliance API covered 14 Aug.</li>
+      <li><b>Brightwave / Endex / Ellis</b> — no net-new FS move; Ellis stealth launch covered 3 Aug.</li>
+      <li><b>Moody's (own moves)</b> — no net-new product, partnership or M&amp;A press inside the window. Q2 (22 Jul) and the native-Claude / AWS Marketplace / Salesforce AgentExchange availability (Apr) still stand and haven't been superseded.</li>
+    </ul>
+  </div>
+
+  <div class="changes">
+    <h2>What this changes for next week</h2>
+    <p>
+      Nothing this week forces a move on a live deal, so the job is positioning, not firefighting. The one thing to internalise before any BlackRock, Apollo or Ares compliance conversation is that the EU AI Act's high-risk regime is now live — walk in able to say how Moody's documented, auditable credit content helps a deployer meet its Article 26 duties rather than adding model risk. Keep last week's threads warm: whoever runs diligence in Rogo/Felix or monitors covenants in Lumonic still needs Moody's independent, committee-grade view underneath, and Apollo and BlackRock are still standing up the NVIDIA-consortium AI-infra credit exposures that open the surveillance-and-ratings conversation. If any "checked, nothing net-new" name becomes live for a specific meeting, ping me and I'll dig deeper mid-week.
+    </p>
+  </div>
+
+  <footer class="foot">
+    Sixth edition · deduped against the 25 Jul baseline, 31 Jul, 3 Aug, 7 Aug and 14 Aug editions.<br>
+    Only verified, net-new items reported. An honest short brief beats a padded one.
+  </footer>
+
+</div>
+</body>
+</html>

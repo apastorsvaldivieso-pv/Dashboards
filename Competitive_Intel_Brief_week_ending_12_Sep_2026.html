@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Competitive Intel Brief — week ending 12 Sep 2026</title>
+<style>
+  :root{
+    --bg:#f7f6f3; --surface:#ffffff; --surface-2:#f0eeea; --ink:#1c1b19; --ink-2:#4a4843;
+    --ink-3:#77746d; --line:#e0ddd6; --accent:#1f4e79;
+    --high-bg:#fdeceb; --high-ink:#9b2019; --high-line:#e8b5b1;
+    --med-bg:#fdf3e2; --med-ink:#8a5a09; --med-line:#ecd3a4;
+    --low-bg:#eef2f6; --low-ink:#3f5b73; --low-line:#c9d6e2;
+    --flag-bg:#ede9f5; --flag-ink:#5340813; --flag-ink:#534081; --flag-line:#cdc2e6;
+    --moodys-bg:#eaf1ec; --moodys-ink:#265c39; --moodys-line:#bcd6c4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14150f; --surface:#1c1d17; --surface-2:#24261e; --ink:#ecebe4; --ink-2:#c3c1b8;
+      --ink-3:#8e8c83; --line:#33352b; --accent:#8fbce0;
+      --high-bg:#3a1b19; --high-ink:#f4a9a2; --high-line:#5e2d28;
+      --med-bg:#3a2c12; --med-ink:#f0c67c; --med-line:#5d4720;
+      --low-bg:#1e2a33; --low-ink:#a8c6dd; --low-line:#33495c;
+      --flag-bg:#282142; --flag-ink:#c0b1ea; --flag-line:#3d3363;
+      --moodys-bg:#182c1f; --moodys-ink:#9bd0ae; --moodys-line:#2a4a34;
+    }
+  }
+  :root[data-theme="dark"]{
+      --bg:#14150f; --surface:#1c1d17; --surface-2:#24261e; --ink:#ecebe4; --ink-2:#c3c1b8;
+      --ink-3:#8e8c83; --line:#33352b; --accent:#8fbce0;
+      --high-bg:#3a1b19; --high-ink:#f4a9a2; --high-line:#5e2d28;
+      --med-bg:#3a2c12; --med-ink:#f0c67c; --med-line:#5d4720;
+      --low-bg:#1e2a33; --low-ink:#a8c6dd; --low-line:#33495c;
+      --flag-bg:#282142; --flag-ink:#c0b1ea; --flag-line:#3d3363;
+      --moodys-bg:#182c1f; --moodys-ink:#9bd0ae; --moodys-line:#2a4a34;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+  .wrap{max-width:780px;margin:0 auto;padding:20px 18px 64px}
+  header.top{border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:22px}
+  .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:650}
+  h1{font-size:1.5rem;line-height:1.2;margin:.35em 0 .25em;letter-spacing:-.01em}
+  .meta{font-size:.82rem;color:var(--ink-2);margin:0}
+  .meta strong{color:var(--ink)}
+  .counts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:5px 10px;border-radius:999px;
+    border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2)}
+  .chip.net{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .chip.h{background:var(--high-bg);color:var(--high-ink);border-color:var(--high-line)}
+  .chip.m{background:var(--med-bg);color:var(--med-ink);border-color:var(--med-line)}
+  .chip.l{background:var(--low-bg);color:var(--low-ink);border-color:var(--low-line)}
+  .chip.p{background:var(--flag-bg);color:var(--flag-ink);border-color:var(--flag-line)}
+  .lede{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);
+    border-radius:8px;padding:14px 16px;margin:0 0 26px;font-size:.94rem;color:var(--ink-2)}
+  .lede p{margin:0 0 .7em}
+  .lede p:last-child{margin-bottom:0}
+  h2.sect{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+    font-weight:700;margin:34px 0 12px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+  article.item{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:16px;margin-bottom:14px}
+  article.item.high{border-left:4px solid var(--high-ink)}
+  article.item.medium{border-left:4px solid var(--med-ink)}
+  article.item.low{border-left:4px solid var(--low-ink)}
+  article.item.moodys{border-left:4px solid var(--moodys-ink)}
+  .badges{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:9px}
+  .rating{font-size:.68rem;font-weight:800;letter-spacing:.08em;padding:3px 8px;border-radius:4px;border:1px solid}
+  .rating.high{background:var(--high-bg);color:var(--high-ink);border-color:var(--high-line)}
+  .rating.medium{background:var(--med-bg);color:var(--med-ink);border-color:var(--med-line)}
+  .rating.low{background:var(--low-bg);color:var(--low-ink);border-color:var(--low-line)}
+  .rating.moodys{background:var(--moodys-bg);color:var(--moodys-ink);border-color:var(--moodys-line)}
+  .date{font-size:.72rem;font-weight:700;color:var(--ink-3);letter-spacing:.02em}
+  .flag{font-size:.66rem;font-weight:800;letter-spacing:.06em;padding:3px 8px;border-radius:4px;
+    background:var(--flag-bg);color:var(--flag-ink);border:1px solid var(--flag-line)}
+  .co{font-size:.72rem;font-weight:700;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;
+    display:block;margin-bottom:4px}
+  h3{font-size:1.04rem;line-height:1.3;margin:0 0 9px;letter-spacing:-.005em}
+  .body{font-size:.9rem;color:var(--ink-2);margin:0 0 12px}
+  .sowhat{background:var(--surface-2);border-radius:7px;padding:11px 13px;font-size:.88rem;color:var(--ink)}
+  .sowhat b{display:block;font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-3);margin-bottom:4px}
+  .src{margin-top:11px;font-size:.76rem;color:var(--ink-3)}
+  .src a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--line)}
+  .src a:hover{border-bottom-color:var(--accent)}
+  .checked{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 16px 14px}
+  .checked ul{list-style:none;margin:0;padding:0}
+  .checked li{font-size:.85rem;color:var(--ink-2);padding:9px 0;border-bottom:1px solid var(--line)}
+  .checked li:last-child{border-bottom:none}
+  .checked li b{color:var(--ink)}
+  .closing{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink);
+    border-radius:8px;padding:16px;font-size:.94rem;color:var(--ink-2)}
+  footer{margin-top:32px;padding-top:14px;border-top:1px solid var(--line);
+    font-size:.74rem;color:var(--ink-3)}
+  .warn{background:var(--med-bg);border:1px solid var(--med-line);color:var(--med-ink);
+    border-radius:8px;padding:11px 14px;font-size:.83rem;margin-bottom:22px}
+  @media (max-width:420px){ h1{font-size:1.3rem} .wrap{padding:16px 14px 48px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">Moody's · Competitive Intelligence</div>
+  <h1>Competitive Intel Brief — week ending 12 Sep 2026</h1>
+  <p class="meta">Coverage window <strong>5–12 Sep 2026</strong> · tenth edition · deduped against the 25 Jul baseline and the 31 Jul, 3 Aug, 7 Aug, 14 Aug, 21 Aug, 28 Aug, 30 Aug and 4 Sep editions</p>
+  <p class="meta">Territory: European asset management · alternative managers · private credit · agentic AI</p>
+  <div class="counts">
+    <span class="chip net">7 net-new items</span>
+    <span class="chip h">2 HIGH</span>
+    <span class="chip m">3 MEDIUM</span>
+    <span class="chip l">2 LOW</span>
+    <span class="chip p">1 pre-window flagged</span>
+  </div>
+</header>
+
+<div class="warn">
+  <b>Delivery note:</b> the Gmail connector is authorised on the account but switched off for this chat, so no Gmail draft could be created and the Gmail ledger could not be read. The ledger for this run was rebuilt from the eight prior editions saved in the Competitive Weekly Brief folder. This file is ledger-readable — every item carries its date. To restore the email draft, enable Gmail in this chat's connector settings.
+</div>
+
+<div class="lede">
+  <p>One story dominated the week and it is the one that matters most. On 10 September OpenAI launched ChatGPT for Financial Services, and in doing so published the first public tiering of financial data vendors inside a frontier-model workspace. Moody's is in it — but in the entitlement tier, not the bundled tier. PitchBook, Daloopa, LSEG News, Crunchbase and Fiscal.ai are bundled: a user gets them without buying anything extra. That distinction is the whole item, and it is the one to walk into next week understanding.</p>
+  <p>Everything else is secondary but usable: no EU data-residency or DORA answer in the launch (a live procurement wedge), SIX quietly licensing European exchange data for AI-model training "without onerous restrictions", and a Nasdaq study of 406 product executives showing the same adoption-versus-depth gap the Clearwater research showed a fortnight ago. Moody's itself announced nothing of its own in the window.</p>
+</div>
+
+<h2 class="sect">High — changes what to say in the room</h2>
+
+<article class="item high">
+  <div class="badges">
+    <span class="rating high">HIGH</span>
+    <span class="date">10 Sep 2026</span>
+  </div>
+  <span class="co">OpenAI</span>
+  <h3>ChatGPT for Financial Services launches — and publishes a vendor tier list</h3>
+  <p class="body">OpenAI launched an industry build of ChatGPT for investment banking and equity research, running GPT-6 Astra, with Morgan Stanley and Evercore as design partners. It does research across sources with line-item citations, builds models and spreadsheets, and generates decks against firm templates, with role-based access, information barriers, workspace retention controls and compliance-log exports; business data is not used for training by default. The commercially significant part is how data is tiered. <strong>Bundled premium data</strong> (included, no separate subscription): Daloopa, PitchBook, LSEG News, Crunchbase, Fiscal.ai. <strong>Entitlement integrations</strong> (shared sign-in against what the firm already licenses): S&amp;P Capital IQ, LSEG, MSCI, Dow Jones Factiva and <strong>Moody's</strong>. <strong>Connectors</strong> (50+): FactSet, Preqin, Datasite, Box, Intapp. Available to eligible financial institutions; pricing and seat minimums undisclosed. VentureBeat additionally describes S&amp;P Global and FactSet as having "optimised connectors" — a middle rung OpenAI's own page does not name.</p>
+  <div class="sowhat"><b>So what for Alvaro</b>
+  Moody's content is reachable inside the workspace that Apollo, Ares and HPS analysts will actually be sitting in, which is the right side of the argument — but being in the entitlement tier while PitchBook is bundled means an analyst meets PitchBook for free and meets Moody's only if someone has already paid, so the renewal conversation at every one of those accounts now has an "is this licence still earning its seat" framing it did not have last week; get ahead of it by asking, in the next call at each, whether they are piloting ChatGPT for Financial Services and whether their Moody's entitlement has been wired into it, because an unwired entitlement is an invisible one.</div>
+  <div class="src">Sources: <a href="https://openai.com/index/introducing-chatgpt-financial-services/">OpenAI — Introducing ChatGPT for Financial Services</a> · <a href="https://venturebeat.com/data/openai-launches-chatgpt-for-financial-services-with-integrated-data-sources-it-pulls-research-cites-it-and-builds-decks-in-minutes">VentureBeat</a> · <a href="https://www.techrepublic.com/article/news-openai-chatgpt-financial-services-banks/">TechRepublic</a></div>
+</article>
+
+<article class="item high">
+  <div class="badges">
+    <span class="rating high">HIGH</span>
+    <span class="date">10 Sep 2026</span>
+  </div>
+  <span class="co">Morningstar / PitchBook</span>
+  <h3>PitchBook's private-markets firmographics go natively into ChatGPT — no connector to switch on</h3>
+  <p class="body">PitchBook confirmed its expanded firmographic dataset — companies, investors and funds, the material used for sourcing and diligence — is indexed inside ChatGPT for Financial Services and queryable in natural language with citations, available immediately through the Essential connector to any team already on the product and requiring no separate connector activation. Tom Van Buskirk, EVP of Technology and Engineering at PitchBook, and Nick Turley, VP Product at OpenAI, on the record.</p>
+  <div class="sowhat"><b>So what for Alvaro</b>
+  This is the fourth distribution route for private-markets fund and investor data in six weeks — Aladdin, LSEG Workspace, Rogo's Felix and now ChatGPT natively — and it is the first that costs the user nothing and needs no procurement step, which finishes the argument the 4 Sep edition called over: at Permira, Hayfin, ICG and Ares stop defending private-markets breadth entirely and put the whole weight on issuer- and instrument-level credit (ratings, PDs, recovery, sector benchmarks) that no bundled firmographic dataset carries.</div>
+  <div class="src">Sources: <a href="https://finance.yahoo.com/technology/articles/pitchbooks-private-market-intelligence-now-174500474.html">PitchBook / Yahoo Finance</a> · <a href="https://investingnews.com/pitchbook-s-private-market-intelligence-now-accessible-within-chatgpt-for-financial-services/">Investing News Network</a></div>
+</article>
+
+<h2 class="sect">Medium — shifts positioning</h2>
+
+<article class="item medium">
+  <div class="badges">
+    <span class="rating medium">MEDIUM</span>
+    <span class="date">11 Sep 2026</span>
+  </div>
+  <span class="co">OpenAI — European angle</span>
+  <h3>The launch says nothing about EU data residency or DORA</h3>
+  <p class="body">The Next Web flagged that the announcement names no European hosting region, no EU data-residency commitment and no DORA alignment — leaving European buyers to establish, in procurement, where data is stored, which subcontractors touch it, how the ICT-provider register and contractual audit and subcontracting terms are satisfied, what the exit strategy is, and how resilience testing is handled. No European customer is named anywhere in the launch; the two design partners are US.</p>
+  <div class="sowhat"><b>So what for Alvaro</b>
+  This is the cleanest wedge available against an OpenAI-first story at a European manager, and it is an argument Moody's can make without attacking the product: a DORA-regulated firm cannot put an ICT dependency into a critical research workflow without register entries, subcontracting terms and an exit plan, so ask the AI lead at Apollo, Ares and HPS who has signed off the DORA register entry for ChatGPT for Financial Services — the honest answer is usually nobody yet, and that is the window in which the licensed-content conversation stays open.</div>
+  <div class="src">Source: <a href="https://thenextweb.com/news/openai-chatgpt-financial-services-dora-data-residency">The Next Web (11 Sep)</a></div>
+</article>
+
+<article class="item medium">
+  <div class="badges">
+    <span class="rating medium">MEDIUM</span>
+    <span class="date">8 Sep 2026</span>
+  </div>
+  <span class="co">SIX</span>
+  <h3>SIX launches Market Signal — European exchange data licensed for AI-model training "without onerous restrictions"</h3>
+  <p class="body">SIX launched Market Signal, an API-based marketplace for real-time and historical European cash-equity data: 1BBO best bid/offer across SIX Swiss Exchange, BME in Spain and sixteen further European markets via Aquis. Positioned explicitly as an affordable alternative to direct feeds, opened beyond trading desks to wealth management, benchmarking and compliance, and — the part that matters — licensed for training trading models and AI agents without the usual restrictions. Institutional access is live now, Swiss retail is open, EU and UK expansion is planned. Santiago Ximenez, Head Data &amp; Connectivity at SIX, on the record.</p>
+  <div class="sowhat"><b>So what for Alvaro</b>
+  A European exchange group has just set a permissive public precedent on the single commercial question live in every one of our AI conversations — whether licensed data may be used to train or ground models — and buyers will start citing it, so expect "SIX lets us train on it, why can't we" at Permira, Hayfin and ICG and have the distinction ready: exchange price data is a commodity feed priced for volume, ratings and credit assessments are opinions carrying liability and attribution obligations, which is why the terms differ.</div>
+  <div class="src">Sources: <a href="https://www.six-group.com/en/newsroom/media-releases/2026/20260908-market-signal-launch.html">SIX media release (8 Sep)</a> · <a href="https://www.waterstechnology.com/data-management/7953245/six-launches-market-data-platform-designed-for-accessibility">WatersTechnology</a></div>
+</article>
+
+<article class="item medium">
+  <div class="badges">
+    <span class="rating medium">MEDIUM</span>
+    <span class="date">11 Sep 2026</span>
+  </div>
+  <span class="co">Nasdaq</span>
+  <h3>Nasdaq's Voice of the Issuer study: 80% of asset managers use AI in product development, only 26% at any depth</h3>
+  <p class="body">Nasdaq's 2026 Global Voice of the Issuer study, run with Escalent, surveyed 406 senior investment-product professionals — 356 asset managers and 50 insurers — at firms above $25bn AUM across seven countries. 80% use AI somewhere in product development globally (84% in Asia-Pacific), but only 26% deploy it across multiple stages of the process. 82% of Americas firms rank private markets in their top five demand areas; 71% say breaking through in crowded markets is getting harder and 66% say new products struggle to gather meaningful assets; 55% name brand credibility as the leading differentiator.</p>
+  <div class="sowhat"><b>So what for Alvaro</b>
+  The 80-versus-26 gap is the same shape as the Clearwater 79/56 accuracy gap already in play and it generalises the frame beyond risk into product development — near-universal adoption, almost no depth — so pair the two when opening at Apollo, Ares and HPS: the constraint on depth is not model access, which everyone now has for free inside ChatGPT, but whether the content underneath will survive an investment committee.</div>
+  <div class="src">Source: <a href="https://www.investmentnews.com/alternatives/private-markets-and-ai-top-asset-manager-priorities-as-scale-becomes-the-real-challenge/268150">InvestmentNews on the Nasdaq / Escalent study (11 Sep)</a></div>
+</article>
+
+<h2 class="sect">Low — worth knowing</h2>
+
+<article class="item low">
+  <div class="badges">
+    <span class="rating low">LOW</span>
+    <span class="date">7 Sep 2026</span>
+  </div>
+  <span class="co">Cross-cutting</span>
+  <h3>Banks brace for higher costs as chip memory runs short</h3>
+  <p class="body">WatersTechnology, on a Gartner read: memory prices are rising and the increase lands on firms scaling AI infrastructure.</p>
+  <div class="sowhat"><b>So what for Alvaro</b>
+  Nothing to change, but it is a quiet supporting argument wherever a client is weighing building their own retrieval stack against licensing ours — the infrastructure line of that build is getting more expensive, not less.</div>
+  <div class="src">Source: <a href="https://www.waterstechnology.com/topics/generative-ai">WatersTechnology (7 Sep)</a></div>
+</article>
+
+<article class="item low">
+  <div class="badges">
+    <span class="rating low">LOW</span>
+    <span class="date">10 Sep 2026</span>
+  </div>
+  <span class="co">Databento</span>
+  <h3>Databento preps data expansion after funding boost</h3>
+  <p class="body">WatersTechnology reports the market-data vendor is planning global coverage expansion following a recent raise. Headline-level only — the detail sits behind the paywall and is <strong>unconfirmed</strong> beyond the summary.</p>
+  <div class="sowhat"><b>So what for Alvaro</b>
+  No action; a watch item on the low-cost market-data tier that, read with SIX above, is where price pressure on reference and pricing data is coming from — it is not coming for credit content.</div>
+  <div class="src">Source: <a href="https://www.waterstechnology.com/latest">WatersTechnology (10 Sep)</a></div>
+</article>
+
+<h2 class="sect">Pre-window context — not counted as net-new</h2>
+
+<article class="item medium">
+  <div class="badges">
+    <span class="rating medium">MEDIUM</span>
+    <span class="date">11 Aug 2026</span>
+    <span class="flag">PRE-WINDOW · PREVIOUSLY UNREPORTED</span>
+  </div>
+  <span class="co">Anthropic</span>
+  <h3>Anthropic set an IPO window of September–October 2026</h3>
+  <p class="body">Anthropic set a target listing window of as early as September or October 2026, with Morgan Stanley, Goldman Sachs and JPMorgan running the book and a post-money valuation around $965bn after the Series H. No prior edition of this brief covered it — ignore this entry if an earlier edition did and I missed it. Related in-window press: Bloomberg ran "Wave of AI-Driven IPOs Expected to Accompany Anthropic's Listing" on 9 Sep, which I could not open (paywall) and so is <strong>unconfirmed beyond its headline</strong>.</p>
+  <div class="sowhat"><b>So what for Alvaro</b>
+  Our named model partner may be a listed company within weeks, which cuts both ways in the Apollo, Ares and HPS conversations — it answers the counterparty-durability question that alternative managers ask about any AI vendor, and it also means Anthropic's roadmap and pricing become quarterly-earnings-shaped, so keep the argument anchored where it belongs: the licensed credit content survives whichever model, and whichever model vendor's cap table, is in front of the client.</div>
+  <div class="src">Sources: <a href="https://finance.yahoo.com/markets/stocks/articles/anthropic-sets-fall-ipo-eyeing-185032639.html">Yahoo Finance (11 Aug)</a> · <a href="https://www.bloomberg.com/news/articles/2026-09-09/wave-of-ai-driven-ipos-expected-to-accompany-anthropic-s-listing">Bloomberg (9 Sep, headline only)</a></div>
+</article>
+
+<h2 class="sect">Moody's own moves</h2>
+
+<article class="item moodys">
+  <div class="badges">
+    <span class="rating moodys">MOODY'S</span>
+    <span class="date">5–12 Sep 2026</span>
+  </div>
+  <h3>Nothing announced of our own — and the week's one launch put us in the tier below PitchBook</h3>
+  <p class="body">The Moody's press page carries nothing after "Moody's brings its decision-grade intelligence to Gemini Enterprise for Financial Services" (25 Aug), already covered. Moody's appears in the OpenAI launch, but the announcement came from OpenAI, not from us, and placed Moody's in the entitlement tier alongside S&amp;P Capital IQ, LSEG, MSCI and Factiva rather than in the bundled tier that PitchBook, Daloopa, LSEG News, Crunchbase and Fiscal.ai occupy. The Moody's AI partnerships page still dates to 30 April and already listed MCP availability through OpenAI's platform, so this is an extension of an existing relationship rather than a new one.</p>
+  <div class="sowhat"><b>Same-view read</b>
+  The 4 Sep edition noted that two competitor moves cut at our positioning with nothing visible on the Moody's roadmap answering them; a week later that is still true, and the gap has widened in a specific way — three hyperscaler and frontier-model stacks now carry Moody's content (Microsoft 365 Copilot, Gemini Enterprise, ChatGPT for Financial Services), which is a genuinely strong distribution story nobody at Moody's has told publicly this week, while LSEG appears in the OpenAI launch twice, in both the bundled and the entitlement tiers.</div>
+  <div class="src">Sources: <a href="https://www.moodys.com/web/en/us/media-relations/press-releases.html">Moody's press releases</a> · <a href="https://www.moodys.com/web/en/us/creditview/blog/ai-partnerships.html">Moody's AI Partnerships (30 Apr)</a> · <a href="https://openai.com/index/introducing-chatgpt-financial-services/">OpenAI</a></div>
+</article>
+
+<h2 class="sect">Checked, nothing net-new inside 5–12 Sep 2026</h2>
+<div class="checked">
+<ul>
+  <li><b>S&amp;P Global Market Intelligence</b> — press page runs to 4 Sep and stops; latest items are the S&amp;P 500 reconstitution (4 Sep) and a Barclays conference notice for 14 Sep (3 Sep), both pre-window diary. The Capital IQ Pro spinoff report (1 Sep) is in the 4 Sep edition and has not advanced — no confirmation, no denial, nothing new to flag as an UPDATE. Six Degrees Intelligence China data into CapIQ Pro is 2 Sep, pre-window and minor. Waters Rankings winner interview, 7 Sep, is promotional.</li>
+  <li><b>Bloomberg</b> — no Terminal, BQuant or ASKB product news in window. Canoe Intelligence acquisition is 29 Jul and was covered in the 3 Aug edition; AI Portfolio Commentary in PORT Enterprise is September <em>2025</em> and is an easy misdate.</li>
+  <li><b>MSCI</b> — investor-news page shows only the Barclays conference notice (3 Sep); First Street acquisition close and the index review are August. Appears in the OpenAI launch entitlement tier, covered above.</li>
+  <li><b>FactSet</b> — nothing in window. Google Cloud partnership is 30 Jun; Finster AI is pre-window; Q4 FY26 call remains diarised for 30 Sep and is already on file. Appears in the OpenAI connector tier, covered above.</li>
+  <li><b>9fin</b> — nothing net-new; AI Chat and Research Grid (9 Jun) and the $170m Series C remain the last events.</li>
+  <li><b>Debtwire / ION Analytics</b> — nothing net-new in window.</li>
+  <li><b>BlackRock Aladdin, eFront, Preqin, Aladdin Copilot</b> — no window press. Preqin now appears as an OpenAI connector, which is a distribution fact about Preqin content rather than an Aladdin announcement.</li>
+  <li><b>Fitch Ratings / Fitch Solutions</b> — nothing net-new; Snowflake AI-ready credit data (Feb) and the Hebbia partnership (Feb) remain the last moves.</li>
+  <li><b>LSEG</b> — no standalone announcement in window. The 8 Sep WatersTechnology piece on LSEG–Microsoft "reshaping risk and trading workflows" is labelled paid-for third-party content with no product, date or availability detail, so it is not an event. The AI updates page runs to 12 Aug (BNI partnership); Workspace private-markets intelligence was covered 4 Sep.</li>
+  <li><b>Dun &amp; Bradstreet</b> — nothing net-new in window.</li>
+  <li><b>AlphaSense</b> — nothing net-new; SuperAnalyst is June, the PowerPoint and Excel assistants are 14 Jul, the Forrester Wave Leader placement is 27 Aug and already covered. The undated "AI Trust" report on their newsroom could not be dated to the window, so it is excluded.</li>
+  <li><b>Rogo</b> — no new item after the 1 Sep Arvo acquisition already covered; the news page could not be fetched directly this run (blocked before a search result established provenance) and search surfaced nothing dated in window.</li>
+  <li><b>Hebbia</b> — newsroom's most recent release is still the PitchBook partnership from June 2025.</li>
+  <li><b>Model ML</b> — blog runs to the GPT-6 Astra Composite post of 4 Sep, already covered; nothing since.</li>
+  <li><b>Perplexity Finance</b> — no finance-product news in window; the Nvidia investment talks (23 Aug) remain unconfirmed and already logged.</li>
+  <li><b>Anthropic</b> — no new financial-services product in window; Claude for Financial Services is 5 May, the Cowork finance plugins are 24 Feb, Fable 5.1 and Mythos 5.1 were covered 4 Sep. The IPO item is flagged pre-window above.</li>
+  <li><b>Brightwave, Endex, Ellis</b> — nothing net-new; Ellis's $10m seed launch is 30 Jul and already on file.</li>
+</ul>
+</div>
+
+<h2 class="sect">What this changes for next week</h2>
+<div class="closing">
+  <p>The single job next week is to find out, account by account, whether Apollo, Ares, HPS and BlackRock are piloting ChatGPT for Financial Services and whether anyone has wired the Moody's entitlement into it, because an entitlement nobody has connected looks exactly like a licence nobody needs when renewal comes round. Use the DORA and EU data-residency gap as the way into that conversation rather than as an attack — no European manager can put an unregistered ICT dependency into a research workflow, and asking who has signed the register entry is a question their AI lead will not have an answer to. Drop private-markets breadth from the Permira, Hayfin, ICG and Ares conversations entirely now that PitchBook firmographics arrive free and pre-indexed, and put the weight on issuer- and instrument-level credit instead. Expect "SIX licenses its data for AI training, why don't you" and answer on the difference between a commodity price feed and a liability-bearing credit opinion rather than on policy. Internally, the distribution story — Moody's content live in Microsoft 365 Copilot, Gemini Enterprise and now ChatGPT for Financial Services — is stronger than anything Moody's has said publicly about it, and someone should be told that.</p>
+</div>
+
+<footer>
+  Prepared for Alvaro De Pastors · Moody's Analytics · generated 12 Sep 2026. Every item verified against a named source before inclusion; single-sourced and headline-only items flagged as unconfirmed. Ledger rebuilt from the eight prior editions in the Competitive Weekly Brief folder — the Gmail ledger was unreachable this run. Method note: WebFetch requires a URL to appear in a search result first in this environment, so newsroom pages must be surfaced by a search before they can be opened directly.
+</footer>
+
+</div>
+</body>
+</html>
